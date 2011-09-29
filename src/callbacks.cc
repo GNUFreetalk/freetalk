@@ -150,11 +150,6 @@ ft_msg_msg_handler (LmMessageHandler *handler, LmConnection *conn,
       }
     
     set_hook_return (0);
-    /* TBD : make the below stripping of /Resource configurable */
-    if (1) {
-      if (strchr (from, '/'))
-	*strchr (from, '/') = '\0';
-    }
     {
       FtRosterItem *item = ft_roster_lookup (from);
       char *nickname;
