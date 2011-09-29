@@ -1,0 +1,2149 @@
+This is freetalk.info, produced by makeinfo version 4.11 from
+freetalk.texi.
+
+INFO-DIR-SECTION Freetalk!
+START-INFO-DIR-ENTRY
+* freetalk: (freetalk).         Freetalk user/developers guide
+END-INFO-DIR-ENTRY
+
+This file documents Freetalk version 3.2.  Freetalk is a freely
+available console based Jabber client-cum-bot powered by GNU Guile, GNU
+Readline and Loudmouth.
+
+   Copyright (C) 2005, 2007 Freetalk Core Team
+http://www.gnu.org/software/freetalk
+
+
+File: freetalk.info,  Node: Top,  Next: Overview,  Prev: (dir),  Up: (dir)
+
+Freetalk! 3.2
+*************
+
+This file documents Freetalk version 3.2.  Freetalk is a freely
+available console based Jabber client-cum-bot powered by GNU Guile, GNU
+Readline and Loudmouth.
+
+* Menu:
+
+* Overview::                    These are features of Freetalk
+* Invoking::                    Command line arguments
+* Commands::                    List of Freetalk commands
+* Customization::               Customizing Freetalk
+* Tips and Tricks::             Cool tips and tricks
+
+
+Extension Developer Guide (Advanced)
+
+* Extension language::          About an extension language
+* Variables::
+* Procedures::                  Freetalk exported Scheme primitives
+* Hooks::                       Freetalk exported Scheme hooks
+* Learning further::            Guile and Scheme URLs
+
+
+Miscellaneous
+
+* Authors::                     Freetalk contributors
+* URLs::                        Mailing list, Downloads, CVS
+* Guidelines for submitting a patch::
+* Portability::                 Porting Freetalk
+* Concept Index::
+* Command Index::
+* Procedure Index::
+
+
+File: freetalk.info,  Node: Overview,  Next: Invoking,  Prev: Top,  Up: Top
+
+1 Overview
+**********
+
+Freetalk is a freely available console based Jabber client-cum-bot.  It
+has many features, but to highlight,
+
+   * Highly extensible through `Scheme' language.  (*note
+     Customization::) (*note Extension language::)
+
+   * Console based client with Readline interface featuring command line
+     editing, history, context sensitive autocompletion etc ... (*note
+     Tips and Tricks::).
+
+   * Most of the features in Freetalk are fully customizable, either
+     through command line arguments (*note Invoking::), or startup file
+     (*note freetalk.scm::)
+
+   * With a new concept called `dynamic-commands', a command can appear
+     and disappear dynamically, based on the context.
+
+   * `history' feature records all your conversions in
+     `~/.freetalk/history/LOGIN-ID/BUDDY-NAME'.
+
+   * Finally, Freetalk is free software.  This means that everyone may
+     use it, redistribute it and/or modify it under the terms of the GNU
+     General Public License, as published by the Free Software
+     Foundation (*note Freetalk License::)
+   
+
+File: freetalk.info,  Node: Invoking,  Next: Commands,  Prev: Overview,  Up: Top
+
+2 Invoking
+**********
+
+Invoking Freetalk at command prompt is very simple.  The following are
+the possible command-line arguments supported,
+
+     freetalk [OPTIONS]
+     where OPTIONS are,
+
+   * -j=JABBER-ID | -jid=JABBER-ID
+     JABBER-ID is your Jabber ID.
+
+   * -s=SCRIPT-FILE | -script=SCRIPT-FILE
+     Invoke script/bot mode with SCRIPT-FILE as the source.
+
+   * -V | -version
+     Gives the current version of Freetalk.  This option does not accept
+     any argument.
+
+   * -? | -help | -usage
+     Gives a brief help on the above options.  This option does not
+     accept any argument.
+   
+
+File: freetalk.info,  Node: Commands,  Next: Customization,  Prev: Invoking,  Up: Top
+
+3 Freetalk commands
+*******************
+
+* Menu:
+
+* connect::                     Connect to jabber server.
+* disconnect::                  Disconnect from the present server.
+* server::                      Specify the server to connect.
+* jid::                         Specify the jabber Id to connect.
+* add::                         Add Buddies in your buddy list.
+* allow::                       Allow a buddy to see your status.
+* deny::                        Deny permission to a buddy to see your status.
+* quit::                        quit Freetalk.
+* restart::                     restart Freetalk.
+* prompt::                      sets the prompt.
+* pipe::                        send the output of command as message.
+* port::                        set server port for next connect command.
+* shell::                       run or escape to shell.
+* date::                        date command.
+* who::                         view buddy list.
+* status::
+* whoami::                      display current account info.
+* version::                     displays freetalk version information.
+* logout::                      same as disconnect.
+* history::                     display history page one by one.
+* load::                        load an extension file.
+* setup::                       setup a fresh ~/.freetalk
+* login::                       interactive to jabber server blocking.
+* help::                        displays help for all the commands.
+* repl::                        command used for debugging.
+* urlview::                     handle URL's in message archives.
+* freetalk::                    check whether a buddy is using freetalk.
+* greet::                       IRC style greeting message.
+* burst::                       explode chars in the message.
+* burst-of-romance::            simulate multiple hand-made kisses.
+* broadcast::                   broadcast a message to all the roster.
+* proxyserver::                 specify proxyserver for next connect.
+* proxyport::                   specify proxyport for next connect.
+
+
+File: freetalk.info,  Node: connect,  Next: disconnect,  Prev: Commands,  Up: Commands
+
+3.1 Freetalk command - connect
+==============================
+
+ -- command: /connect
+     Connect to the configured jabber server (see `/server').
+
+          ~\/~ /connect
+          Connecting...
+          ~\/~
+
+     If server is not configured, it displays an error message and stops
+
+          ~\/~ /connect
+          Server not set
+          ~\/~
+
+
+File: freetalk.info,  Node: disconnect,  Next: server,  Prev: connect,  Up: Commands
+
+3.2 Freetalk command - disconnect
+=================================
+
+ -- command: /disconnect
+     Disconnect from the currently connected server.
+
+          ~\/~ /disconnect
+          Disconnected from SERVER. Reason (0): User request
+          ~\/~
+
+
+File: freetalk.info,  Node: server,  Next: jid,  Prev: disconnect,  Up: Commands
+
+3.3 Freetalk command - server
+=============================
+
+ -- command: /server [servername]
+     Specify the servername which you want to connect, or display the
+     currently set server.
+
+          ~\/~ /server
+          Current server:
+          ~\/~ /server jabber.org
+          ~\/~ /server
+          Current server: jabber.org
+          ~\/~
+
+
+File: freetalk.info,  Node: jid,  Next: add,  Prev: server,  Up: Commands
+
+3.4 Freetalk command - jid
+==========================
+
+ -- command: /jid [user@domain[/resource]]
+     Specify the Jabber ID which you want to use, or display the
+     currently set Jabber ID.
+
+          ~\/~ /jid
+          Current JID:
+          ~\/~ /jid avati@jabber.org
+          ~\/~ /jid
+          Current JID: avati@jabber.org
+     This command is meant to be used when changing accounts and quick
+     logins.
+
+
+File: freetalk.info,  Node: add,  Next: allow,  Prev: jid,  Up: Commands
+
+3.5 Freetalk command - add
+==========================
+
+ -- command: /add user@domain
+     This command sends a buddy add request to user@domain into your
+     buddy list.
+
+          ~\/~ /add harshavardhanacool@gmail.com
+          ~\/~
+
+
+
+File: freetalk.info,  Node: allow,  Next: deny,  Prev: add,  Up: Commands
+
+3.6 Freetalk command - allow
+============================
+
+ -- command: /allow user@domain
+     Allow the user to see ("subscribe to") your status. Note that this
+     command does not add the user to your buddy list; if you must do
+     that, use /add.
+
+          ~\/~ /allow haddock@marlinspike.org
+
+
+
+File: freetalk.info,  Node: deny,  Next: quit,  Prev: allow,  Up: Commands
+
+3.7 Freetalk command - deny
+===========================
+
+ -- command: /deny user@domain
+     Deny the user permission to see ("subscribe to") your status.
+
+          ~\/~ /deny cacafonix@village.gl
+
+
+
+File: freetalk.info,  Node: quit,  Next: restart,  Prev: deny,  Up: Commands
+
+3.8 Freetalk command - quit
+===========================
+
+ -- command: /quit message
+     Quits Freetalk with a banner.
+
+          ~\/~ /quit
+          shell$
+
+
+File: freetalk.info,  Node: restart,  Next: prompt,  Prev: quit,  Up: Commands
+
+3.9 Freetalk command - restart
+==============================
+
+ -- command: /restart
+     This command restarts Freetalk.
+
+          ~\/~ /restart
+          Loading dictionary [/usr/share/dict/words]... [38619] words
+          Jabber ID:
+
+
+File: freetalk.info,  Node: prompt,  Next: pipe,  Prev: restart,  Up: Commands
+
+3.10 Freetalk command - prompt
+==============================
+
+ -- command: /prompt [type]
+     This command sets the prompt with specified TYPE
+
+          ~\/~ /prompt ~qp~
+          ~qp~
+
+
+File: freetalk.info,  Node: pipe,  Next: port,  Prev: prompt,  Up: Commands
+
+3.11 Freetalk command - pipe
+============================
+
+ -- command: /pipe buddy command [options]
+     Pipe the output of COMMAND to BUDDY. OPTIONS are passed to COMMAND.
+
+          ~\/~> /pipe harsha@gmail.com ls -alh
+          ~\/~>
+
+
+File: freetalk.info,  Node: port,  Next: shell,  Prev: pipe,  Up: Commands
+
+3.12 Freetalk command - port
+============================
+
+ -- command: /port [port]
+     `/port' command sets the specified TCP PORT to be used for the
+     next `/connect'.
+
+     Example:
+
+          ~\/~> /port 995
+          ~\/~>
+
+
+File: freetalk.info,  Node: shell,  Next: date,  Prev: port,  Up: Commands
+
+3.13 Freetalk command - shell
+=============================
+
+ -- command: /shell [command] [args ...]
+     `/shell' command executes the specified COMMAND with its ARGS.
+     With no arguments, `/shell' escapes to shell. You can also chat
+     with shell as if shell is your buddy. Just type `shell' without
+     `/' prefix.
+
+     Example:
+
+          ~\/~> /shell ls -lh /tmp
+          total 12k
+          drwxr-xr-x    3 root   root    4.0k Jan  1 00:53 emacs-terminfo
+          -rw-r--r--    1 root   root       1 Jan  1 05:04 emacsOdVut8
+          drwx------    2 root   root    4.0k Jan  1 00:13 xdvi7GIKqr
+          ~\/~> /sh
+          press C-d to return to freetalk
+          $ rm -f /tmp/xdvi7GIKqr
+          C-d RET
+          ~\/~>
+
+
+File: freetalk.info,  Node: date,  Next: who,  Prev: shell,  Up: Commands
+
+3.14 Freetalk command - date
+============================
+
+ -- command: /date [arguments]
+     This command displays the system date.  Try `--help' for complete
+     list of ARGUMENTS.
+
+
+File: freetalk.info,  Node: who,  Next: status,  Prev: date,  Up: Commands
+
+3.15 Freetalk command - who
+===========================
+
+ -- command: /who
+     This command displays the buddy list as well as their current buddy
+     status.
+
+     Example:
+
+          ~\/~ /who
+           * abindian@gmail.com (ab)
+             twistedlogix@gmail.com
+           * tejasvk@gmail.com -> [Away] (on metarnity leave)
+             basavanagowda@gmail.com
+             amarts@gmail.com (ts3)
+          ~\/~
+
+
+File: freetalk.info,  Node: status,  Next: whoami,  Prev: who,  Up: Commands
+
+3.16 Freetalk command - status
+==============================
+
+ -- command: /status [online|away|chat|xa|dnd] [MESSAGE]
+     Sets or displays your current status.
+
+     Example:
+
+          ~\/~ /status online Using Freetalk
+          ~\/~ /status
+          Current status: online Using Freetalk
+          ~\/~
+
+
+File: freetalk.info,  Node: whoami,  Next: version,  Prev: status,  Up: Commands
+
+3.17 Freetalk command - whoami
+==============================
+
+ -- command: /whoami
+     This command displays the currently logged in buddy info.
+
+     Example:
+
+          ~\/~ /whoami
+          ~\/~ /whoami
+          Jabber ID: avati@zresearch.com
+          Jabber Server: jabber.org
+          Status: hacking
+          ~\/~
+
+
+File: freetalk.info,  Node: version,  Next: logout,  Prev: whoami,  Up: Commands
+
+3.18 Freetalk command - version
+===============================
+
+ -- command: /version
+     This command displays the version information of the installed
+     freetalk package.
+
+     Example:
+
+          ~\/~ /version
+          freetalk (Freetalk) 3.2
+          Copyright (C) 2005, 2007 FreeTalk Core Team
+          ...
+
+          ~\/~
+
+
+File: freetalk.info,  Node: logout,  Next: history,  Prev: version,  Up: Commands
+
+3.19 Freetalk command - logout
+==============================
+
+ -- command: /logout
+     This command works same as /disconnect but looks more meaningfull.
+
+     Example:
+
+          ~\/~ /logout
+          Disconnected from SERVER, reason(0): User request
+          ~\/~
+
+
+File: freetalk.info,  Node: history,  Next: load,  Prev: logout,  Up: Commands
+
+3.20 Freetalk command - history
+===============================
+
+ -- command: /history [BUDDY]
+     This command displays paginated history with BUDDY. If BUDDY is
+     not specified, it displays paginated history of only the current
+     session.
+
+     Example:
+
+          ~\/~ /history ranju1111@gmail.com
+
+          Prints the history of messages with ranju1111@gmail.com paginated by `less'.
+
+          ~\/~ /history
+
+          Prints this history of messages of the current session.
+
+          ~\/~
+
+
+File: freetalk.info,  Node: load,  Next: setup,  Prev: history,  Up: Commands
+
+3.21 Freetalk command - load
+============================
+
+ -- command: /load [SCM]
+     This command loads the Scheme Extension file and executes it.  SCM
+     is the extension Scheme file written in Guile.  This command helps
+     for the better customization of the software.
+
+     SCM is first looked for in the current directory, followed by
+     ~/.freetalk/extensions followed by the global
+     PREFIX/share/freetalk/extensions.
+
+     SCM can also be an absolute path.
+
+     Example:
+
+          ~\/~ /load beep.scm
+          ~\/~
+
+
+File: freetalk.info,  Node: setup,  Next: login,  Prev: load,  Up: Commands
+
+3.22 Freetalk command - setup
+=============================
+
+ -- command: /setup
+     This command prepares a fresh `~/.freetalk' directory with backing
+     up the older one.
+
+     Example:
+
+          ~\/~> /setup
+          '/root/.freetalk' -> '/root/.freetalk-backup-0'
+          Creating fresh state /root/.freetalk
+
+          NOTE: Archieved previous state to /root/.freetalk-backup-0 !!!
+
+          ~\/~>
+
+
+File: freetalk.info,  Node: login,  Next: help,  Prev: setup,  Up: Commands
+
+3.23 Freetalk command - login
+=============================
+
+ -- command: /login
+     This command is the better interactive login than the normal login.
+     This command should be followed by /disconnect if you are logged
+     in.
+
+     Example:
+
+          ~\/~ /login
+          Jabber ID: harshavardhanacool@gmail.com
+          Password:
+          Enable TLS/SSL (Y/N)? [Y]: y
+          Port [5223]: 2401
+          Connecting...
+          ~\/~
+
+
+File: freetalk.info,  Node: help,  Next: repl,  Prev: login,  Up: Commands
+
+3.24 Freetalk command - help
+============================
+
+ -- command: /help [freetalk-command]
+     This command prints help information on FREETALK-COMMAND commands
+     interatively in a sorted way.If no argument in given it prints the
+     help for all the commands.
+
+     Example:
+
+          ~\/~ /help /history
+          /history - /history [BUDDY]
+                   Display history page by page
+          ~\/~
+
+
+File: freetalk.info,  Node: repl,  Next: urlview,  Prev: help,  Up: Commands
+
+3.25 Freetalk command - repl
+============================
+
+ -- command: /repl
+     This command helps in debugging. Invokes the guile interpreter
+     resulting in the better debugging of the freetalk Scheme extension.
+
+     Example:
+
+          ~\/~ /repl
+
+          guile>(define ft-get-jid "anonymous@yourchoice.com")
+
+
+File: freetalk.info,  Node: urlview,  Next: freetalk,  Prev: repl,  Up: Commands
+
+3.26 Freetalk command - urlview
+===============================
+
+ -- command: /urlview [BUDDY]
+     This command helps in viewing URL's in the message archive or
+     message coming from a particular BUDDY.More precisely this command
+     catches URL or URL's in the message and launches the browser to
+     open the URL.
+
+     Example:
+
+          ~\/~ /urlview ksv@gmail.com
+
+          ksv: http://freetalk.nongnu.org/
+
+          ~\/~
+
+
+File: freetalk.info,  Node: freetalk,  Next: greet,  Prev: urlview,  Up: Commands
+
+3.27 Freetalk command - freetalk
+================================
+
+ -- command: /freetalk BUDDY
+     This command helps in checking whether the other BUDDY is using
+     freetalk or not.
+
+     Example:
+
+          ~\/~ /freetalk maxcohen@gmail.com
+
+          Yes maxcohen@gmail.com is using freetalk.
+
+          ~\/~
+
+
+File: freetalk.info,  Node: greet,  Next: burst,  Prev: freetalk,  Up: Commands
+
+3.28 Freetalk command - greet
+=============================
+
+ -- command: /greet BUDDY
+     Send IRC style greeting message to your BUDDY.
+
+          Example:
+          ab@jabber.org> /greet avati@jabber.org
+
+          On the other side avati@jabber.org gets a message
+          ``aaaaaavvvvvvvvvvtttttttiiiiiii''.
+
+
+File: freetalk.info,  Node: burst,  Next: burst-of-romance,  Prev: greet,  Up: Commands
+
+3.29 Freetalk command - burst
+=============================
+
+ -- command: /burst BUDDY MESSAGE
+     Explode MESSAGE in to multiple charactest (IRC style greeting) and
+     send it to BUDDY.
+
+          Example:
+          ab@jabber.org> /burst avati@jabber.org avati
+
+          On the other side avati@jabber.org gets a message
+          ``aaaaaavvvvvvvvvvtttttttiiiiiii''.
+
+
+File: freetalk.info,  Node: burst-of-romance,  Next: broadcast,  Prev: burst,  Up: Commands
+
+3.30 Freetalk command - burst-of-romance
+========================================
+
+ -- command: /burst BUDDY COUNT MESSAGE
+     Send COUNT number of MESSAGE to BUDDY with random delays in
+     between. This command is useful to simulate multiple hand-made
+     kisses.
+
+          Example:
+          ab@jabber.org> /burst hackergirl@jabber.org 45 :-*
+
+
+File: freetalk.info,  Node: broadcast,  Next: proxyserver,  Prev: burst-of-romance,  Up: Commands
+
+3.31 Freetalk command - broadcast
+=================================
+
+ -- command: /broadcast MESSAGE
+     Send MESSAGE to all the buddies
+
+          Example:
+          harshavardhana@jabber.org> /broadcast "Hello All, I am back"
+
+
+File: freetalk.info,  Node: proxyserver,  Next: proxyport,  Prev: broadcast,  Up: Commands
+
+3.32 Freetalk command -  proxyserver
+====================================
+
+ -- command: /proxyserver [proxyservername]
+     Specify the PROXYSERVERNAME which you want to connect, or display
+     the currently set proxyserver.
+
+          ~\/~ /proxyserver
+          Current ProxyServer:
+          ~\/~ /proxyserver tc.vip.org
+          ~\/~ /proxyserver
+          Current ProxyServer: tc.vip.org
+          ~\/~
+
+
+File: freetalk.info,  Node: proxyport,  Prev: proxyserver,  Up: Commands
+
+3.33 Freetalk command - proxyport
+=================================
+
+ -- command: /proxyport [proxyport]
+     `/proxyport' command sets the specified TCP PROXYPORT to be used
+     for the next `/connect' or display the currently set proxyport
+
+          ~\/~ /proxyport
+          Current Port (8080 = default): 0
+          ~\/~
+          ~\/~ /proxyport 8080
+          ~\/~ /proxyport
+          Current Port (8080 = default): 8080
+
+
+File: freetalk.info,  Node: Customization,  Next: Tips and Tricks,  Prev: Commands,  Up: Top
+
+4 Customizing freetalk
+**********************
+
+freetalk can be customized to a great extent using Guile interface.
+User can herself/himself customize or extend new features in freetalk
+using Scheme as extension language.  Most of the features are already
+written in Scheme.
+
+* Menu:
+
+* freetalk.scm::                startup configuration file
+* init.scm::                    system wide initialization
+* Default Scheme extensions::   default Scheme extensions
+
+   If you want to extend freetalk yourself, you can further explore
+freetalk Extension Developer Guide.  (*note Extension language::) 
+
+
+File: freetalk.info,  Node: freetalk.scm,  Next: init.scm,  Prev: Customization,  Up: Customization
+
+4.1 freetalk.scm
+================
+
+Freetalk loads the startup options from `~/.freetalk/freetalk.scm'.
+Right from custom settings like username, password ... to complete
+Scheme programming can be done in this file.
+
+     ;; Sample ~/.freetalk/freetalk.scm
+     ;; It sets connection parameters and tries to connect on
+     ;; starting freetalk
+     (and (strings=? (ft-get-jid) "")
+                     (ft-set-jid! "avati@jabber.org")
+                     (ft-set-password! "f00b4r")
+                     (ft-set-sslconn! 1)
+                     (ft-set-server! "jabber.org")
+                     ;; Proxy support
+                     (ft-set-proxyserver! "your.proxy.org")
+                     (ft-set-proxyport! "8080"))
+   All entries in this file freetalk.scm are optional.How ever there is
+no limit of cutomizing this file using Guile Interface. (*note
+Extension language::) 
+
+
+File: freetalk.info,  Node: init.scm,  Next: Default Scheme extensions,  Prev: freetalk.scm,  Up: Customization
+
+4.2 init.scm
+============
+
+All system wide policy settings and extensions are loaded through
+`init.scm'.  By default you can find `init.scm' at
+`/usr/share/freetalk/extensions/'.  To override this system wide
+`init.scm' file, copy it to `~/.freetalk/extensions/init.scm'.  You
+must be aware of what you are doing, before you mess up anything here.
+
+   (*note Extension language::) 
+
+
+File: freetalk.info,  Node: Default Scheme extensions,  Prev: init.scm,  Up: Customization
+
+4.3 Default Scheme extensions
+=============================
+
+Most of the freetalk features are available through Scheme extensions.
+To override these extensions, copy them from
+`/usr/share/freetalk/extensions/' to `~/.freetalk/extensions/' and edit
+them.
+
+   (*note Extension language::) 
+
+
+File: freetalk.info,  Node: Tips and Tricks,  Next: Extension language,  Prev: Customization,  Up: Top
+
+5 Tips and Tricks
+*****************
+
+You are free to use complete Readline keys inside freetalk.  Frequently
+used Readline keys inside freetalk are,
+
+5.0.1 Cursor motion                               
+-------------------                               
+character                C-b                      C-f
+word                     M-b                      M-f
+line up/down             C-p                      C-n
+line start/end           C-a                      C-e
+
+5.0.2 Editing                                     
+-------------                                     
+delete char              C-d                      
+delete char backwards    C-h                      
+delete word              M-d                      
+delete word backwards    C-w                      
+kill line                C-k                      
+kill line backwards      C-u                      
+character swap           C-t                      
+word swap                M-w                      
+paste                    C-y                      
+undo                     C-_                      
+repeat prefix            M-number                 
+
+5.0.3 Case change                                 
+-----------------                                 
+uppercase word           M-u                      
+lowercase word           M-l                      
+capitalize word          M-c                      
+
+   If you want to do further stunts, jump to Readline manual, *Note
+Readline: (Readline)Readline.
+
+   (1) (*note Tips and Tricks-Footnote-1::) 
+
+
+File: freetalk.info,  Node: Tips and Tricks-Footnotes,  Up: Tips and Tricks
+
+   (1) When you press `TAB' twice at freetalk prompt you can see all
+the possible commands and buddy names.
+
+
+File: freetalk.info,  Node: Extension language,  Next: Variables,  Prev: Tips and Tricks,  Up: Top
+
+6 Extension language
+********************
+
+An "extension language" is a programming language interpreter offered
+by an application program, so that users can write macros or even
+full-fledged programs to extend the original application.  Extension
+languages have a C interface (it is usually C, but it could be any
+other compiled language), and can be given access to the C data
+structures.  Likewise, there are C routines to access the extension
+language data structures.
+
+   This uses GNU extension language - "Guile" (which can stand for _GNU
+Ubiquitous Intelligent Language Extension_).  Guile started out as an
+embeddable Scheme interpreter, and has rapidly evolved into a
+kitchen-sink package including a standalone Scheme interpreter, an
+embeddable Scheme interpreter, several graphics options, other
+languages that can be used along with Scheme (for now just _ctax_ and
+_Tcl_), and hooks for much more.  
+
+
+File: freetalk.info,  Node: Variables,  Next: Procedures,  Prev: Extension language,  Up: Top
+
+7 Variables
+***********
+
+Freetalk avoids sharing of variables between C and Scheme environment.
+Everything is done through primitive procedures for clarity and control.
+
+
+File: freetalk.info,  Node: Procedures,  Next: Hooks,  Prev: Variables,  Up: Top
+
+8 Procedures
+************
+
+The following are the list of freetalk procedures that are exported to
+Scheme.  Now you are able to call the procedures from Scheme that are
+written in C.
+
+* Menu:
+
+* General procedures::          General Scheme primitives
+* Configuration procedures::    Configuration Scheme primitives
+* Hook related procedures::     Hook related Scheme primitives
+* Utility procedures::          Utility Scheme primitives
+
+
+File: freetalk.info,  Node: General procedures,  Next: Configuration procedures,  Prev: Procedures,  Up: Procedures
+
+8.1 General procedures
+======================
+
+ -- primitive: ft-load filepath
+     Loads and evaluates FILEPATH.scm from mentioned path or from
+     `~/.freetalk/extensions/' or from
+     `/usr/share/freetalk/extensions/'.
+
+     Example:
+          (ft-load "beep.scm")
+
+ -- primitive: ft-add-buddy! buddy
+     Adds BUDDY into your contact list.
+
+     Example:
+          (ft-add-buddy! "vikasgp386@gmail.com")
+
+ -- primitive: ft-get-jid jabberid
+     Gets JABBERID from the console.
+
+     Example:
+          (and (string=? (ft-get-jid) "") ...)
+
+ -- primitive: ft-set-jid! defaultid
+     Set DEFAULTID as the Jabber ID to be used on the next connect.
+
+     Example:
+          (ft-set-jid! "anand.avati@gmail.com")
+
+ -- primitive: ft-get-conn-status
+     Gets the status of the connection from the server.  0 - Not
+     connected.  1 - Connected, Not authenticated.  2 - Authenticated.
+     (usable for IM)
+
+     Example:
+          (display (ft-get-conn-status))
+
+ -- primitive: ft-get-password
+     Gets the currently set PASSWORD.
+
+     Example:
+          (and (string=? (ft-get-password) ...)
+
+ -- primitive: ft-get-server
+     Get the SERVERNAME configured for the next connection.
+
+     Example:
+          (and (string=? (ft-get-server) "") ...)
+
+ -- primitive: ft-set-sslconn! boolean
+     Set the VALUE such that login is in SSL mode or not.
+
+     Example:
+          (ft-set-sslconn! #t)
+
+ -- primitive: ft-send-message buddy message
+     Sends MESSAGE to the BUDDY.
+
+     Example:
+          (ft-send-message "abindian@gmail.com" "had breakfast? or was it lunch?")
+
+ -- primitive: ft-display message
+     Prints the MESSAGE in the console. Unlike the `display' primitive,
+     this procedure takes care of printing MESSAGE asynchronously
+     keeping the readline state as-is.
+
+     Example:
+          (ft-display ("I am proud of freetalk"))
+
+ -- primitive: ft-bind-to-ctrl-key char command
+     Binds CTRL+ given CHAR to arbitrary scm COMMAND. Allows for
+     displaying roster or whatever by just pressing a key even during
+     composition of new messages, keeping the readline state as-is.
+
+     Example:
+          (ft-bind-to-ctrl-key #\a "(/who \"all\")")
+
+
+File: freetalk.info,  Node: Configuration procedures,  Next: Hook related procedures,  Prev: General procedures,  Up: Procedures
+
+8.2 Configuration procedures
+============================
+
+
+File: freetalk.info,  Node: Hook related procedures,  Next: Utility procedures,  Prev: Configuration procedures,  Up: Procedures
+
+8.3 Hook related procedures
+===========================
+
+(1) (*note Hook related procedures-Footnote-1::)
+
+ -- primitive: ft-hook-return
+     Makes the calling procedure return immediately after running the
+     hooks.
+
+     Example:
+
+
+
+File: freetalk.info,  Node: Hook related procedures-Footnotes,  Up: Hook related procedures
+
+   (1)  Info awaiting coming soon....
+
+
+File: freetalk.info,  Node: Utility procedures,  Prev: Hook related procedures,  Up: Procedures
+
+8.4 Utility procedures
+======================
+
+These are general purpose utility procedures written completly in
+Scheme.
+
+   (1) (*note Utility procedures-Footnote-1::)
+
+
+File: freetalk.info,  Node: Utility procedures-Footnotes,  Up: Utility procedures
+
+   (1) utility procedures are loaded through
+/DATADIR/freetalk/extensions/ and you are free to hack for cool
+undocumented procedures
+
+
+File: freetalk.info,  Node: Hooks,  Next: Learning further,  Prev: Procedures,  Up: Top
+
+9 Hooks
+*******
+
+Through Hooks facility Freetalk lets you steal its control at various
+important junctures during execution.
+
+ -- hook: ft-message-send-hook buddy message
+     Hook procedure is called with BUDDY and MESSAGE as arguments on
+     every send message operation.
+
+     Supporting primitives:
+         *note ft-hook-return::
+
+     Example:
+
+
+ -- hook: ft-message-receive-hook buddy message
+     Hook procedure is called with BUDDY and MESSAGE as arguments on
+     every receive message operation.
+
+     Supporting primitives:
+         *note ft-hook-return::
+
+     Example:
+
+
+ -- hook: ft-presence-receive-hook buddy message timestamp
+     Hook procedure is called with BUDDY, MESSAGE and TIMESTAMP recieve
+     the presence.
+
+     Supporting primitives:
+         *note ft-hook-return::
+
+     Example:
+
+
+ -- hook: ft-disconnect-hook
+     Supporting primitives:
+         *note ft-hook-return::
+
+     Example:
+
+
+
+File: freetalk.info,  Node: Learning further,  Next: Authors,  Prev: Hooks,  Up: Top
+
+10 Learning further
+*******************
+
+The following are the URLs where you can find useful manuals for Guile
+and Scheme.
+
+`http://www.gnu.org/software/guile/'
+`http://www.schemers.org/'
+`ftp://ftp.cs.utexas.edu/pub/garbage/cs345/schintro-v14/schintro_toc.html'
+`http://www.informatik.uni-kiel.de/~scheme/'
+`http://freespace.virgin.net/david.drysdale/guile/tutorial.html'
+`http://nis-www.lanl.gov/~rosalia/gnudl-doc/learn_libguile_toc.html'
+`http://theoryx5.uwinnipeg.ca/gnu/guile/guile-user.html#SEC_Top'
+`http://www.nada.kth.se/~mdj/guile-ref/guile-ref_toc.html'
+`http://www.red-bean.com/guile/guile/old/3540.html'
+`http://nis-www.lanl.gov/~rosalia/mydocs/guile-user.html'
+`http://www.cs.utexas.edu/users/lavender/courses/scheme/'
+`http://www.cstr.ed.ac.uk/projects/festival/manual/festival_8.html#SEC24'
+`http://www.cs.ccu.edu.tw/~dan/tutorials.html'
+`http://www.wcug.wwu.edu/~randyman/COMPUTERS/SCHEME/start.htm'
+`http://www.dmoz.org/Computers/Programming/Languages/Lisp/Scheme/Teaching/'
+`http://www.cs.caltech.edu/~cs181/doc/'
+`http://cis.csuohio.edu/~hysockel/Links/Documents.html'
+
+File: freetalk.info,  Node: Authors,  Next: URLs,  Prev: Learning further,  Up: Top
+
+11 Authors
+**********
+
+We believe in Software Freedom and Ethics, the GNU's way.
+
+11.1 FreeTalk Contributors (sorted alphabetically)
+==================================================
+
+11.1.1 Core team
+----------------
+
+1. Anand Avati        <avati@zresearch.com>
+2. Anand Babu         <ab@zresearch.com>
+3. Harshavardhana     <harsha@zresearch.com>
+4. Vikas Gorur        <vikas@zresearch.com>
+
+11.1.2 Documentation
+--------------------
+
+1. Harshavardhana     <harsha@zresearch.com>
+
+11.1.3 Packaging
+----------------
+
+
+
+11.1.4 contact point
+--------------------
+
+1. FreeTalk           <freetalk-dev@gnu.org>
+
+
+File: freetalk.info,  Node: URLs,  Next: Guidelines for submitting a patch,  Prev: Authors,  Up: Top
+
+12 URLs
+*******
+
+ -- URL: Homepage
+     `http://www.gnu.org/software/freetalk/'
+
+ -- URL: Download
+     `http://savannah.gnu.org/download/freetalk/'
+
+ -- URL: CVS
+     To know project information like Bugs, Updates, Support, Patches,
+     Tasks, News, Development Status, Activity Percentile, Project
+     Activity visit `http://www.gnu.org/software/freetalk/'
+
+ -- URL: Mailing list
+     Freetalk has its own mailing list. The mailing list is for support,
+     reporting bugs, mailing announcements. You are welcome to
+     subscribe.
+
+     To Subscribe/Unsubscribe visit,
+     `https://savannah.gnu.org/mail/?group=freetalk'.
+
+ -- URL: Bugs
+     You are welcome to send bug reports about freetalk to
+     `https://savannah.gnu.org/bugs/?group=freetalk'.  The bugs that
+     you think are of the interest to the public (i.e.  more people
+     should be informed about them) can be Cc-ed to the above mailing
+     lists.
+
+     Before actually submitting a bug report, please try to follow a few
+     simple guidelines.
+
+       1. Please try to ascertain that the behavior you see really is a
+          bug.  If Freetalk crashes, it's a bug. If freetalk does not
+          behave as documented, it's a bug.  If things work strange,
+          but you are not sure about the way they are supposed to work,
+          it might well be a bug.  Don't predict that there is a Bug
+          try to find it and report.
+
+       2. Try to repeat the bug in as simple circumstances as possible.
+
+       3. Find where the bug is, fix it and send the patches. :) (*note
+          Guidelines for submitting a patch::)
+
+   Send your specific queries to  Vikas Gorur <vikas@zresearch.com> 
+
+
+File: freetalk.info,  Node: Guidelines for submitting a patch,  Next: Portability,  Prev: URLs,  Up: Top
+
+13 Guidelines for submitting a patch
+************************************
+
+  1. Copy the latest CVS version of `freetalk' directory as
+     `freetalk-hack'.
+
+  2. Make changes in your `freetalk-hack' directory.
+
+  3. Create patch using
+     # diff -pruN freetalk freetalk-hack > freetalk-patch-title
+
+  4. Mail the patch file `freetalk-patch-title' to the mailing list
+     with subject prefixed with `PATCH:'.
+     Please send only text mails with patch as a part of the message
+     body.  Don't update `ChangeLog' file, instead add your comments at
+     the beginning of the body.
+     
+
+File: freetalk.info,  Node: Portability,  Next: Concept Index,  Prev: Guidelines for submitting a patch,  Up: Top
+
+14 Portability
+**************
+
+Since freetalk uses GNU Autoconf for building and configuring, and
+avoids using `special' ultra-mega-cool features of any particular Unix,
+it should compile (and work) on all common Unix flavors.
+
+   Various freetalk versions have been compiled and tested under
+GNU/Linux.  However freetalk can be easily ported to any POSIX
+complaint platform with Guile and Readline ports.  If you compile it on
+an architecture not listed here, please let us know so that we can
+update it.  (*note URLs::) 
+
+* Menu:
+
+* Freetalk License::
+* Freetalk Documentation License::
+
+
+File: freetalk.info,  Node: Freetalk License,  Next: Freetalk Documentation License,  Prev: Portability,  Up: Portability
+
+14.1 Freetalk License
+=====================
+
+Freetalk licensed under GNU General Public License v3 or later.
+
+                         Version 2, June 1991
+
+     Copyright (C) 1989, 1991 Free Software Foundation, Inc.
+     59 Temple Place - Suite 330, Boston, MA  02111-1307, USA
+
+     Everyone is permitted to copy and distribute verbatim copies
+     of this license document, but changing it is not allowed.
+
+14.1.1 Preamble
+---------------
+
+The licenses for most software are designed to take away your freedom
+to share and change it.  By contrast, the GNU General Public License is
+intended to guarantee your freedom to share and change free
+software--to make sure the software is free for all its users.  This
+General Public License applies to most of the Free Software
+Foundation's software and to any other program whose authors commit to
+using it.  (Some other Free Software Foundation software is covered by
+the GNU Library General Public License instead.)  You can apply it to
+your programs, too.
+
+   When we speak of free software, we are referring to freedom, not
+price.  Our General Public Licenses are designed to make sure that you
+have the freedom to distribute copies of free software (and charge for
+this service if you wish), that you receive source code or can get it
+if you want it, that you can change the software or use pieces of it in
+new free programs; and that you know you can do these things.
+
+   To protect your rights, we need to make restrictions that forbid
+anyone to deny you these rights or to ask you to surrender the rights.
+These restrictions translate to certain responsibilities for you if you
+distribute copies of the software, or if you modify it.
+
+   For example, if you distribute copies of such a program, whether
+gratis or for a fee, you must give the recipients all the rights that
+you have.  You must make sure that they, too, receive or can get the
+source code.  And you must show them these terms so they know their
+rights.
+
+   We protect your rights with two steps: (1) copyright the software,
+and (2) offer you this license which gives you legal permission to copy,
+distribute and/or modify the software.
+
+   Also, for each author's protection and ours, we want to make certain
+that everyone understands that there is no warranty for this free
+software.  If the software is modified by someone else and passed on, we
+want its recipients to know that what they have is not the original, so
+that any problems introduced by others will not reflect on the original
+authors' reputations.
+
+   Finally, any free program is threatened constantly by software
+patents.  We wish to avoid the danger that redistributors of a free
+program will individually obtain patent licenses, in effect making the
+program proprietary.  To prevent this, we have made it clear that any
+patent must be licensed for everyone's free use or not licensed at all.
+
+   The precise terms and conditions for copying, distribution and
+modification follow.
+
+    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+  0. This License applies to any program or other work which contains a
+     notice placed by the copyright holder saying it may be distributed
+     under the terms of this General Public License.  The "Program",
+     below, refers to any such program or work, and a "work based on
+     the Program" means either the Program or any derivative work under
+     copyright law: that is to say, a work containing the Program or a
+     portion of it, either verbatim or with modifications and/or
+     translated into another language.  (Hereinafter, translation is
+     included without limitation in the term "modification".)  Each
+     licensee is addressed as "you".
+
+     Activities other than copying, distribution and modification are
+     not covered by this License; they are outside its scope.  The act
+     of running the Program is not restricted, and the output from the
+     Program is covered only if its contents constitute a work based on
+     the Program (independent of having been made by running the
+     Program).  Whether that is true depends on what the Program does.
+
+  1. You may copy and distribute verbatim copies of the Program's
+     source code as you receive it, in any medium, provided that you
+     conspicuously and appropriately publish on each copy an appropriate
+     copyright notice and disclaimer of warranty; keep intact all the
+     notices that refer to this License and to the absence of any
+     warranty; and give any other recipients of the Program a copy of
+     this License along with the Program.
+
+     You may charge a fee for the physical act of transferring a copy,
+     and you may at your option offer warranty protection in exchange
+     for a fee.
+
+  2. You may modify your copy or copies of the Program or any portion
+     of it, thus forming a work based on the Program, and copy and
+     distribute such modifications or work under the terms of Section 1
+     above, provided that you also meet all of these conditions:
+
+       a. You must cause the modified files to carry prominent notices
+          stating that you changed the files and the date of any change.
+
+       b. You must cause any work that you distribute or publish, that
+          in whole or in part contains or is derived from the Program
+          or any part thereof, to be licensed as a whole at no charge
+          to all third parties under the terms of this License.
+
+       c. If the modified program normally reads commands interactively
+          when run, you must cause it, when started running for such
+          interactive use in the most ordinary way, to print or display
+          an announcement including an appropriate copyright notice and
+          a notice that there is no warranty (or else, saying that you
+          provide a warranty) and that users may redistribute the
+          program under these conditions, and telling the user how to
+          view a copy of this License.  (Exception: if the Program
+          itself is interactive but does not normally print such an
+          announcement, your work based on the Program is not required
+          to print an announcement.)
+
+     These requirements apply to the modified work as a whole.  If
+     identifiable sections of that work are not derived from the
+     Program, and can be reasonably considered independent and separate
+     works in themselves, then this License, and its terms, do not
+     apply to those sections when you distribute them as separate
+     works.  But when you distribute the same sections as part of a
+     whole which is a work based on the Program, the distribution of
+     the whole must be on the terms of this License, whose permissions
+     for other licensees extend to the entire whole, and thus to each
+     and every part regardless of who wrote it.
+
+     Thus, it is not the intent of this section to claim rights or
+     contest your rights to work written entirely by you; rather, the
+     intent is to exercise the right to control the distribution of
+     derivative or collective works based on the Program.
+
+     In addition, mere aggregation of another work not based on the
+     Program with the Program (or with a work based on the Program) on
+     a volume of a storage or distribution medium does not bring the
+     other work under the scope of this License.
+
+  3. You may copy and distribute the Program (or a work based on it,
+     under Section 2) in object code or executable form under the terms
+     of Sections 1 and 2 above provided that you also do one of the
+     following:
+
+       a. Accompany it with the complete corresponding machine-readable
+          source code, which must be distributed under the terms of
+          Sections 1 and 2 above on a medium customarily used for
+          software interchange; or,
+
+       b. Accompany it with a written offer, valid for at least three
+          years, to give any third party, for a charge no more than your
+          cost of physically performing source distribution, a complete
+          machine-readable copy of the corresponding source code, to be
+          distributed under the terms of Sections 1 and 2 above on a
+          medium customarily used for software interchange; or,
+
+       c. Accompany it with the information you received as to the offer
+          to distribute corresponding source code.  (This alternative is
+          allowed only for noncommercial distribution and only if you
+          received the program in object code or executable form with
+          such an offer, in accord with Subsection b above.)
+
+     The source code for a work means the preferred form of the work for
+     making modifications to it.  For an executable work, complete
+     source code means all the source code for all modules it contains,
+     plus any associated interface definition files, plus the scripts
+     used to control compilation and installation of the executable.
+     However, as a special exception, the source code distributed need
+     not include anything that is normally distributed (in either
+     source or binary form) with the major components (compiler,
+     kernel, and so on) of the operating system on which the executable
+     runs, unless that component itself accompanies the executable.
+
+     If distribution of executable or object code is made by offering
+     access to copy from a designated place, then offering equivalent
+     access to copy the source code from the same place counts as
+     distribution of the source code, even though third parties are not
+     compelled to copy the source along with the object code.
+
+  4. You may not copy, modify, sublicense, or distribute the Program
+     except as expressly provided under this License.  Any attempt
+     otherwise to copy, modify, sublicense or distribute the Program is
+     void, and will automatically terminate your rights under this
+     License.  However, parties who have received copies, or rights,
+     from you under this License will not have their licenses
+     terminated so long as such parties remain in full compliance.
+
+  5. You are not required to accept this License, since you have not
+     signed it.  However, nothing else grants you permission to modify
+     or distribute the Program or its derivative works.  These actions
+     are prohibited by law if you do not accept this License.
+     Therefore, by modifying or distributing the Program (or any work
+     based on the Program), you indicate your acceptance of this
+     License to do so, and all its terms and conditions for copying,
+     distributing or modifying the Program or works based on it.
+
+  6. Each time you redistribute the Program (or any work based on the
+     Program), the recipient automatically receives a license from the
+     original licensor to copy, distribute or modify the Program
+     subject to these terms and conditions.  You may not impose any
+     further restrictions on the recipients' exercise of the rights
+     granted herein.  You are not responsible for enforcing compliance
+     by third parties to this License.
+
+  7. If, as a consequence of a court judgment or allegation of patent
+     infringement or for any other reason (not limited to patent
+     issues), conditions are imposed on you (whether by court order,
+     agreement or otherwise) that contradict the conditions of this
+     License, they do not excuse you from the conditions of this
+     License.  If you cannot distribute so as to satisfy simultaneously
+     your obligations under this License and any other pertinent
+     obligations, then as a consequence you may not distribute the
+     Program at all.  For example, if a patent license would not permit
+     royalty-free redistribution of the Program by all those who
+     receive copies directly or indirectly through you, then the only
+     way you could satisfy both it and this License would be to refrain
+     entirely from distribution of the Program.
+
+     If any portion of this section is held invalid or unenforceable
+     under any particular circumstance, the balance of the section is
+     intended to apply and the section as a whole is intended to apply
+     in other circumstances.
+
+     It is not the purpose of this section to induce you to infringe any
+     patents or other property right claims or to contest validity of
+     any such claims; this section has the sole purpose of protecting
+     the integrity of the free software distribution system, which is
+     implemented by public license practices.  Many people have made
+     generous contributions to the wide range of software distributed
+     through that system in reliance on consistent application of that
+     system; it is up to the author/donor to decide if he or she is
+     willing to distribute software through any other system and a
+     licensee cannot impose that choice.
+
+     This section is intended to make thoroughly clear what is believed
+     to be a consequence of the rest of this License.
+
+  8. If the distribution and/or use of the Program is restricted in
+     certain countries either by patents or by copyrighted interfaces,
+     the original copyright holder who places the Program under this
+     License may add an explicit geographical distribution limitation
+     excluding those countries, so that distribution is permitted only
+     in or among countries not thus excluded.  In such case, this
+     License incorporates the limitation as if written in the body of
+     this License.
+
+  9. The Free Software Foundation may publish revised and/or new
+     versions of the General Public License from time to time.  Such
+     new versions will be similar in spirit to the present version, but
+     may differ in detail to address new problems or concerns.
+
+     Each version is given a distinguishing version number.  If the
+     Program specifies a version number of this License which applies
+     to it and "any later version", you have the option of following
+     the terms and conditions either of that version or of any later
+     version published by the Free Software Foundation.  If the Program
+     does not specify a version number of this License, you may choose
+     any version ever published by the Free Software Foundation.
+
+ 10. If you wish to incorporate parts of the Program into other free
+     programs whose distribution conditions are different, write to the
+     author to ask for permission.  For software which is copyrighted
+     by the Free Software Foundation, write to the Free Software
+     Foundation; we sometimes make exceptions for this.  Our decision
+     will be guided by the two goals of preserving the free status of
+     all derivatives of our free software and of promoting the sharing
+     and reuse of software generally.
+
+                                NO WARRANTY
+ 11. BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO
+     WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE
+     LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
+     HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT
+     WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT
+     NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+     FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE RISK AS TO THE
+     QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.  SHOULD THE
+     PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY
+     SERVICING, REPAIR OR CORRECTION.
+
+ 12. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN
+     WRITING WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY
+     MODIFY AND/OR REDISTRIBUTE THE PROGRAM AS PERMITTED ABOVE, BE
+     LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL,
+     INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR
+     INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF
+     DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU
+     OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY
+     OTHER PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN
+     ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+                      END OF TERMS AND CONDITIONS
+14.1.2 Appendix: How to Apply These Terms to Your New Programs
+--------------------------------------------------------------
+
+If you develop a new program, and you want it to be of the greatest
+possible use to the public, the best way to achieve this is to make it
+free software which everyone can redistribute and change under these
+terms.
+
+   To do so, attach the following notices to the program.  It is safest
+to attach them to the start of each source file to most effectively
+convey the exclusion of warranty; and each file should have at least
+the "copyright" line and a pointer to where the full notice is found.
+
+     ONE LINE TO GIVE THE PROGRAM'S NAME AND A BRIEF IDEA OF WHAT IT DOES.
+     Copyright (C) YYYY  NAME OF AUTHOR
+
+     This program is free software; you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
+
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     You should have received a copy of the GNU General Public License
+     along with this program; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+   Also add information on how to contact you by electronic and paper
+mail.
+
+   If the program is interactive, make it output a short notice like
+this when it starts in an interactive mode:
+
+     Gnomovision version 69, Copyright (C) 19YY NAME OF AUTHOR
+     Gnomovision comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
+     This is free software, and you are welcome to redistribute it
+     under certain conditions; type `show c' for details.
+
+   The hypothetical commands `show w' and `show c' should show the
+appropriate parts of the General Public License.  Of course, the
+commands you use may be called something other than `show w' and `show
+c'; they could even be mouse-clicks or menu items--whatever suits your
+program.
+
+   You should also get your employer (if you work as a programmer) or
+your school, if any, to sign a "copyright disclaimer" for the program,
+if necessary.  Here is a sample; alter the names:
+
+     Yoyodyne, Inc., hereby disclaims all copyright interest in the program
+     `Gnomovision' (which makes passes at compilers) written by James Hacker.
+
+     SIGNATURE OF TY COON, 1 April 1989
+     Ty Coon, President of Vice
+
+   This General Public License does not permit incorporating your
+program into proprietary programs.  If your program is a subroutine
+library, you may consider it more useful to permit linking proprietary
+applications with the library.  If this is what you want to do, use the
+GNU Library General Public License instead of this License.
+
+
+File: freetalk.info,  Node: Freetalk Documentation License,  Prev: Freetalk License,  Up: Portability
+
+14.2 Freetalk Documentation License
+===================================
+
+Freetalk documentation licensed under GNU Free Documentation License
+1.2 or later.
+
+                      Version 1.2, November 2002
+
+     Copyright (C) 2000,2001,2002 Free Software Foundation, Inc.
+     59 Temple Place, Suite 330, Boston, MA  02111-1307, USA
+
+     Everyone is permitted to copy and distribute verbatim copies
+     of this license document, but changing it is not allowed.
+
+  0. PREAMBLE
+
+     The purpose of this License is to make a manual, textbook, or other
+     functional and useful document "free" in the sense of freedom: to
+     assure everyone the effective freedom to copy and redistribute it,
+     with or without modifying it, either commercially or
+     noncommercially.  Secondarily, this License preserves for the
+     author and publisher a way to get credit for their work, while not
+     being considered responsible for modifications made by others.
+
+     This License is a kind of "copyleft", which means that derivative
+     works of the document must themselves be free in the same sense.
+     It complements the GNU General Public License, which is a copyleft
+     license designed for free software.
+
+     We have designed this License in order to use it for manuals for
+     free software, because free software needs free documentation: a
+     free program should come with manuals providing the same freedoms
+     that the software does.  But this License is not limited to
+     software manuals; it can be used for any textual work, regardless
+     of subject matter or whether it is published as a printed book.
+     We recommend this License principally for works whose purpose is
+     instruction or reference.
+
+  1. APPLICABILITY AND DEFINITIONS
+
+     This License applies to any manual or other work, in any medium,
+     that contains a notice placed by the copyright holder saying it
+     can be distributed under the terms of this License.  Such a notice
+     grants a world-wide, royalty-free license, unlimited in duration,
+     to use that work under the conditions stated herein.  The
+     "Document", below, refers to any such manual or work.  Any member
+     of the public is a licensee, and is addressed as "you".  You
+     accept the license if you copy, modify or distribute the work in a
+     way requiring permission under copyright law.
+
+     A "Modified Version" of the Document means any work containing the
+     Document or a portion of it, either copied verbatim, or with
+     modifications and/or translated into another language.
+
+     A "Secondary Section" is a named appendix or a front-matter section
+     of the Document that deals exclusively with the relationship of the
+     publishers or authors of the Document to the Document's overall
+     subject (or to related matters) and contains nothing that could
+     fall directly within that overall subject.  (Thus, if the Document
+     is in part a textbook of mathematics, a Secondary Section may not
+     explain any mathematics.)  The relationship could be a matter of
+     historical connection with the subject or with related matters, or
+     of legal, commercial, philosophical, ethical or political position
+     regarding them.
+
+     The "Invariant Sections" are certain Secondary Sections whose
+     titles are designated, as being those of Invariant Sections, in
+     the notice that says that the Document is released under this
+     License.  If a section does not fit the above definition of
+     Secondary then it is not allowed to be designated as Invariant.
+     The Document may contain zero Invariant Sections.  If the Document
+     does not identify any Invariant Sections then there are none.
+
+     The "Cover Texts" are certain short passages of text that are
+     listed, as Front-Cover Texts or Back-Cover Texts, in the notice
+     that says that the Document is released under this License.  A
+     Front-Cover Text may be at most 5 words, and a Back-Cover Text may
+     be at most 25 words.
+
+     A "Transparent" copy of the Document means a machine-readable copy,
+     represented in a format whose specification is available to the
+     general public, that is suitable for revising the document
+     straightforwardly with generic text editors or (for images
+     composed of pixels) generic paint programs or (for drawings) some
+     widely available drawing editor, and that is suitable for input to
+     text formatters or for automatic translation to a variety of
+     formats suitable for input to text formatters.  A copy made in an
+     otherwise Transparent file format whose markup, or absence of
+     markup, has been arranged to thwart or discourage subsequent
+     modification by readers is not Transparent.  An image format is
+     not Transparent if used for any substantial amount of text.  A
+     copy that is not "Transparent" is called "Opaque".
+
+     Examples of suitable formats for Transparent copies include plain
+     ASCII without markup, Texinfo input format, LaTeX input format,
+     SGML or XML using a publicly available DTD, and
+     standard-conforming simple HTML, PostScript or PDF designed for
+     human modification.  Examples of transparent image formats include
+     PNG, XCF and JPG.  Opaque formats include proprietary formats that
+     can be read and edited only by proprietary word processors, SGML or
+     XML for which the DTD and/or processing tools are not generally
+     available, and the machine-generated HTML, PostScript or PDF
+     produced by some word processors for output purposes only.
+
+     The "Title Page" means, for a printed book, the title page itself,
+     plus such following pages as are needed to hold, legibly, the
+     material this License requires to appear in the title page.  For
+     works in formats which do not have any title page as such, "Title
+     Page" means the text near the most prominent appearance of the
+     work's title, preceding the beginning of the body of the text.
+
+     A section "Entitled XYZ" means a named subunit of the Document
+     whose title either is precisely XYZ or contains XYZ in parentheses
+     following text that translates XYZ in another language.  (Here XYZ
+     stands for a specific section name mentioned below, such as
+     "Acknowledgements", "Dedications", "Endorsements", or "History".)
+     To "Preserve the Title" of such a section when you modify the
+     Document means that it remains a section "Entitled XYZ" according
+     to this definition.
+
+     The Document may include Warranty Disclaimers next to the notice
+     which states that this License applies to the Document.  These
+     Warranty Disclaimers are considered to be included by reference in
+     this License, but only as regards disclaiming warranties: any other
+     implication that these Warranty Disclaimers may have is void and
+     has no effect on the meaning of this License.
+
+  2. VERBATIM COPYING
+
+     You may copy and distribute the Document in any medium, either
+     commercially or noncommercially, provided that this License, the
+     copyright notices, and the license notice saying this License
+     applies to the Document are reproduced in all copies, and that you
+     add no other conditions whatsoever to those of this License.  You
+     may not use technical measures to obstruct or control the reading
+     or further copying of the copies you make or distribute.  However,
+     you may accept compensation in exchange for copies.  If you
+     distribute a large enough number of copies you must also follow
+     the conditions in section 3.
+
+     You may also lend copies, under the same conditions stated above,
+     and you may publicly display copies.
+
+  3. COPYING IN QUANTITY
+
+     If you publish printed copies (or copies in media that commonly
+     have printed covers) of the Document, numbering more than 100, and
+     the Document's license notice requires Cover Texts, you must
+     enclose the copies in covers that carry, clearly and legibly, all
+     these Cover Texts: Front-Cover Texts on the front cover, and
+     Back-Cover Texts on the back cover.  Both covers must also clearly
+     and legibly identify you as the publisher of these copies.  The
+     front cover must present the full title with all words of the
+     title equally prominent and visible.  You may add other material
+     on the covers in addition.  Copying with changes limited to the
+     covers, as long as they preserve the title of the Document and
+     satisfy these conditions, can be treated as verbatim copying in
+     other respects.
+
+     If the required texts for either cover are too voluminous to fit
+     legibly, you should put the first ones listed (as many as fit
+     reasonably) on the actual cover, and continue the rest onto
+     adjacent pages.
+
+     If you publish or distribute Opaque copies of the Document
+     numbering more than 100, you must either include a
+     machine-readable Transparent copy along with each Opaque copy, or
+     state in or with each Opaque copy a computer-network location from
+     which the general network-using public has access to download
+     using public-standard network protocols a complete Transparent
+     copy of the Document, free of added material.  If you use the
+     latter option, you must take reasonably prudent steps, when you
+     begin distribution of Opaque copies in quantity, to ensure that
+     this Transparent copy will remain thus accessible at the stated
+     location until at least one year after the last time you
+     distribute an Opaque copy (directly or through your agents or
+     retailers) of that edition to the public.
+
+     It is requested, but not required, that you contact the authors of
+     the Document well before redistributing any large number of
+     copies, to give them a chance to provide you with an updated
+     version of the Document.
+
+  4. MODIFICATIONS
+
+     You may copy and distribute a Modified Version of the Document
+     under the conditions of sections 2 and 3 above, provided that you
+     release the Modified Version under precisely this License, with
+     the Modified Version filling the role of the Document, thus
+     licensing distribution and modification of the Modified Version to
+     whoever possesses a copy of it.  In addition, you must do these
+     things in the Modified Version:
+
+       A. Use in the Title Page (and on the covers, if any) a title
+          distinct from that of the Document, and from those of
+          previous versions (which should, if there were any, be listed
+          in the History section of the Document).  You may use the
+          same title as a previous version if the original publisher of
+          that version gives permission.
+
+       B. List on the Title Page, as authors, one or more persons or
+          entities responsible for authorship of the modifications in
+          the Modified Version, together with at least five of the
+          principal authors of the Document (all of its principal
+          authors, if it has fewer than five), unless they release you
+          from this requirement.
+
+       C. State on the Title page the name of the publisher of the
+          Modified Version, as the publisher.
+
+       D. Preserve all the copyright notices of the Document.
+
+       E. Add an appropriate copyright notice for your modifications
+          adjacent to the other copyright notices.
+
+       F. Include, immediately after the copyright notices, a license
+          notice giving the public permission to use the Modified
+          Version under the terms of this License, in the form shown in
+          the Addendum below.
+
+       G. Preserve in that license notice the full lists of Invariant
+          Sections and required Cover Texts given in the Document's
+          license notice.
+
+       H. Include an unaltered copy of this License.
+
+       I. Preserve the section Entitled "History", Preserve its Title,
+          and add to it an item stating at least the title, year, new
+          authors, and publisher of the Modified Version as given on
+          the Title Page.  If there is no section Entitled "History" in
+          the Document, create one stating the title, year, authors,
+          and publisher of the Document as given on its Title Page,
+          then add an item describing the Modified Version as stated in
+          the previous sentence.
+
+       J. Preserve the network location, if any, given in the Document
+          for public access to a Transparent copy of the Document, and
+          likewise the network locations given in the Document for
+          previous versions it was based on.  These may be placed in
+          the "History" section.  You may omit a network location for a
+          work that was published at least four years before the
+          Document itself, or if the original publisher of the version
+          it refers to gives permission.
+
+       K. For any section Entitled "Acknowledgements" or "Dedications",
+          Preserve the Title of the section, and preserve in the
+          section all the substance and tone of each of the contributor
+          acknowledgements and/or dedications given therein.
+
+       L. Preserve all the Invariant Sections of the Document,
+          unaltered in their text and in their titles.  Section numbers
+          or the equivalent are not considered part of the section
+          titles.
+
+       M. Delete any section Entitled "Endorsements".  Such a section
+          may not be included in the Modified Version.
+
+       N. Do not retitle any existing section to be Entitled
+          "Endorsements" or to conflict in title with any Invariant
+          Section.
+
+       O. Preserve any Warranty Disclaimers.
+
+     If the Modified Version includes new front-matter sections or
+     appendices that qualify as Secondary Sections and contain no
+     material copied from the Document, you may at your option
+     designate some or all of these sections as invariant.  To do this,
+     add their titles to the list of Invariant Sections in the Modified
+     Version's license notice.  These titles must be distinct from any
+     other section titles.
+
+     You may add a section Entitled "Endorsements", provided it contains
+     nothing but endorsements of your Modified Version by various
+     parties--for example, statements of peer review or that the text
+     has been approved by an organization as the authoritative
+     definition of a standard.
+
+     You may add a passage of up to five words as a Front-Cover Text,
+     and a passage of up to 25 words as a Back-Cover Text, to the end
+     of the list of Cover Texts in the Modified Version.  Only one
+     passage of Front-Cover Text and one of Back-Cover Text may be
+     added by (or through arrangements made by) any one entity.  If the
+     Document already includes a cover text for the same cover,
+     previously added by you or by arrangement made by the same entity
+     you are acting on behalf of, you may not add another; but you may
+     replace the old one, on explicit permission from the previous
+     publisher that added the old one.
+
+     The author(s) and publisher(s) of the Document do not by this
+     License give permission to use their names for publicity for or to
+     assert or imply endorsement of any Modified Version.
+
+  5. COMBINING DOCUMENTS
+
+     You may combine the Document with other documents released under
+     this License, under the terms defined in section 4 above for
+     modified versions, provided that you include in the combination
+     all of the Invariant Sections of all of the original documents,
+     unmodified, and list them all as Invariant Sections of your
+     combined work in its license notice, and that you preserve all
+     their Warranty Disclaimers.
+
+     The combined work need only contain one copy of this License, and
+     multiple identical Invariant Sections may be replaced with a single
+     copy.  If there are multiple Invariant Sections with the same name
+     but different contents, make the title of each such section unique
+     by adding at the end of it, in parentheses, the name of the
+     original author or publisher of that section if known, or else a
+     unique number.  Make the same adjustment to the section titles in
+     the list of Invariant Sections in the license notice of the
+     combined work.
+
+     In the combination, you must combine any sections Entitled
+     "History" in the various original documents, forming one section
+     Entitled "History"; likewise combine any sections Entitled
+     "Acknowledgements", and any sections Entitled "Dedications".  You
+     must delete all sections Entitled "Endorsements."
+
+  6. COLLECTIONS OF DOCUMENTS
+
+     You may make a collection consisting of the Document and other
+     documents released under this License, and replace the individual
+     copies of this License in the various documents with a single copy
+     that is included in the collection, provided that you follow the
+     rules of this License for verbatim copying of each of the
+     documents in all other respects.
+
+     You may extract a single document from such a collection, and
+     distribute it individually under this License, provided you insert
+     a copy of this License into the extracted document, and follow
+     this License in all other respects regarding verbatim copying of
+     that document.
+
+  7. AGGREGATION WITH INDEPENDENT WORKS
+
+     A compilation of the Document or its derivatives with other
+     separate and independent documents or works, in or on a volume of
+     a storage or distribution medium, is called an "aggregate" if the
+     copyright resulting from the compilation is not used to limit the
+     legal rights of the compilation's users beyond what the individual
+     works permit.  When the Document is included in an aggregate, this
+     License does not apply to the other works in the aggregate which
+     are not themselves derivative works of the Document.
+
+     If the Cover Text requirement of section 3 is applicable to these
+     copies of the Document, then if the Document is less than one half
+     of the entire aggregate, the Document's Cover Texts may be placed
+     on covers that bracket the Document within the aggregate, or the
+     electronic equivalent of covers if the Document is in electronic
+     form.  Otherwise they must appear on printed covers that bracket
+     the whole aggregate.
+
+  8. TRANSLATION
+
+     Translation is considered a kind of modification, so you may
+     distribute translations of the Document under the terms of section
+     4.  Replacing Invariant Sections with translations requires special
+     permission from their copyright holders, but you may include
+     translations of some or all Invariant Sections in addition to the
+     original versions of these Invariant Sections.  You may include a
+     translation of this License, and all the license notices in the
+     Document, and any Warranty Disclaimers, provided that you also
+     include the original English version of this License and the
+     original versions of those notices and disclaimers.  In case of a
+     disagreement between the translation and the original version of
+     this License or a notice or disclaimer, the original version will
+     prevail.
+
+     If a section in the Document is Entitled "Acknowledgements",
+     "Dedications", or "History", the requirement (section 4) to
+     Preserve its Title (section 1) will typically require changing the
+     actual title.
+
+  9. TERMINATION
+
+     You may not copy, modify, sublicense, or distribute the Document
+     except as expressly provided for under this License.  Any other
+     attempt to copy, modify, sublicense or distribute the Document is
+     void, and will automatically terminate your rights under this
+     License.  However, parties who have received copies, or rights,
+     from you under this License will not have their licenses
+     terminated so long as such parties remain in full compliance.
+
+ 10. FUTURE REVISIONS OF THIS LICENSE
+
+     The Free Software Foundation may publish new, revised versions of
+     the GNU Free Documentation License from time to time.  Such new
+     versions will be similar in spirit to the present version, but may
+     differ in detail to address new problems or concerns.  See
+     `http://www.gnu.org/copyleft/'.
+
+     Each version of the License is given a distinguishing version
+     number.  If the Document specifies that a particular numbered
+     version of this License "or any later version" applies to it, you
+     have the option of following the terms and conditions either of
+     that specified version or of any later version that has been
+     published (not as a draft) by the Free Software Foundation.  If
+     the Document does not specify a version number of this License,
+     you may choose any version ever published (not as a draft) by the
+     Free Software Foundation.
+
+14.2.1 ADDENDUM: How to use this License for your documents
+-----------------------------------------------------------
+
+To use this License in a document you have written, include a copy of
+the License in the document and put the following copyright and license
+notices just after the title page:
+
+       Copyright (C)  YEAR  YOUR NAME.
+       Permission is granted to copy, distribute and/or modify this document
+       under the terms of the GNU Free Documentation License, Version 1.2
+       or any later version published by the Free Software Foundation;
+       with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+       Texts.  A copy of the license is included in the section entitled ``GNU
+       Free Documentation License''.
+
+   If you have Invariant Sections, Front-Cover Texts and Back-Cover
+Texts, replace the "with...Texts." line with this:
+
+         with the Invariant Sections being LIST THEIR TITLES, with
+         the Front-Cover Texts being LIST, and with the Back-Cover Texts
+         being LIST.
+
+   If you have Invariant Sections without Cover Texts, or some other
+combination of the three, merge those two alternatives to suit the
+situation.
+
+   If your document contains nontrivial examples of program code, we
+recommend releasing these examples in parallel under your choice of
+free software license, such as the GNU General Public License, to
+permit their use in free software.
+
+
+File: freetalk.info,  Node: Concept Index,  Next: Command Index,  Prev: Portability,  Up: Top
+
+Concept Index
+*************
+
+ [index ]
+* Menu:
+
+* AUTHORS:                               Authors.              (line 33)
+* Command line arguments:                Invoking.             (line 25)
+* Customization:                         Customization.        (line 18)
+* Extension language:                    Extension language.   (line 20)
+* FDL, GNU Free Documentation License:   Freetalk Documentation License.
+                                                               (line  9)
+* Features:                              Overview.             (line 30)
+* freetalk URLs:                         URLs.                 (line 47)
+* freetalk.scm:                          freetalk.scm.         (line 23)
+* Guile:                                 Extension language.   (line 20)
+* init.scm:                              init.scm.             (line 12)
+* Initialization:                        init.scm.             (line 12)
+* Overriding extensions:                 Default Scheme extensions.
+                                                               (line 11)
+* Portability:                           Portability.          (line 14)
+* Readline in freetalk:                  Tips and Tricks.      (line 39)
+* Startup:                               freetalk.scm.         (line 23)
+* Submitting patches:                    Guidelines for submitting a patch.
+                                                               (line 19)
+
+
+File: freetalk.info,  Node: Command Index,  Next: Procedure Index,  Prev: Concept Index,  Up: Top
+
+Command Index
+*************
+
+ [index ]
+* Menu:
+
+* add:                                   add.                  (line 13)
+* allow:                                 allow.                (line 13)
+* broadcast:                             broadcast.            (line 11)
+* burst:                                 burst.                (line 15)
+* burst-of-romance:                      burst-of-romance.     (line 13)
+* connect:                               connect.              (line 18)
+* date:                                  date.                 (line  9)
+* deny:                                  deny.                 (line 11)
+* disconnect:                            disconnect.           (line 12)
+* freetalk:                              freetalk.             (line 17)
+* greet:                                 greet.                (line 14)
+* help:                                  help.                 (line 17)
+* history:                               history.              (line 22)
+* jid:                                   jid.                  (line 17)
+* load:                                  load.                 (line 21)
+* login:                                 login.                (line 20)
+* logout:                                logout.               (line 14)
+* pipe:                                  pipe.                 (line 11)
+* port:                                  port.                 (line 14)
+* prompt:                                prompt.               (line 11)
+* proxyport:                             proxyport.            (line 16)
+* proxyserver:                           proxyserver.          (line 16)
+* quit:                                  quit.                 (line 11)
+* repl:                                  repl.                 (line 15)
+* restart:                               restart.              (line 12)
+* server:                                server.               (line 16)
+* setup:                                 setup.                (line 19)
+* shell:                                 shell.                (line 24)
+* status:                                status.               (line 15)
+* urlview:                               urlview.              (line 19)
+* version:                               version.              (line 18)
+* who:                                   who.                  (line 19)
+* whoami:                                whoami.               (line 17)
+
+
+File: freetalk.info,  Node: Procedure Index,  Prev: Command Index,  Up: Top
+
+Procedure Index
+***************
+
+ [index ]
+* Menu:
+
+* ft-add-buddy!:                         General procedures.   (line 19)
+* ft-bind-to-ctrl-key:                   General procedures.   (line 79)
+* ft-disconnect-hook:                    Hooks.                (line 45)
+* ft-display:                            General procedures.   (line 71)
+* ft-get-conn-status:                    General procedures.   (line 39)
+* ft-get-jid:                            General procedures.   (line 25)
+* ft-get-password:                       General procedures.   (line 45)
+* ft-get-server:                         General procedures.   (line 51)
+* ft-hook-return:                        Hook related procedures.
+                                                               (line 14)
+* ft-load:                               General procedures.   (line 13)
+* ft-message-receive-hook:               Hooks.                (line 28)
+* ft-message-send-hook:                  Hooks.                (line 18)
+* ft-presence-receive-hook:              Hooks.                (line 38)
+* ft-send-message:                       General procedures.   (line 63)
+* ft-set-jid!:                           General procedures.   (line 31)
+* ft-set-sslconn!:                       General procedures.   (line 57)
+
+
+
+Tag Table:
+Node: Top455
+Node: Overview1589
+Node: Invoking2736
+Node: Commands3419
+Node: connect5577
+Node: disconnect6018
+Node: server6358
+Node: jid6794
+Node: add7290
+Node: allow7604
+Node: deny7984
+Node: quit8262
+Node: restart8501
+Node: prompt8822
+Node: pipe9094
+Node: port9413
+Node: shell9725
+Node: date10545
+Node: who10808
+Node: status11307
+Node: whoami11698
+Node: version12110
+Node: logout12531
+Node: history12887
+Node: load13474
+Node: setup14094
+Node: login14585
+Node: help15112
+Node: repl15610
+Node: urlview16011
+Node: freetalk16532
+Node: greet16934
+Node: burst17333
+Node: burst-of-romance17797
+Node: broadcast18243
+Node: proxyserver18574
+Node: proxyport19079
+Node: Customization19587
+Node: freetalk.scm20280
+Node: init.scm21266
+Node: Default Scheme extensions21764
+Node: Tips and Tricks22148
+Node: Tips and Tricks-Footnotes23788
+Ref: Tips and Tricks-Footnote-123867
+Node: Extension language23976
+Node: Variables24992
+Node: Procedures25259
+Node: General procedures25779
+Ref: ft-load25977
+Node: Configuration procedures28067
+Node: Hook related procedures28258
+Ref: ft-hook-return28497
+Node: Hook related procedures-Footnotes28626
+Ref: Hook related procedures-Footnote-128721
+Node: Utility procedures28760
+Node: Utility procedures-Footnotes29029
+Ref: Utility procedures-Footnote-129114
+Node: Hooks29248
+Node: Learning further30259
+Node: Authors31438
+Node: URLs32135
+Node: Guidelines for submitting a patch33912
+Node: Portability34610
+Node: Freetalk License35317
+Node: Freetalk Documentation License54613
+Node: Concept Index77129
+Node: Command Index78662
+Node: Procedure Index81223
+
+End Tag Table

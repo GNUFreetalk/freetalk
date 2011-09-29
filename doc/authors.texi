@@ -1,0 +1,24 @@
+@section FreeTalk Contributors (sorted alphabetically)
+
+@subsection Core team
+@multitable @columnfractions 0.03 0.25 0.35
+@item 1. @tab Anand Avati @tab @email{avati@@zresearch.com}
+@item 2. @tab Anand Babu @tab @email{ab@@zresearch.com}
+@item 3. @tab Harshavardhana @tab @email{harsha@@zresearch.com}
+@item 4. @tab Vikas Gorur @tab @email{vikas@@zresearch.com}
+@end multitable
+
+@subsection Documentation
+@multitable @columnfractions 0.03 0.25 0.35
+@item 1. @tab Harshavardhana @tab @email{harsha@@zresearch.com}
+@end multitable
+
+@subsection Packaging
+@multitable @columnfractions 0.03 0.25 0.40 0.35
+@c @item 1. @tab First Last @tab @email{user@domain.dom} @tab Debian GNU/Linux
+@end multitable
+
+@subsection contact point
+@multitable @columnfractions 0.03 0.25 0.35
+@item 1. @tab FreeTalk @tab @email{freetalk-dev@@gnu.org}
+@end multitable

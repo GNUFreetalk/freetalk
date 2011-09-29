@@ -1,0 +1,336 @@
+# English translations for freetalk package.
+# This file is put in the public domain.
+# Automatically generated, 2008.
+#
+# All this catalog "translates" are quotation characters.
+# The msgids must be ASCII and therefore cannot contain real quotation
+# characters, only substitutes like grave accent (0x60), apostrophe (0x27)
+# and double quote (0x22). These substitutes look strange; see
+# http://www.cl.cam.ac.uk/~mgk25/ucs/quotes.html
+#
+# This catalog translates grave accent (0x60) and apostrophe (0x27) to
+# left single quotation mark (U+2018) and right single quotation mark (U+2019).
+# It also translates pairs of apostrophe (0x27) to
+# left single quotation mark (U+2018) and right single quotation mark (U+2019)
+# and pairs of quotation mark (0x22) to
+# left double quotation mark (U+201C) and right double quotation mark (U+201D).
+#
+# When output to an UTF-8 terminal, the quotation characters appear perfectly.
+# When output to an ISO-8859-1 terminal, the single quotation marks are
+# transliterated to apostrophes (by iconv in glibc 2.2 or newer) or to
+# grave/acute accent (by libiconv), and the double quotation marks are
+# transliterated to 0x22.
+# When output to an ASCII terminal, the single quotation marks are
+# transliterated to apostrophes, and the double quotation marks are
+# transliterated to 0x22.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: freetalk 3.2\n"
+"Report-Msgid-Bugs-To: freetalk-dev@gnu.org\n"
+"POT-Creation-Date: 2008-11-15 02:44-0800\n"
+"PO-Revision-Date: 2008-11-15 02:44-0800\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/freetalk.cc:73
+msgid "No such command or buddy. See /help"
+msgstr "No such command or buddy. See /help"
+
+#: src/callbacks.cc:73 src/commands.cc:159
+msgid "Connected."
+msgstr "Connected."
+
+#: src/callbacks.cc:78 src/commands.cc:155
+msgid "Could not connect."
+msgstr "Could not connect."
+
+#: src/callbacks.cc:82 src/commands.cc:163
+msgid "Authenticating ..."
+msgstr "Authenticating ..."
+
+#: src/callbacks.cc:135
+#, c-format
+msgid "[message of type '%s']"
+msgstr "[message of type '%s']"
+
+#: src/callbacks.cc:235
+#, c-format
+msgid "[iq received: %s (unhandled yet)]"
+msgstr "[iq received: %s (unhandled yet)]"
+
+#: src/callbacks.cc:241
+msgid "[iq received: (unhandled yet)]"
+msgstr "[iq received: (unhandled yet)]"
+
+#: src/commands.cc:110 src/commands.cc:152
+msgid "Connecting ..."
+msgstr "Connecting ..."
+
+#: src/primitives.cc:301
+msgid "Not connected, (use /connect)"
+msgstr "Not connected, (use /connect)"
+
+#: src/roster.cc:99 src/roster.cc:113
+msgid "none"
+msgstr "none"
+
+#: src/roster.cc:101
+msgid "pending"
+msgstr "pending"
+
+#: src/roster.cc:103
+msgid "from"
+msgstr "from"
+
+#: src/roster.cc:105
+msgid "from + pending"
+msgstr "from + pending"
+
+#: src/roster.cc:107
+msgid "to"
+msgstr "to"
+
+#: src/roster.cc:109
+msgid "both"
+msgstr "both"
+
+#: src/roster.cc:191
+#, c-format
+msgid "[%s nickname: %s -> %s]"
+msgstr "[%s nickname: %s -> %s]"
+
+#: src/roster.cc:198
+#, c-format
+msgid "[%s subscription: %s -> %s]"
+msgstr "[%s subscription: %s -> %s]"
+
+#: src/roster.cc:207
+#, c-format
+msgid "[%s removed from buddy list]"
+msgstr "[%s removed from buddy list]"
+
+#: extensions/color.scm:140
+msgid " BUDDY coloring enabled "
+msgstr " BUDDY coloring enabled "
+
+#: extensions/color.scm:147
+msgid " BUDDY coloring disabled "
+msgstr " BUDDY coloring disabled "
+
+#: extensions/connection.scm:23
+msgid "Already connected"
+msgstr "Already connected"
+
+#: extensions/connection.scm:24
+msgid "Server not set"
+msgstr "Server not set"
+
+#: extensions/connection.scm:25
+msgid "JID not set"
+msgstr "JID not set"
+
+#: extensions/connection.scm:26
+msgid "SSL support not available"
+msgstr "SSL support not available"
+
+#: extensions/connection.scm:27
+msgid "Proxy Server not set"
+msgstr "Proxy Server not set"
+
+#: extensions/connection.scm:28
+msgid "Error, could not connect : "
+msgstr "Error, could not connect : "
+
+#: extensions/connection.scm:67
+msgid "Enable TLS/SSL (Y/N)? [Y]: "
+msgstr "Enable TLS/SSL (Y/N)? [Y]: "
+
+#: extensions/connection.scm:84
+msgid "Port ["
+msgstr "Port ["
+
+#: extensions/connection.scm:91
+msgid "Enable Proxy (Y/N)? [Y]: "
+msgstr "Enable Proxy (Y/N)? [Y]: "
+
+#: extensions/connection.scm:99
+msgid "ProxyServer: "
+msgstr "ProxyServer: "
+
+#: extensions/connection.scm:104
+msgid "ProxyPort ["
+msgstr "ProxyPort ["
+
+#: extensions/connection.scm:111
+msgid "ProxyUsername: "
+msgstr "ProxyUsername: "
+
+#: extensions/connection.scm:125
+msgid "Already Logged in. /disconnect first"
+msgstr "Already Logged in. /disconnect first"
+
+#: extensions/connection.scm:154
+msgid "Could not login."
+msgstr "Could not login."
+
+#: extensions/dyn-commands.scm:30
+msgid "freetalk: error: command ["
+msgstr "freetalk: error: command ["
+
+#: extensions/dyn-commands.scm:32
+msgid "] not bound to any procedure\n"
+msgstr "] not bound to any procedure\n"
+
+#: extensions/dyn-commands.scm:54
+msgid "no such command\n"
+msgstr "no such command\n"
+
+#: extensions/file-transfer.scm:23
+msgid "No file to send"
+msgstr "No file to send"
+
+#: extensions/file-transfer.scm:31
+msgid "Bad ID\n"
+msgstr "Bad ID\n"
+
+#: extensions/file-transfer.scm:36
+msgid "Invalid filename\n"
+msgstr "Invalid filename\n"
+
+#: extensions/file-transfer.scm:50
+msgid "Missing cookie number"
+msgstr "Missing cookie number"
+
+#: extensions/file-transfer.scm:58
+msgid "[use /allow-file "
+msgstr "[use /allow-file "
+
+#: extensions/file-transfer.scm:58
+msgid " [file-name] to accept]"
+msgstr " [file-name] to accept]"
+
+#: extensions/file-transfer.scm:61
+msgid " does not support IBB for file transfer]"
+msgstr " does not support IBB for file transfer]"
+
+#: extensions/file-transfer.scm:62
+msgid "[failed to open file "
+msgstr "[failed to open file "
+
+#: extensions/proud-of-freetalk.scm:33
+msgid "Told ["
+msgstr "Told ["
+
+#: extensions/proud-of-freetalk.scm:35
+msgid "] that I'm proud of using Freetalk"
+msgstr "] that I'm proud of using Freetalk"
+
+#: extensions/proud-of-freetalk.scm:50
+msgid "Yes ["
+msgstr "Yes ["
+
+#: extensions/proud-of-freetalk.scm:50 extensions/proud-of-freetalk.scm:56
+msgid "] is using ["
+msgstr "] is using ["
+
+#: extensions/proud-of-freetalk.scm:56
+msgid "No, but ["
+msgstr "No, but ["
+
+#: extensions/proud-of-freetalk.scm:69
+msgid "proud-of-freetalk.scm: wrong number of arguments to /freetalk\n"
+msgstr "proud-of-freetalk.scm: wrong number of arguments to /freetalk\n"
+
+#: extensions/roster.scm:21 extensions/roster.scm:30 extensions/roster.scm:79
+#: extensions/roster.scm:86 extensions/roster.scm:92
+msgid "Incomplete syntax"
+msgstr "Incomplete syntax"
+
+#: extensions/roster.scm:70
+msgid "Jabber ID: "
+msgstr "Jabber ID: "
+
+#: extensions/roster.scm:71
+msgid "Jabber Server: "
+msgstr "Jabber Server: "
+
+#: extensions/roster.scm:72
+msgid "Status: "
+msgstr "Status: "
+
+#: extensions/roster.scm:113
+msgid " is now"
+msgstr " is now"
+
+#: extensions/roster.scm:115
+msgid " Online"
+msgstr " Online"
+
+#: extensions/roster.scm:116
+msgid " Offline"
+msgstr " Offline"
+
+#: extensions/roster.scm:126
+msgid "[Buddy request recieved from "
+msgstr "[Buddy request recieved from "
+
+#: extensions/roster.scm:126
+msgid " use /allow or /deny]"
+msgstr " use /allow or /deny]"
+
+#: extensions/roster.scm:127
+msgid "[Use /add "
+msgstr "[Use /add "
+
+#: extensions/roster.scm:127
+msgid " to add him/her to your buddy list]"
+msgstr " to add him/her to your buddy list]"
+
+#: extensions/shell.scm:28
+msgid "Press \"C-d\" to get back to freetalk"
+msgstr "Press “C-d” to get back to freetalk"
+
+#: extensions/utils.scm:25
+msgid "freetalk (FreeTalk) "
+msgstr "freetalk (FreeTalk) "
+
+#: extensions/utils.scm:26
+msgid "Copyright (C) 2005, 2006 FreeTalk Core Team.\n"
+msgstr "Copyright (C) 2005, 2006 FreeTalk Core Team.\n"
+
+#: extensions/utils.scm:27
+msgid ""
+"This is free software; see the source for copying conditions.  There is NO "
+"warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
+msgstr ""
+"This is free software; see the source for copying conditions.  There is NO "
+"warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
+
+#: extensions/broadcast.scm:40
+msgid "usage: /broadcast [MESSAGE]"
+msgstr "usage: /broadcast [MESSAGE]"
+
+#: extensions/pipe.scm:40
+msgid "usage: /pipe BUDDY COMMAND [OPTIONS]"
+msgstr "usage: /pipe BUDDY COMMAND [OPTIONS]"
+
+#: extensions/state.scm:76
+msgid "usage: /load [FILE]"
+msgstr "usage: /load [FILE]"
+
+#: extensions/hacker-romance.scm:45
+msgid "usage: /burst-of-romance BUDDY COUNT MESSAGE"
+msgstr "usage: /burst-of-romance BUDDY COUNT MESSAGE"
+
+#: extensions/hacker-romance.scm:76
+msgid "usage: /burst BUDDY MESSAGE"
+msgstr "usage: /burst BUDDY MESSAGE"
+
+#: extensions/hacker-romance.scm:88
+msgid "usage: /greet BUDDY"
+msgstr "usage: /greet BUDDY"

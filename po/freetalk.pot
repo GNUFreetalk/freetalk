@@ -1,0 +1,312 @@
+# SOME DESCRIPTIVE TITLE.
+# This file is put in the public domain.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: freetalk-dev@gnu.org\n"
+"POT-Creation-Date: 2008-11-15 02:44-0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/freetalk.cc:73
+msgid "No such command or buddy. See /help"
+msgstr ""
+
+#: src/callbacks.cc:73 src/commands.cc:159
+msgid "Connected."
+msgstr ""
+
+#: src/callbacks.cc:78 src/commands.cc:155
+msgid "Could not connect."
+msgstr ""
+
+#: src/callbacks.cc:82 src/commands.cc:163
+msgid "Authenticating ..."
+msgstr ""
+
+#: src/callbacks.cc:135
+#, c-format
+msgid "[message of type '%s']"
+msgstr ""
+
+#: src/callbacks.cc:235
+#, c-format
+msgid "[iq received: %s (unhandled yet)]"
+msgstr ""
+
+#: src/callbacks.cc:241
+msgid "[iq received: (unhandled yet)]"
+msgstr ""
+
+#: src/commands.cc:110 src/commands.cc:152
+msgid "Connecting ..."
+msgstr ""
+
+#: src/primitives.cc:301
+msgid "Not connected, (use /connect)"
+msgstr ""
+
+#: src/roster.cc:99 src/roster.cc:113
+msgid "none"
+msgstr ""
+
+#: src/roster.cc:101
+msgid "pending"
+msgstr ""
+
+#: src/roster.cc:103
+msgid "from"
+msgstr ""
+
+#: src/roster.cc:105
+msgid "from + pending"
+msgstr ""
+
+#: src/roster.cc:107
+msgid "to"
+msgstr ""
+
+#: src/roster.cc:109
+msgid "both"
+msgstr ""
+
+#: src/roster.cc:191
+#, c-format
+msgid "[%s nickname: %s -> %s]"
+msgstr ""
+
+#: src/roster.cc:198
+#, c-format
+msgid "[%s subscription: %s -> %s]"
+msgstr ""
+
+#: src/roster.cc:207
+#, c-format
+msgid "[%s removed from buddy list]"
+msgstr ""
+
+#: extensions/color.scm:140
+msgid " BUDDY coloring enabled "
+msgstr ""
+
+#: extensions/color.scm:147
+msgid " BUDDY coloring disabled "
+msgstr ""
+
+#: extensions/connection.scm:23
+msgid "Already connected"
+msgstr ""
+
+#: extensions/connection.scm:24
+msgid "Server not set"
+msgstr ""
+
+#: extensions/connection.scm:25
+msgid "JID not set"
+msgstr ""
+
+#: extensions/connection.scm:26
+msgid "SSL support not available"
+msgstr ""
+
+#: extensions/connection.scm:27
+msgid "Proxy Server not set"
+msgstr ""
+
+#: extensions/connection.scm:28
+msgid "Error, could not connect : "
+msgstr ""
+
+#: extensions/connection.scm:67
+msgid "Enable TLS/SSL (Y/N)? [Y]: "
+msgstr ""
+
+#: extensions/connection.scm:84
+msgid "Port ["
+msgstr ""
+
+#: extensions/connection.scm:91
+msgid "Enable Proxy (Y/N)? [Y]: "
+msgstr ""
+
+#: extensions/connection.scm:99
+msgid "ProxyServer: "
+msgstr ""
+
+#: extensions/connection.scm:104
+msgid "ProxyPort ["
+msgstr ""
+
+#: extensions/connection.scm:111
+msgid "ProxyUsername: "
+msgstr ""
+
+#: extensions/connection.scm:125
+msgid "Already Logged in. /disconnect first"
+msgstr ""
+
+#: extensions/connection.scm:154
+msgid "Could not login."
+msgstr ""
+
+#: extensions/dyn-commands.scm:30
+msgid "freetalk: error: command ["
+msgstr ""
+
+#: extensions/dyn-commands.scm:32
+msgid "] not bound to any procedure\n"
+msgstr ""
+
+#: extensions/dyn-commands.scm:54
+msgid "no such command\n"
+msgstr ""
+
+#: extensions/file-transfer.scm:23
+msgid "No file to send"
+msgstr ""
+
+#: extensions/file-transfer.scm:31
+msgid "Bad ID\n"
+msgstr ""
+
+#: extensions/file-transfer.scm:36
+msgid "Invalid filename\n"
+msgstr ""
+
+#: extensions/file-transfer.scm:50
+msgid "Missing cookie number"
+msgstr ""
+
+#: extensions/file-transfer.scm:58
+msgid "[use /allow-file "
+msgstr ""
+
+#: extensions/file-transfer.scm:58
+msgid " [file-name] to accept]"
+msgstr ""
+
+#: extensions/file-transfer.scm:61
+msgid " does not support IBB for file transfer]"
+msgstr ""
+
+#: extensions/file-transfer.scm:62
+msgid "[failed to open file "
+msgstr ""
+
+#: extensions/proud-of-freetalk.scm:33
+msgid "Told ["
+msgstr ""
+
+#: extensions/proud-of-freetalk.scm:35
+msgid "] that I'm proud of using Freetalk"
+msgstr ""
+
+#: extensions/proud-of-freetalk.scm:50
+msgid "Yes ["
+msgstr ""
+
+#: extensions/proud-of-freetalk.scm:50 extensions/proud-of-freetalk.scm:56
+msgid "] is using ["
+msgstr ""
+
+#: extensions/proud-of-freetalk.scm:56
+msgid "No, but ["
+msgstr ""
+
+#: extensions/proud-of-freetalk.scm:69
+msgid "proud-of-freetalk.scm: wrong number of arguments to /freetalk\n"
+msgstr ""
+
+#: extensions/roster.scm:21 extensions/roster.scm:30 extensions/roster.scm:79
+#: extensions/roster.scm:86 extensions/roster.scm:92
+msgid "Incomplete syntax"
+msgstr ""
+
+#: extensions/roster.scm:70
+msgid "Jabber ID: "
+msgstr ""
+
+#: extensions/roster.scm:71
+msgid "Jabber Server: "
+msgstr ""
+
+#: extensions/roster.scm:72
+msgid "Status: "
+msgstr ""
+
+#: extensions/roster.scm:113
+msgid " is now"
+msgstr ""
+
+#: extensions/roster.scm:115
+msgid " Online"
+msgstr ""
+
+#: extensions/roster.scm:116
+msgid " Offline"
+msgstr ""
+
+#: extensions/roster.scm:126
+msgid "[Buddy request recieved from "
+msgstr ""
+
+#: extensions/roster.scm:126
+msgid " use /allow or /deny]"
+msgstr ""
+
+#: extensions/roster.scm:127
+msgid "[Use /add "
+msgstr ""
+
+#: extensions/roster.scm:127
+msgid " to add him/her to your buddy list]"
+msgstr ""
+
+#: extensions/shell.scm:28
+msgid "Press \"C-d\" to get back to freetalk"
+msgstr ""
+
+#: extensions/utils.scm:25
+msgid "freetalk (FreeTalk) "
+msgstr ""
+
+#: extensions/utils.scm:26
+msgid "Copyright (C) 2005, 2006 FreeTalk Core Team.\n"
+msgstr ""
+
+#: extensions/utils.scm:27
+msgid ""
+"This is free software; see the source for copying conditions.  There is NO "
+"warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
+msgstr ""
+
+#: extensions/broadcast.scm:40
+msgid "usage: /broadcast [MESSAGE]"
+msgstr ""
+
+#: extensions/pipe.scm:40
+msgid "usage: /pipe BUDDY COMMAND [OPTIONS]"
+msgstr ""
+
+#: extensions/state.scm:76
+msgid "usage: /load [FILE]"
+msgstr ""
+
+#: extensions/hacker-romance.scm:45
+msgid "usage: /burst-of-romance BUDDY COUNT MESSAGE"
+msgstr ""
+
+#: extensions/hacker-romance.scm:76
+msgid "usage: /burst BUDDY MESSAGE"
+msgstr ""
+
+#: extensions/hacker-romance.scm:88
+msgid "usage: /greet BUDDY"
+msgstr ""

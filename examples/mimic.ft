@@ -1,0 +1,11 @@
+#!/usr/bin/freetalk -s
+!#
+
+; This FreeTalk script mimics the actual freetalk interactive mode
+; except handling command line arguments
+
+(ft-load "init.scm")
+(ft-load-default-config)
+(ft-load "login.scm")
+(ft-cli-on)
+(ft-main-loop)

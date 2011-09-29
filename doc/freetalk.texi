@@ -1,0 +1,1285 @@
+\input texinfo @c -*-texinfo-*-
+@c %**start of header
+@setfilename freetalk.info
+@settitle Freetalk
+@footnotestyle separate
+@c %**end of header
+
+@include version.texi
+
+@dircategory Freetalk@!
+@direntry
+* freetalk: (freetalk).         Freetalk user/developers guide
+@end direntry
+
+@ifinfo
+@noindent This file documents Freetalk version @value{VERSION}.
+Freetalk is a freely available console based Jabber client-cum-bot powered
+by GNU Guile, GNU Readline and Loudmouth.
+
+Copyright @copyright{} 2005, 2007 Freetalk Core Team http://www.gnu.org/software/freetalk
+
+@end ifinfo
+
+@c @include permissions.texi
+
+@titlepage
+@title Freetalk version @value{VERSION}
+@subtitle User/Developers guide, @value{UPDATED}
+@author Harshavardhana Ranganath @email{harsha@@80x25.org}
+
+
+@page
+@vskip 0pt plus 1filll
+Copyright @copyright{} 2005, 2007 Freetalk Core Team
+@sp 2
+This is the first edition of the Freetalk documentation.
+@sp 2
+
+Permission is granted to make and distribute verbatim copies of this
+manual provided the copyright notice and this permission notice are
+preserved on all copies.
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+
+Permission is granted to copy and distribute translations of this
+manual into another language, under the above conditions for modified
+versions, except that this permission notice may be stated in a
+translation approved by the Free Software Foundation.
+@end titlepage
+
+@c define command index
+@defcodeindex cm
+@c define procedure index
+@defcodeindex pr
+
+@page
+@contents
+
+@ifinfo
+@node Top, Overview, (dir), (dir)
+@top Freetalk@! @value{VERSION}
+
+@noindent This file documents Freetalk version @value{VERSION}.
+Freetalk is a freely available console based Jabber client-cum-bot powered
+by GNU Guile, GNU Readline and Loudmouth.
+
+@c @noindent Copyright @copyright{} 2005, 2007 Freetalk core team
+@menu
+* Overview::                    These are features of Freetalk
+* Invoking::                    Command line arguments
+* Commands::                    List of Freetalk commands
+* Customization::               Customizing Freetalk
+* Tips and Tricks::             Cool tips and tricks
+
+
+Extension Developer Guide (Advanced)
+
+* Extension language::          About an extension language
+* Variables::                   
+* Procedures::                  Freetalk exported Scheme primitives
+* Hooks::                       Freetalk exported Scheme hooks
+* Learning further::            Guile and Scheme URLs
+
+
+Miscellaneous
+
+* Authors::                     Freetalk contributors
+* URLs::                        Mailing list, Downloads, CVS
+* Guidelines for submitting a patch::  
+* Portability::                 Porting Freetalk
+* Concept Index::               
+* Command Index::               
+* Procedure Index::             
+@end menu
+@end ifinfo
+
+
+@node Overview, Invoking, Top, Top
+@chapter Overview
+Freetalk is a freely available console based Jabber client-cum-bot.
+It has many features, but to highlight,
+
+@itemize @bullet
+@item
+Highly extensible through @samp{Scheme} language.
+(@pxref{Customization})@ (@pxref{Extension language})
+
+@item
+Console based client with Readline interface featuring command line
+editing, history, context sensitive autocompletion etc @dots{} (@pxref{Tips and Tricks}).
+
+@item
+Most of the features in Freetalk are fully customizable, either
+through command line arguments (@pxref{Invoking}), or startup file
+(@pxref{freetalk.scm})
+
+
+@item
+With a new concept called @samp{dynamic-commands}, a command can
+appear and disappear dynamically, based on the context.
+
+@item
+@code{history} feature records all your conversions in
+@file{~/.freetalk/history/@var{login-id}/@var{buddy-name}}.
+
+@item
+Finally, Freetalk is free software.  This means that everyone may use
+it, redistribute it and/or modify it under the terms of the GNU
+General Public License, as published by the Free Software Foundation
+(@pxref{Freetalk License})
+@end itemize
+@cindex Features
+
+
+@node Invoking, Commands, Overview, Top
+@chapter Invoking
+Invoking Freetalk at command prompt is very simple.  The following are
+the possible command-line arguments supported,
+
+@itemize @bullet
+freetalk [@var{options}]@*
+where @var{options} are,
+
+@item
+-j=@var{Jabber-id} | --jid=@var{Jabber-id}@*
+@var{Jabber-id} is your Jabber ID.
+
+@item
+-s=@var{SCRIPT-FILE} | --script=@var{SCRIPT-FILE}@*
+Invoke script/bot mode with @var{SCRIPT-FILE} as the source.
+
+@item
+-V | --version@*
+Gives the current version of Freetalk.  This option does not accept
+any argument.
+
+@item
+-? | --help | --usage@*
+Gives a brief help on the above options.  This option does not accept
+any argument.
+@end itemize
+@cindex Command line arguments
+
+@node Commands, Customization, Invoking, Top
+@chapter Freetalk commands
+@menu
+* connect::                     Connect to jabber server.     
+* disconnect::                  Disconnect from the present server.
+* server::                      Specify the server to connect.
+* jid::                         Specify the jabber Id to connect. 
+* add::                         Add Buddies in your buddy list.
+* allow::                       Allow a buddy to see your status.
+* deny::                        Deny permission to a buddy to see your status.
+* quit::                        quit Freetalk.
+* restart::                     restart Freetalk.
+* prompt::                      sets the prompt.
+* pipe::                        send the output of command as message.
+* port::                        set server port for next connect command.
+* shell::                       run or escape to shell.
+* date::                        date command.
+* who::                         view buddy list.
+* status::                      
+* whoami::                      display current account info.
+* version::                     displays freetalk version information.
+* logout::                      same as disconnect.
+* history::                     display history page one by one.
+* load::                        load an extension file.
+* setup::                       setup a fresh ~/.freetalk
+* login::                       interactive to jabber server blocking.
+* help::                        displays help for all the commands.
+* repl::                        command used for debugging.
+* urlview::                     handle URL's in message archives.
+* freetalk::                    check whether a buddy is using freetalk.
+* greet::                       IRC style greeting message.
+* burst::                       explode chars in the message.
+* burst-of-romance::            simulate multiple hand-made kisses.
+* broadcast::                   broadcast a message to all the roster.
+* proxyserver::                 specify proxyserver for next connect.
+* proxyport::                   specify proxyport for next connect.
+@end menu
+
+
+@node connect, disconnect, Commands, Commands
+@section Freetalk command - connect
+@deffn command /connect
+Connect to the configured jabber server (see @command{/server}).  
+
+@example
+~\/~ /connect
+Connecting...
+~\/~  
+@end example
+
+If server is not configured, it displays an error message and stops
+
+@example
+~\/~ /connect
+Server not set
+~\/~
+@end example
+@end deffn
+@cmindex connect
+
+@node disconnect, server, connect, Commands
+@section Freetalk command - disconnect
+@deffn command /disconnect
+Disconnect from the currently connected server.
+
+@example
+~\/~ /disconnect
+Disconnected from @var{server}. Reason (0): User request
+~\/~ 
+@end example
+@end deffn
+@cmindex disconnect
+
+
+@node server, jid, disconnect, Commands
+@section Freetalk command - server
+@deffn command /server [servername]
+Specify the servername which you want to connect, or display the currently set server.
+
+@example
+~\/~ /server
+Current server:
+~\/~ /server jabber.org
+~\/~ /server
+Current server: jabber.org
+~\/~
+@end example
+@end deffn
+@cmindex server
+
+
+@node jid, add, server, Commands
+@section Freetalk command - jid
+@deffn command /jid [user@@domain[/resource]]
+Specify the Jabber ID which you want to use, or display the currently set Jabber ID.
+
+@example
+~\/~ /jid 
+Current JID: 
+~\/~ /jid avati@@jabber.org
+~\/~ /jid
+Current JID: avati@@jabber.org
+@end example
+This command is meant to be used when changing accounts and quick logins.
+@end deffn
+@cmindex jid
+
+
+@node add, allow, jid, Commands
+@section Freetalk command - add
+@deffn command /add user@@domain
+This command sends a buddy add request to user@@domain into your buddy list.
+
+@example
+~\/~ /add harshavardhanacool@@gmail.com
+~\/~
+@end example
+
+@end deffn
+@cmindex add
+
+@node allow, deny, add, Commands
+@section Freetalk command - allow
+@deffn command /allow user@@domain
+Allow the user to see (``subscribe to'') your status. Note that this command
+does not add the user to your buddy list; if you must do that, use /add.
+
+@example
+~\/~ /allow haddock@@marlinspike.org
+@end example
+
+@end deffn
+@cmindex allow
+
+@node deny, quit, allow, Commands
+@section Freetalk command - deny
+@deffn command /deny user@@domain
+Deny the user permission to see (``subscribe to'') your status.
+
+@example
+~\/~ /deny cacafonix@@village.gl
+@end example
+
+@end deffn
+@cmindex deny
+
+@node quit, restart, deny, Commands
+@section Freetalk command - quit
+@deffn command /quit message
+Quits Freetalk with a banner.
+
+@example
+~\/~ /quit 
+shell$
+@end example
+@end deffn
+@cmindex quit
+
+@node restart, prompt, quit, Commands
+@section Freetalk command - restart
+@deffn command /restart
+This command restarts Freetalk.
+
+@example
+~\/~ /restart
+Loading dictionary [/usr/share/dict/words]... [38619] words
+Jabber ID:
+
+@end example
+@end deffn
+@cmindex restart
+
+
+@node prompt, pipe, restart, Commands
+@section Freetalk command - prompt
+@deffn command /prompt [type]
+This command sets the prompt with specified @var{type}
+
+@example
+~\/~ /prompt ~qp~
+~qp~
+@end example
+@end deffn
+@cmindex prompt
+
+@node pipe, port, prompt, Commands
+@section Freetalk command - pipe
+
+@deffn command /pipe buddy command [options]
+Pipe the output of @var{command} to @var{buddy}. @var{options} are
+passed to @var{command}.
+
+@example
+~\/~> /pipe harsha@@gmail.com ls -alh 
+~\/~>
+@end example
+@end deffn
+@cmindex pipe
+
+@node port, shell, pipe, Commands
+@section Freetalk command - port
+@deffn command /port [port]
+@command{/port} command sets the specified TCP @var{port} to be used for the next @command{/connect}.
+
+Example:
+
+@example 
+~\/~> /port 995
+~\/~>
+@end example
+@end deffn
+@cmindex port
+
+@node shell, date, port, Commands
+@section Freetalk command - shell
+@deffn command /shell [command] [args @dots{}]
+@command{/shell} command executes the specified @var{command} with its
+@var{args}. With no arguments, @command{/shell} escapes to shell. You can
+also chat with shell as if shell is your buddy. Just type @command{shell}
+without @command{/} prefix.
+
+
+Example:
+
+@example
+~\/~> /shell ls -lh /tmp
+total 12k
+drwxr-xr-x    3 root   root    4.0k Jan  1 00:53 emacs-terminfo
+-rw-r--r--    1 root   root       1 Jan  1 05:04 emacsOdVut8
+drwx------    2 root   root    4.0k Jan  1 00:13 xdvi7GIKqr
+~\/~> /sh
+press C-d to return to freetalk
+$ rm -f /tmp/xdvi7GIKqr
+C-d @kbd{RET}
+~\/~> 
+@end example
+@end deffn
+@cmindex shell 
+
+
+@node date, who, shell, Commands
+@section Freetalk command - date
+@deffn command /date [arguments]
+This command displays the system date.  Try @samp{--help} for complete
+list of @var{arguments}.
+@end deffn
+@cmindex date
+
+@node who, status, date, Commands
+@section Freetalk command - who
+@deffn command /who
+This command displays the buddy list as well as their current buddy
+status.
+
+Example:
+
+@example
+~\/~ /who
+ * abindian@@gmail.com (ab)
+   twistedlogix@@gmail.com
+ * tejasvk@@gmail.com -> [Away] (on metarnity leave)
+   basavanagowda@@gmail.com
+   amarts@@gmail.com (ts3)
+~\/~
+@end example
+@end deffn
+@cmindex who
+
+@node status, whoami, who, Commands
+@section Freetalk command - status
+@deffn command /status [online|away|chat|xa|dnd] [MESSAGE]
+Sets or displays your current status.
+
+Example:
+
+@example
+~\/~ /status online Using Freetalk
+~\/~ /status 
+Current status: online Using Freetalk
+~\/~
+@end example
+@end deffn
+@cmindex status
+
+@node whoami, version, status, Commands
+@section Freetalk command - whoami
+@deffn command /whoami
+This command displays the currently logged in buddy info.
+
+Example:
+
+@example
+~\/~ /whoami
+~\/~ /whoami
+Jabber ID: avati@@zresearch.com
+Jabber Server: jabber.org
+Status: hacking
+~\/~
+@end example
+@end deffn
+@cmindex whoami
+
+@node version, logout, whoami, Commands
+@section Freetalk command - version
+@deffn command /version
+This command displays the version information of the installed
+freetalk package.
+
+Example:
+
+@example
+~\/~ /version
+freetalk (Freetalk) @value{VERSION}
+Copyright (C) 2005, 2007 FreeTalk Core Team
+@dots{}
+
+~\/~
+@end example
+@end deffn
+@cmindex version
+
+@node logout, history, version, Commands
+@section Freetalk command - logout
+@deffn command /logout
+This command works same as /disconnect but looks more meaningfull.
+
+Example:
+
+@example
+~\/~ /logout 
+Disconnected from @var{server}, reason(0): User request
+~\/~
+@end example
+@end deffn
+@cmindex logout
+
+@node history, load, logout, Commands
+@section Freetalk command - history
+@deffn command /history [BUDDY]
+This command displays paginated history with @var{BUDDY}. If @var{BUDDY}
+is not specified, it displays paginated history of only the current session. 
+
+Example:
+
+@example
+~\/~ /history ranju1111@@gmail.com
+
+Prints the history of messages with ranju1111@@gmail.com paginated by @command{less}.
+
+~\/~ /history
+
+Prints this history of messages of the current session.
+
+~\/~
+@end example
+@end deffn
+@cmindex history
+
+@node load, setup, history, Commands
+@section Freetalk command - load
+@deffn command /load [SCM]
+This command loads the Scheme Extension file and executes it.
+@var{SCM} is the extension Scheme file written in Guile.
+This command helps for the better customization of the software.
+
+@var{SCM} is first looked for in the current directory, followed
+by ~/.freetalk/extensions followed by the global @var{prefix}/share/freetalk/extensions.
+
+@var{SCM} can also be an absolute path.
+
+Example:
+
+@example
+~\/~ /load beep.scm
+~\/~
+@end example
+@end deffn
+@cmindex load
+
+@node setup, login, load, Commands
+@section Freetalk command - setup
+@deffn command /setup
+This command prepares a fresh @file{~/.freetalk} directory with backing up 
+the older one.
+
+Example:
+
+@example
+~\/~> /setup
+'/root/.freetalk' -> '/root/.freetalk-backup-0'
+Creating fresh state /root/.freetalk
+
+NOTE: Archieved previous state to /root/.freetalk-backup-0 !!!
+
+~\/~>
+@end example
+@end deffn
+@cmindex setup
+
+@node login, help, setup, Commands
+@section Freetalk command - login
+@deffn command /login
+This command is the better interactive login than the normal login.
+This command should be followed by /disconnect if you are logged in.
+
+Example:
+
+@example
+~\/~ /login
+Jabber ID: harshavardhanacool@@gmail.com
+Password:
+Enable TLS/SSL (Y/N)? [Y]: y
+Port [5223]: 2401
+Connecting...
+~\/~
+@end example
+@end deffn
+@cmindex login
+
+@node help, repl, login, Commands
+@section Freetalk command - help
+@deffn command /help [freetalk-command]
+This command prints help information on @var{freetalk-command} 
+commands interatively in a sorted way.If no argument in given 
+it prints the help for all the commands.
+
+Example:
+
+@example
+~\/~ /help /history
+/history - /history [BUDDY]
+         Display history page by page
+~\/~
+@end example
+@end deffn
+@cmindex help
+
+@node repl, urlview, help, Commands
+@section Freetalk command - repl
+@deffn command /repl
+This command helps in debugging. Invokes the guile interpreter resulting
+in the better debugging of the freetalk Scheme extension.
+
+Example:
+
+@example
+~\/~ /repl
+
+guile>(define ft-get-jid "anonymous@@yourchoice.com")
+
+@end example
+@end deffn
+@cmindex repl
+
+@node urlview, freetalk, repl, Commands
+@section Freetalk command - urlview
+@deffn command /urlview [BUDDY]
+This command helps in viewing URL's in the message archive or message
+coming from a particular @var{BUDDY}.More precisely this command catches
+URL or URL's in the message and launches the browser to open the URL.
+
+Example:
+
+@example
+~\/~ /urlview ksv@@gmail.com
+
+ksv: http://freetalk.nongnu.org/
+
+~\/~
+@end example
+@end deffn
+@cmindex urlview
+
+@node freetalk, greet, urlview, Commands
+@section Freetalk command - freetalk
+@deffn command /freetalk BUDDY
+This command helps in checking whether the other @var{BUDDY} is using
+freetalk or not.
+
+Example:
+
+@example
+~\/~ /freetalk maxcohen@@gmail.com
+
+Yes maxcohen@@gmail.com is using freetalk.
+
+~\/~
+
+@end example
+@end deffn
+@cmindex freetalk
+
+@node greet, burst, freetalk, Commands
+@section Freetalk command - greet
+@deffn command /greet BUDDY
+Send IRC style greeting message to your @var{BUDDY}.
+
+@example
+Example:
+ab@@jabber.org> /greet avati@@jabber.org
+
+On the other side avati@@jabber.org gets a message
+``aaaaaavvvvvvvvvvtttttttiiiiiii''. 
+@end example
+@end deffn
+@cmindex greet
+
+
+@node burst, burst-of-romance, greet, Commands
+@section Freetalk command - burst
+@deffn command /burst BUDDY MESSAGE
+Explode @var{MESSAGE} in to multiple charactest (IRC style greeting)
+and send it to @var{BUDDY}.
+
+@example
+Example:
+ab@@jabber.org> /burst avati@@jabber.org avati
+
+On the other side avati@@jabber.org gets a message
+``aaaaaavvvvvvvvvvtttttttiiiiiii''. 
+@end example
+@end deffn
+@cmindex burst
+
+@node burst-of-romance, broadcast, burst, Commands
+@section Freetalk command - burst-of-romance
+@deffn command /burst BUDDY COUNT MESSAGE
+Send @var{COUNT} number of @var{MESSAGE} to @var{BUDDY} with random
+delays in between. This command is useful to simulate multiple
+hand-made kisses.
+
+@example
+Example:
+ab@@jabber.org> /burst hackergirl@@jabber.org 45 :-*
+@end example
+@end deffn
+@cmindex burst-of-romance
+
+@node broadcast, proxyserver, burst-of-romance, Commands
+@section Freetalk command - broadcast
+@deffn command /broadcast MESSAGE
+Send @var{MESSAGE} to all the buddies 
+
+@example
+Example:
+harshavardhana@@jabber.org> /broadcast "Hello All, I am back"
+@end example
+@end deffn
+@cmindex broadcast
+
+@node proxyserver, proxyport, broadcast, Commands
+@section Freetalk command -  proxyserver
+@deffn command /proxyserver [proxyservername]
+Specify the @var{proxyservername} which you want to connect, or display the
+currently set proxyserver.
+
+@example
+~\/~ /proxyserver
+Current ProxyServer:
+~\/~ /proxyserver tc.vip.org
+~\/~ /proxyserver
+Current ProxyServer: tc.vip.org
+~\/~
+@end example
+@end deffn
+@cmindex proxyserver
+
+@node proxyport,  , proxyserver, Commands
+@section Freetalk command - proxyport
+@deffn command /proxyport [proxyport]
+@command{/proxyport} command sets the specified TCP @var{proxyport} to be used
+for the next @command{/connect} or display the currently set proxyport
+
+
+@example
+~\/~ /proxyport
+Current Port (8080 = default): 0
+~\/~
+~\/~ /proxyport 8080
+~\/~ /proxyport 
+Current Port (8080 = default): 8080
+@end example
+@end deffn
+@cmindex proxyport
+
+
+@node Customization, Tips and Tricks, Commands, Top
+@chapter Customizing freetalk
+freetalk can be customized to a great extent using Guile interface.
+User can herself/himself customize or extend new features in freetalk using
+Scheme as extension language.  Most of the features are already
+written in Scheme.
+
+@menu
+* freetalk.scm::                startup configuration file
+* init.scm::                    system wide initialization
+* Default Scheme extensions::   default Scheme extensions
+@end menu
+
+If you want to extend freetalk yourself, you can further explore
+freetalk Extension Developer Guide.  (@pxref{Extension language})
+@cindex Customization
+
+
+@node freetalk.scm, init.scm, Customization, Customization
+@section freetalk.scm
+Freetalk loads the startup options from
+@file{~/.freetalk/freetalk.scm}.  Right from custom settings like
+username, password @dots{} to complete Scheme programming can be done
+in this file.
+
+@lisp
+;; Sample ~/.freetalk/freetalk.scm
+;; It sets connection parameters and tries to connect on
+;; starting freetalk
+(and (strings=? (ft-get-jid) "")
+                (ft-set-jid! "avati@@jabber.org")
+                (ft-set-password! "f00b4r")
+                (ft-set-sslconn! 1)
+                (ft-set-server! "jabber.org")
+                ;; Proxy support
+                (ft-set-proxyserver! "your.proxy.org")
+                (ft-set-proxyport! "8080"))
+@end lisp 
+All entries in this file freetalk.scm are optional.How ever there is no 
+limit of cutomizing this file using Guile Interface. (@pxref{Extension language})
+@cindex Startup
+@cindex freetalk.scm
+
+
+@node init.scm, Default Scheme extensions, freetalk.scm, Customization
+@section init.scm
+All system wide policy settings and extensions are loaded through
+@file{init.scm}.  By default you can find @file{init.scm} at
+@file{/usr/share/freetalk/extensions/}.  To override this system wide
+@file{init.scm} file, copy it to
+@file{~/.freetalk/extensions/init.scm}.  You must be aware of what you
+are doing, before you mess up anything here.
+
+(@pxref{Extension language})
+@cindex Initialization
+@cindex init.scm
+
+
+@node Default Scheme extensions,  , init.scm, Customization
+@section Default Scheme extensions
+Most of the freetalk features are available through Scheme extensions.
+To override these extensions, copy them from
+@file{/usr/share/freetalk/extensions/} to
+@file{~/.freetalk/extensions/} and edit them.
+
+(@pxref{Extension language})
+@cindex Overriding extensions
+
+
+@node Tips and Tricks, Extension language, Customization, Top
+@chapter Tips and Tricks
+You are free to use complete Readline keys inside freetalk.
+Frequently used Readline keys inside freetalk are,
+
+@multitable @columnfractions 0.33 0.33 0.33
+@item @subsection Cursor motion
+@item character @tab C-b @tab C-f
+@item word @tab M-b @tab M-f
+@item line up/down @tab C-p  @tab C-n
+@item line start/end @tab C-a @tab C-e
+@item
+@item @subsection Editing
+@item delete char @tab C-d
+@item delete char backwards @tab C-h
+@item delete word @tab M-d
+@item delete word backwards @tab C-w
+@item kill line @tab C-k
+@item kill line backwards @tab C-u
+@item character swap @tab C-t
+@item word swap @tab M-w
+@item paste @tab C-y
+@item undo @tab C-_
+@item repeat prefix @tab M-number
+@item
+@item @subsection Case change
+@item uppercase word @tab M-u
+@item lowercase word @tab M-l
+@item capitalize word @tab M-c
+@end multitable
+
+If you want to do further stunts, jump to Readline manual,
+@xref{Readline, Readline, Readline, Readline, Readline}.
+
+@footnote{When you press @kbd{TAB} twice at freetalk prompt you can
+see all the possible commands and buddy names.}
+@cindex Readline in freetalk
+
+
+@node Extension language, Variables, Tips and Tricks, Top
+@chapter Extension language
+An @dfn{extension language} is a programming language interpreter
+offered by an application program, so that users can write macros or
+even full-fledged programs to extend the original application.
+Extension languages have a C interface (it is usually C, but it could
+be any other compiled language), and can be given access to the C data
+structures.  Likewise, there are C routines to access the extension
+language data structures.
+
+This uses GNU extension language - @dfn{Guile} (which can stand
+for _GNU Ubiquitous Intelligent Language Extension_).  Guile started
+out as an embeddable Scheme interpreter, and has rapidly evolved into
+a kitchen-sink package including a standalone Scheme interpreter, an
+embeddable Scheme interpreter, several graphics options, other
+languages that can be used along with Scheme (for now just _ctax_ and
+_Tcl_), and hooks for much more.
+@cindex Extension language
+@cindex Guile
+
+@node Variables, Procedures, Extension language, Top
+@chapter Variables
+Freetalk avoids sharing of variables between C and Scheme
+environment. Everything is done through primitive procedures for
+clarity and control.
+
+@node Procedures, Hooks, Variables, Top
+@chapter Procedures
+The following are the list of freetalk procedures that are exported to
+Scheme.  Now you are able to call the procedures from Scheme that are
+written in C.
+
+@menu
+* General procedures::          General Scheme primitives
+* Configuration procedures::    Configuration Scheme primitives
+* Hook related procedures::     Hook related Scheme primitives
+* Utility procedures::          Utility Scheme primitives
+@end menu
+
+
+@node General procedures, Configuration procedures, Procedures, Procedures
+@section General procedures
+@deffn primitive ft-load filepath
+@anchor{ft-load}
+Loads and evaluates @var{filepath}.scm from mentioned path or from
+@file{~/.freetalk/extensions/} or from
+@file{/usr/share/freetalk/extensions/}.
+
+Example:
+@lisp
+(ft-load "beep.scm")
+@end lisp
+@end deffn
+@prindex ft-load
+
+@deffn primitive ft-add-buddy! buddy
+Adds @var{buddy} into your contact list.
+
+Example:
+@lisp
+(ft-add-buddy! "vikasgp386@@gmail.com")
+@end lisp
+@end deffn
+@prindex ft-add-buddy!
+
+@deffn primitive ft-get-jid jabberid
+Gets @var{jabberid} from the console.
+
+Example:
+@lisp
+(and (string=? (ft-get-jid) "") @dots{})
+@end lisp
+@end deffn
+@prindex ft-get-jid
+
+@deffn primitive ft-set-jid! defaultid
+Set @var{defaultid} as the Jabber ID to be used on the next connect.
+
+Example:
+@lisp 
+(ft-set-jid! "anand.avati@@gmail.com")
+@end lisp
+@end deffn
+@prindex ft-set-jid!
+
+@deffn primitive ft-get-conn-status 
+Gets the status of the connection from the server.
+0 - Not connected.
+1 - Connected, Not authenticated.
+2 - Authenticated. (usable for IM)
+
+Example:
+@lisp
+(display (ft-get-conn-status))
+@end lisp
+@end deffn
+@prindex ft-get-conn-status
+
+@deffn primitive ft-get-password
+Gets the currently set @var{password}.
+
+Example:
+@lisp
+(and (string=? (ft-get-password) @dots{})
+@end lisp
+@end deffn
+@prindex ft-get-password
+
+@deffn primitive ft-get-server
+Get the @var{servername} configured for the next connection.
+
+Example:
+@lisp
+(and (string=? (ft-get-server) "") @dots{})
+@end lisp
+@end deffn
+@prindex ft-get-server
+
+@deffn primitive ft-set-sslconn! boolean
+Set the @var{value} such that login is in SSL mode or not.
+
+Example:
+@lisp
+(ft-set-sslconn! #t)
+@end lisp
+@end deffn
+@prindex ft-set-sslconn!
+
+@deffn primitive ft-send-message buddy message
+Sends @var{message} to the @var{buddy}.
+
+Example:
+@lisp
+(ft-send-message "abindian@@gmail.com" "had breakfast? or was it lunch?")
+@end lisp
+@end deffn
+@prindex ft-send-message
+
+@deffn primitive ft-display message
+Prints the @var{message} in the console. Unlike the @code{display}
+primitive, this procedure takes care of printing @var{message}
+asynchronously keeping the readline state as-is.
+
+Example:
+@lisp
+(ft-display ("I am proud of freetalk"))
+@end lisp
+@end deffn
+@prindex ft-display
+
+@deffn primitive ft-bind-to-ctrl-key char command
+Binds CTRL+ given @var{char} to arbitrary scm @var{command}. Allows for
+displaying roster or whatever by just pressing a key even
+during composition of new messages,
+keeping the readline state as-is.
+
+Example:
+@lisp
+(ft-bind-to-ctrl-key #\a "(/who \"all\")")
+@end lisp
+@end deffn
+@prindex ft-bind-to-ctrl-key
+
+
+@node Configuration procedures, Hook related procedures, General procedures, Procedures
+@section Configuration procedures
+
+@node Hook related procedures, Utility procedures, Configuration procedures, Procedures
+@section Hook related procedures
+@footnote { Info awaiting coming soon.... }
+
+@anchor{ft-hook-return}
+@deffn primitive ft-hook-return
+Makes the calling procedure return immediately after running the
+hooks.
+
+Example:
+@lisp
+
+@end lisp
+@end deffn
+@prindex ft-hook-return
+
+@node Utility procedures,  , Hook related procedures, Procedures
+@section Utility procedures
+These are general purpose utility procedures written completly in
+Scheme. 
+
+@footnote{utility procedures are loaded through
+/DATADIR/freetalk/extensions/ and you are free to hack for
+cool undocumented procedures}
+
+
+
+@node Hooks, Learning further, Procedures, Top
+@chapter Hooks
+Through Hooks facility Freetalk lets you steal its control at various
+important junctures during execution.
+
+@deffn hook ft-message-send-hook buddy message
+Hook procedure is called with @var{buddy} and @var{message} as
+arguments on every send message operation.
+
+Supporting primitives:
+@multitable @columnfractions 0.05 0.95
+@item @tab @pxref{ft-hook-return}
+@end multitable
+
+Example:
+@lisp
+
+@end lisp
+@end deffn
+@prindex ft-message-send-hook
+
+@deffn hook ft-message-receive-hook buddy message
+Hook procedure is called with @var{buddy} and @var{message} as
+arguments on every receive message operation.
+
+Supporting primitives:
+@multitable @columnfractions 0.05 0.95
+@item @tab @pxref{ft-hook-return}
+@end multitable
+
+Example:
+@lisp
+
+@end lisp
+@end deffn
+@prindex ft-message-receive-hook
+
+@deffn hook ft-presence-receive-hook buddy message timestamp
+Hook procedure is called with @var{buddy}, @var{message} and
+@var{timestamp} recieve the presence.
+
+Supporting primitives:
+@multitable @columnfractions 0.05 0.95
+@item @tab @pxref{ft-hook-return}
+@end multitable
+
+Example:
+@lisp
+
+@end lisp
+@end deffn
+@prindex ft-presence-receive-hook
+
+@deffn hook ft-disconnect-hook 
+
+Supporting primitives:
+@multitable @columnfractions 0.05 0.95
+@item @tab @pxref{ft-hook-return}
+@end multitable
+
+Example:
+@lisp
+
+@end lisp
+@end deffn
+@prindex ft-disconnect-hook
+
+
+@node Learning further, Authors, Hooks, Top
+@chapter Learning further
+The following are the URLs where you can find useful manuals for Guile
+and Scheme.
+
+@noindent @url{http://www.gnu.org/software/guile/}@*
+@url{http://www.schemers.org/}@*
+@url{ftp://ftp.cs.utexas.edu/pub/garbage/cs345/schintro-v14/schintro_toc.html}@*
+@url{http://www.informatik.uni-kiel.de/~scheme/}@*
+@url{http://freespace.virgin.net/david.drysdale/guile/tutorial.html}@*
+@url{http://nis-www.lanl.gov/~rosalia/gnudl-doc/learn_libguile_toc.html}@*
+@url{http://theoryx5.uwinnipeg.ca/gnu/guile/guile-user.html#SEC_Top}@*
+@url{http://www.nada.kth.se/~mdj/guile-ref/guile-ref_toc.html}@*
+@url{http://www.red-bean.com/guile/guile/old/3540.html}@*
+@url{http://nis-www.lanl.gov/~rosalia/mydocs/guile-user.html}@*
+@url{http://www.cs.utexas.edu/users/lavender/courses/scheme/}@*
+@url{http://www.cstr.ed.ac.uk/projects/festival/manual/festival_8.html#SEC24}@*
+@url{http://www.cs.ccu.edu.tw/~dan/tutorials.html}@*
+@url{http://www.wcug.wwu.edu/~randyman/COMPUTERS/SCHEME/start.htm}@*
+@url{http://www.dmoz.org/Computers/Programming/Languages/Lisp/Scheme/Teaching/}@*
+@url{http://www.cs.caltech.edu/~cs181/doc/}@*
+@url{http://cis.csuohio.edu/~hysockel/Links/Documents.html}@*
+
+
+@node Authors, URLs, Learning further, Top
+@chapter Authors
+We believe in Software Freedom and Ethics, the GNU's way.
+
+@include authors.texi 
+@cindex AUTHORS
+
+
+@node URLs, Guidelines for submitting a patch, Authors, Top
+@chapter URLs
+@deffn URL Homepage
+@url{http://www.gnu.org/software/freetalk/}
+@end deffn
+
+@deffn URL Download
+@url{http://savannah.gnu.org/download/freetalk/}
+@end deffn
+
+@deffn URL CVS
+To know project information like Bugs, Updates, Support, Patches,
+Tasks, News, Development Status, Activity Percentile, Project Activity
+visit @url{http://www.gnu.org/software/freetalk/}
+@end deffn
+
+@deffn URL Mailing list
+Freetalk has its own mailing list. The mailing list is for support,
+reporting bugs, mailing announcements. You are welcome to
+subscribe. 
+
+To Subscribe/Unsubscribe visit,
+@url{https://savannah.gnu.org/mail/?group=freetalk}.
+@end deffn
+
+@deffn URL Bugs
+You are welcome to send bug reports about freetalk to
+@url{https://savannah.gnu.org/bugs/?group=freetalk}.
+The bugs that you think are of the interest to the public
+(i.e.  more people should be informed about them) can be
+Cc-ed to the above mailing lists. 
+
+Before actually submitting a bug report, please try to follow a few
+simple guidelines.
+
+@enumerate 1
+@item
+Please try to ascertain that the behavior you see really is a bug.  If
+Freetalk crashes, it's a bug. If freetalk does not behave as
+documented, it's a bug.  If things work strange, but you are not sure
+about the way they are supposed to work, it might well be a bug.
+Don't predict that there is a Bug try to find it and report.
+
+@item
+Try to repeat the bug in as simple circumstances as possible.
+
+@item
+Find where the bug is, fix it and send the patches. :)
+(@pxref{Guidelines for submitting a patch})
+@end enumerate
+@end deffn
+
+Send your specific queries to  Vikas Gorur @email{vikas@@zresearch.com}
+@cindex freetalk URLs
+
+
+@node Guidelines for submitting a patch, Portability, URLs, Top
+@chapter Guidelines for submitting a patch
+@enumerate 1
+@item
+Copy the latest CVS version of @code{freetalk} directory as
+@code{freetalk-hack}.
+
+@item
+Make changes in your @code{freetalk-hack} directory.
+
+@item
+Create patch using@*
+# diff -pruN freetalk freetalk-hack > freetalk-patch-title
+
+@item
+Mail the patch file @file{freetalk-patch-title} to the mailing list
+with subject prefixed with @samp{PATCH:}.@* Please send only text
+mails with patch as a part of the message body.  Don't update
+@file{ChangeLog} file, instead add your comments at the beginning of
+the body.
+@end enumerate
+@cindex Submitting patches
+
+
+@node Portability, Concept Index, Guidelines for submitting a patch, Top
+@chapter Portability
+Since freetalk uses GNU Autoconf for building and configuring, and
+avoids using @samp{special} ultra--mega--cool features of any
+particular Unix, it should compile (and work) on all common Unix
+flavors.
+
+Various freetalk versions have been compiled and tested under GNU/Linux.
+However freetalk can be easily ported to any POSIX complaint platform 
+with Guile and Readline ports.  If you compile it on an architecture 
+not listed here, please let us know so that we can update it.
+(@pxref{URLs})
+@cindex Portability
+
+
+@menu
+* Freetalk License::            
+* Freetalk Documentation License::  
+@end menu
+
+@node Freetalk License, Freetalk Documentation License, Portability, Portability
+@section Freetalk License
+Freetalk licensed under GNU General Public License v3 or later.
+@include gpl.texi
+
+@node Freetalk Documentation License,  , Freetalk License, Portability
+@section Freetalk Documentation License
+Freetalk documentation licensed under GNU Free Documentation License
+1.2 or later.
+@include fdl.texi
+
+@page
+@node Concept Index, Command Index, Portability, Top
+@unnumbered Concept Index
+
+@printindex cp
+
+@node Command Index, Procedure Index, Concept Index, Top
+@unnumbered Command Index
+
+@printindex cm
+
+@node Procedure Index,  , Command Index, Top
+@unnumbered Procedure Index
+
+@printindex pr
+
+@bye
+
+
+

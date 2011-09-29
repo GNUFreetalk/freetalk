@@ -1,0 +1,17 @@
+ TODO:
+    
+ 1. Fix the bug introduced by invisible mode during freetalk to freetalk communication. 
+    Gtalk to freetalk Invisible mode works properly due to some additional handling of
+    gtalk client from Google.
+
+ 2. File transfer code cleanup, fix it for new jabber protocol for file transfer 
+    (Atleast fix it somehow :P)
+
+ 3. Add new command like "/refresh" to get new list roster list from Jabber/Google server 
+    and also atleast make it dynamic, as there is occasional hanging of the roster list 
+    under invisible mode and other modes too. 
+
+ 4. Show idle if no activity on the terminal for 5 or more minutes. 
+
+ 5. Fix needed in handling of a notification of a statement "typing... " to be sent to Gtalk 
+    while the user is typing some content to be sent on the terminal of freetalk.  

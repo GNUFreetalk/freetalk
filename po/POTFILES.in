@@ -1,0 +1,23 @@
+# source files containing strings to translate
+src/freetalk.cc
+src/util.cc
+src/callbacks.cc
+src/commands.cc
+src/extensions.cc
+src/interpreter.cc
+src/presence.cc
+src/primitives.cc
+src/roster.cc
+extensions/init.scm
+extensions/color.scm
+extensions/connection.scm
+extensions/dyn-commands.scm
+extensions/file-transfer.scm
+extensions/proud-of-freetalk.scm
+extensions/roster.scm
+extensions/shell.scm
+extensions/utils.scm
+extensions/broadcast.scm
+extensions/pipe.scm
+extensions/state.scm
+extensions/hacker-romance.scm

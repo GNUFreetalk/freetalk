@@ -1,0 +1,83 @@
+;;; init.scm: startup extension
+;;; Copyright (c) 2005, 2006, 2007 Freetalk Core Team 
+;;; This file is part of GNU Freetalk.
+;;; 
+;;; Freetalk is free software; you can redistribute it and/or modify it
+;;; under the terms of the GNU General Public License as published by
+;;; the Free Software Foundation; either version 3 of the License, or
+;;; (at your option) any later version.
+;;; 
+;;; Freetalk is distributed in the hope that it will be useful, but
+;;; WITHOUT ANY WARRANTY; without even the implied warranty of
+;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;;; General Public License for more details.
+;;; 
+;;; You should have received a copy of the GNU General Public License
+;;; along with this program.  If not, see
+;;; <http://www.gnu.org/licenses/>.
+
+(use-modules (ice-9 rdelim))
+(use-modules (ice-9 format))
+; (use-modules (ice-9 debugger))
+; (debug-enable 'backtrace)
+
+(if (defined? 'gettext)
+    (begin
+      (catch #t
+	     (lambda ()
+	       (setlocale LC_ALL=""))
+	     (lambda args #f))
+      (textdomain "@PACKAGE@")
+      (bindtextdomain "@PACKAGE@" "@prefix@/share/locale")
+      (define _ gettext))
+    (begin
+      (define _ (lambda (text) text))))
+
+(catch #t
+       (lambda ()
+	 ;; IMPORTANT: ORDER OF LOADING EXETNSIONS IS DEPENDENT ON THE
+         ;;            EXTENSIONS THEMSELVES.
+
+	 ; (ft-load "pre-login-extensions-here.scm")
+	 (ft-load "dyn-commands.scm")
+	 (ft-load "loudscream.scm")
+
+	 (if (= (system "dict gnu >> /dev/null 2>&1") 0)
+	     (ft-load "dict-buddy.scm"))
+
+	 (if (= (system "which urlview >>/dev/null 2>&1") 0)
+	     (ft-load "url.scm"))
+	 
+	 (ft-load "beep.scm")
+	 (ft-load "utils.scm")
+	 (ft-load "mr-oxford.scm") 
+	 (ft-load "shell.scm")
+	 (ft-load "pipe.scm")
+	 (ft-load "state.scm")
+	 (ft-load "connection.scm")
+	 (ft-load "roster.scm")
+	 (ft-load "color.scm")
+	 (ft-load "history.scm")
+	 (ft-load "proud-of-freetalk.scm")
+	 (ft-load "file-transfer.scm")
+	 (ft-load "broadcast.scm")
+	 (ft-load "hacker-romance.scm")
+
+ ;; FIXME: login.scm should not be loaded when run in script mode.
+;	 (ft-load "login.scm")
+       ; (ft-load "post-login-extensions-here.scm")
+	 )
+       (lambda (k args . opts)
+	 (display "\n~qp~ ~qp~ ~qp~ ~qp~ ~qp~ ~qp~")
+	 (display "\n~qp  FreeTalk Exception! ~qp~")
+	 (display "\n~qp~ ~qp~ ~qp~ ~qp~ ~qp~ ~qp~")
+	 (display "\n(SCM exception handler)")
+	 (display "\nkey        : ")
+	 (display k)
+	 (display "\nthrow args : ")
+	 (display args)
+	 (display "\nopts       : ")
+	 (display opts)
+	 (newline)
+	 (backtrace)
+	 (newline)))

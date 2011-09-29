@@ -1,0 +1,8 @@
+#!/usr/bin/freetalk -s
+!#
+
+; A do-nothing-in-daemon-mode script
+
+;(ft-load "login.scm")
+(ft-set-daemon)
+(ft-main-loop)

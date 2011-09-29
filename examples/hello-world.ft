@@ -1,0 +1,20 @@
+#!/usr/bin/freetalk -s
+!#
+
+; file: hello-world.ft
+
+;;; Example:
+; chmod +x hello-world.ft
+; ./hello-world.ft
+
+(ft-set-jid! "YOUR-NAME@gmail.com")
+(ft-set-server! "talk.google.com")
+(ft-set-password! "YOUR-PASSWORD")
+(ft-set-sslconn! #t)
+
+(if (ft-login-blocking)
+   (begin
+     (ft-send-message "YOUR-FRIEND@gmail.com" "Hi")
+     (ft-send-message "YOUR-FRIEND@gmail.com" "Are you there?")
+     (ft-disconnect))
+   (display "Could not connect\n")) 
