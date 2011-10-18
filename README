@@ -31,5 +31,9 @@ If you face any problems compiling or using Freetalk, or if you have
 any feedback/developer questions, feel free to post a message to
 <freetalk-dev@gnu.org>.
 
+NOTE: It has also been tested recently that, guile-1.8, freetalk-3.2 and gmail has stopped working. 
+Buddy listing has been a problem, logging works. Nothing seems obvious than it suddenly stopped
+working, needs further investigation. Until then development work is focussed @ freetalk python
+replacement.
 
 
