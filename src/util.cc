@@ -34,118 +34,118 @@
 void
 parse_jid_string (char *s, jid_t *jid)
 {
-  char *str = strdup (s);
-  char *at = strchr (str, '@');
-  char *domain = str;
-  char *slash;
+        char *str = strdup (s);
+        char *at = strchr (str, '@');
+        char *domain = str;
+        char *slash;
      
-  if (at)
-    {
-      *at = '\0';
-      jid->node = strdup (str);
-      domain = at+1;
-    }
+        if (at)
+        {
+                *at = '\0';
+                jid->node = strdup (str);
+                domain = at+1;
+        }
 
-  slash = strchr (domain, '/');
+        slash = strchr (domain, '/');
      
-  if (slash)
-    {
-      *slash = '\0';
-      jid->domain = strdup (domain);
-      jid->resource = strdup (slash+1);
-    }
-  else
-    {
-      jid->domain = strdup (domain);
-      jid->resource = strdup ("GNU Freetalk");   /* Loudmouth complains if this is NULL */
-    }
+        if (slash)
+        {
+                *slash = '\0';
+                jid->domain = strdup (domain);
+                jid->resource = strdup (slash+1);
+        }
+        else
+        {
+                jid->domain = strdup (domain);
+                jid->resource = strdup ("GNU Freetalk");   /* Loudmouth complains if this is NULL */
+        }
 
-  free (str);
+        free (str);
 }
 
 char *
 first_word (char *full_line)
 {
-  while (full_line && (*full_line == ' '))
-    full_line ++;
-  return full_line;
+        while (full_line && (*full_line == ' '))
+                full_line ++;
+        return full_line;
 }
 
 char *
 second_word (char *full_line)
 {
-  if (!full_line)
-    return NULL;
+        if (!full_line)
+                return NULL;
 
 
-  while (full_line &&
-	 ( *full_line == ' ' ||
-	   *full_line == '\t' ||
-	   *full_line == '\r' ||
-	   *full_line == '\n'))
-    full_line ++;
+        while (full_line &&
+               ( *full_line == ' ' ||
+                 *full_line == '\t' ||
+                 *full_line == '\r' ||
+                 *full_line == '\n'))
+                full_line ++;
 
-  if (!full_line)
-    return NULL;
+        if (!full_line)
+                return NULL;
 
-  while (full_line && 
-	 *full_line != ' ' && 
-	 *full_line != '\t' && 
-	 *full_line != '\r' && 
-	 *full_line != '\n')
-    full_line ++;
+        while (full_line && 
+               *full_line != ' ' && 
+               *full_line != '\t' && 
+               *full_line != '\r' && 
+               *full_line != '\n')
+                full_line ++;
 
-  if (!full_line)
-    return NULL;
+        if (!full_line)
+                return NULL;
 
-  while (full_line &&
-	 ( *full_line == ' ' ||
-	   *full_line == '\t' ||
-	   *full_line == '\r' ||
-	   *full_line == '\n'))
-    full_line ++;
+        while (full_line &&
+               ( *full_line == ' ' ||
+                 *full_line == '\t' ||
+                 *full_line == '\r' ||
+                 *full_line == '\n'))
+                full_line ++;
 
-  return *full_line ? full_line : NULL;
+        return *full_line ? full_line : NULL;
 }
 
 
 void 
 async_printf (const char *fmt, va_list ap)      
 {
-  int tmp_rl_point = rl_point;        
-  int n = rl_end;
-  unsigned int i;
+        int tmp_rl_point = rl_point;        
+        int n = rl_end;
+        unsigned int i;
 
-  if (rl_end >= 0 ) {                 
-    rl_kill_text (0, rl_end);
-    rl_redisplay ();                  
-  }                                   
-  printf ("\r");
-  for (i=0 ; i<=strlen (state.prompt) ; i++)
-    printf (" ");
-  printf ("\r");
-  vprintf (fmt, ap);            
-  printf ("\n");                      
-  fflush(stdout);                     
-  if (n) {                 
-    rl_do_undo ();                  
-    rl_point = tmp_rl_point;          
-    rl_reset_line_state ();           
-  }                                   
-  rl_forced_update_display ();        
+        if (rl_end >= 0 ) {                 
+                rl_kill_text (0, rl_end);
+                rl_redisplay ();                  
+        }                                   
+        printf ("\r");
+        for (i=0 ; i<=strlen (state.prompt) ; i++)
+                printf (" ");
+        printf ("\r");
+        vprintf (fmt, ap);            
+        printf ("\n");                      
+        fflush(stdout);                     
+        if (n) {                 
+                rl_do_undo ();                  
+                rl_point = tmp_rl_point;          
+                rl_reset_line_state ();           
+        }                                   
+        rl_forced_update_display ();        
 }
 
 void 
 sync_printf (const char *fmt, va_list ap)
 {
-  vprintf (fmt, ap);
-  printf ("\n");
-  fflush (stdout);
+        vprintf (fmt, ap);
+        printf ("\n");
+        fflush (stdout);
 }
 
 void
 check_first_run (void)
 {
-  if( system ("sh " DATADIR "/" PACKAGE_NAME "/extensions/first-time-run.sh") >> 8 )
-    exit (1);
+        if( system ("sh " DATADIR "/" PACKAGE_NAME "/extensions/first-time-run.sh") >> 8 )
+                exit (1);
 }

@@ -31,15 +31,15 @@
 #define FT_FILE_BUFFER_SIZE 1024
 /* state of a file-transfer instance */
 typedef struct ft_file_state_s{
-  char *sender;
-  char *reciever;
-  char *remote_file;
-  char *local_file;
-  char *session_id;
-  char *message_id;
-  int fd;
-  int cookie;
-  struct ft_file_state_s *next;
+        char *sender;
+        char *reciever;
+        char *remote_file;
+        char *local_file;
+        char *session_id;
+        char *message_id;
+        int fd;
+        int cookie;
+        struct ft_file_state_s *next;
 } ft_file_state;
 
 

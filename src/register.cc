@@ -34,131 +34,131 @@ static char *server;
 
 static LmMessage *send_registration_query ()
 {
-  LmMessage *msg = lm_message_new_with_sub_type (server, LM_MESSAGE_TYPE_IQ, 
-						 LM_MESSAGE_SUB_TYPE_GET);
-  LmMessageNode *query = lm_message_node_add_child (msg->node, "query", "");
-  lm_message_node_set_attribute (query, "xmlns", "jabber:iq:register");
-  return lm_connection_send_with_reply_and_block (conn, msg, NULL);
+        LmMessage *msg = lm_message_new_with_sub_type (server, LM_MESSAGE_TYPE_IQ, 
+                                                       LM_MESSAGE_SUB_TYPE_GET);
+        LmMessageNode *query = lm_message_node_add_child (msg->node, "query", "");
+        lm_message_node_set_attribute (query, "xmlns", "jabber:iq:register");
+        return lm_connection_send_with_reply_and_block (conn, msg, NULL);
 }
 
 static void handle_registration_reply (LmMessage *reply)
 {
-  const char *type = lm_message_node_get_attribute (reply->node, "type");
-  if (!g_strcasecmp (type, "error"))
-    {
-      LmMessageNode *err = lm_message_node_find_child (reply->node, "error");
-      printf ("Registration failed: ");
-      if (err)
-	printf ("%s", lm_message_node_get_value (err));
-      printf ("\n");
-      exit (1);
-    }
+        const char *type = lm_message_node_get_attribute (reply->node, "type");
+        if (!g_strcasecmp (type, "error"))
+        {
+                LmMessageNode *err = lm_message_node_find_child (reply->node, "error");
+                printf ("Registration failed: ");
+                if (err)
+                        printf ("%s", lm_message_node_get_value (err));
+                printf ("\n");
+                exit (1);
+        }
 
-  printf ("Registration successful\n");
-  exit (0);
+        printf ("Registration successful\n");
+        exit (0);
 }
 
 map<string, string> fields;
 
 static void send_required_fields (LmMessageNode *query)
 {
-  if (LmMessageNode *n = lm_message_node_find_child (query, "instructions"))
-    {
-      printf ("--------------------\n");
-      printf ("Server instructions:\n");
-      printf ("--------------------\n");
-      printf ("%s\n", lm_message_node_get_value (n));
-    }
-  if (lm_message_node_find_child (query, "username"))
-    {
-      char *val = readline ("username: ");
-      fields[string ("username")] = string (val);
-      free (val);
-    }
-  if (lm_message_node_find_child (query, "password"))
-    {
-      string p1 = getpass ("password: ");
-      string p2 = getpass ("password again: ");
-      if (p1 != p2)
-	{
-	  printf ("Passwords don't match.\n");
-	  exit (2);
-	}
-      fields[string ("password")] = p1;
-    }
+        if (LmMessageNode *n = lm_message_node_find_child (query, "instructions"))
+        {
+                printf ("--------------------\n");
+                printf ("Server instructions:\n");
+                printf ("--------------------\n");
+                printf ("%s\n", lm_message_node_get_value (n));
+        }
+        if (lm_message_node_find_child (query, "username"))
+        {
+                char *val = readline ("username: ");
+                fields[string ("username")] = string (val);
+                free (val);
+        }
+        if (lm_message_node_find_child (query, "password"))
+        {
+                string p1 = getpass ("password: ");
+                string p2 = getpass ("password again: ");
+                if (p1 != p2)
+                {
+                        printf ("Passwords don't match.\n");
+                        exit (2);
+                }
+                fields[string ("password")] = p1;
+        }
 
-  for (LmMessageNode *n = query->children; n != NULL; n = n->next)
-    {
-      if (g_strcasecmp (n->name, "username") &&
-	  g_strcasecmp (n->name, "password") &&
-	  g_strcasecmp (n->name, "instructions"))
-	{
-	  char *val;
-	  string name = string (n->name);
-	  string prompt = name + string (": ");
-	  val = readline (prompt.c_str ());
-	  fields[name] = string (val);
-	  free (val);
-	}
-    }
+        for (LmMessageNode *n = query->children; n != NULL; n = n->next)
+        {
+                if (g_strcasecmp (n->name, "username") &&
+                    g_strcasecmp (n->name, "password") &&
+                    g_strcasecmp (n->name, "instructions"))
+                {
+                        char *val;
+                        string name = string (n->name);
+                        string prompt = name + string (": ");
+                        val = readline (prompt.c_str ());
+                        fields[name] = string (val);
+                        free (val);
+                }
+        }
 
 
-  LmMessage *msg = lm_message_new_with_sub_type (server, 
-						 LM_MESSAGE_TYPE_IQ,
-						 LM_MESSAGE_SUB_TYPE_SET);
-  LmMessageNode *q = lm_message_node_add_child (msg->node, 
-						    "query", "");
-  lm_message_node_set_attribute (q, "xmlns", "jabber:iq:register");
+        LmMessage *msg = lm_message_new_with_sub_type (server, 
+                                                       LM_MESSAGE_TYPE_IQ,
+                                                       LM_MESSAGE_SUB_TYPE_SET);
+        LmMessageNode *q = lm_message_node_add_child (msg->node, 
+                                                      "query", "");
+        lm_message_node_set_attribute (q, "xmlns", "jabber:iq:register");
 
-  for (map<string,string>::iterator i = fields.begin (); 
-       i != fields.end (); i++)
-    {
-      lm_message_node_add_child (q, i->first.c_str (), i->second.c_str ());
-    }
+        for (map<string,string>::iterator i = fields.begin (); 
+             i != fields.end (); i++)
+        {
+                lm_message_node_add_child (q, i->first.c_str (), i->second.c_str ());
+        }
 
-  LmMessage *reply = lm_connection_send_with_reply_and_block (conn, msg, NULL);
-  handle_registration_reply (reply);
+        LmMessage *reply = lm_connection_send_with_reply_and_block (conn, msg, NULL);
+        handle_registration_reply (reply);
 }
 
 static void do_registration ()
 {
-  LmMessage *reply = send_registration_query ();
-  const char *type = lm_message_node_get_attribute (reply->node, "type");
+        LmMessage *reply = send_registration_query ();
+        const char *type = lm_message_node_get_attribute (reply->node, "type");
 
-  if (!g_strcasecmp (type, "error"))
-    {
-      printf ("In-band registration not available on this server.\n");
-      exit (1);
-    }
-  else
-    {
-      LmMessageNode *query = lm_message_node_get_child (reply->node, 
-							"query");
-      if (lm_message_node_find_child (query, "registered"))
-	{
-	  printf ("You have already registered\n");
-	  exit (1);
-	}
+        if (!g_strcasecmp (type, "error"))
+        {
+                printf ("In-band registration not available on this server.\n");
+                exit (1);
+        }
+        else
+        {
+                LmMessageNode *query = lm_message_node_get_child (reply->node, 
+                                                                  "query");
+                if (lm_message_node_find_child (query, "registered"))
+                {
+                        printf ("You have already registered\n");
+                        exit (1);
+                }
       
-      send_required_fields (query);
-    }
+                send_required_fields (query);
+        }
 }
 
 void ft_register ()
 {
-  printf ("--------------------\n\n");
-  printf ("Registration\n");
-  printf ("--------------------\n\n");
+        printf ("--------------------\n\n");
+        printf ("Registration\n");
+        printf ("--------------------\n\n");
 
-  while (!server)
-    server = readline ("Server: ");
+        while (!server)
+                server = readline ("Server: ");
 
-  conn = lm_connection_new (server);
-  if (!lm_connection_open_and_block (conn, NULL))
-    {
-      printf ("Could not connect.\n");
-      exit (1);
-    }
+        conn = lm_connection_new (server);
+        if (!lm_connection_open_and_block (conn, NULL))
+        {
+                printf ("Could not connect.\n");
+                exit (1);
+        }
 
-  do_registration ();
+        do_registration ();
 }

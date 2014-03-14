@@ -30,45 +30,45 @@
 static FtRosterItem *
 roster_item_extract (LmMessage *msg)
 {
-  char *resource = NULL;
-  FtRosterItem *item = g_new (FtRosterItem, 1);
-  LmMessageNode *show = lm_message_node_find_child (msg->node, "show");
-  LmMessageNode *status = lm_message_node_find_child (msg->node, "status");
-  LmMessageNode *name = lm_message_node_find_child (msg->node, "name");
+        char *resource = NULL;
+        FtRosterItem *item = g_new (FtRosterItem, 1);
+        LmMessageNode *show = lm_message_node_find_child (msg->node, "show");
+        LmMessageNode *status = lm_message_node_find_child (msg->node, "status");
+        LmMessageNode *name = lm_message_node_find_child (msg->node, "name");
   
-  const char *type = lm_message_node_get_attribute (msg->node, "type");
+        const char *type = lm_message_node_get_attribute (msg->node, "type");
 
-  item->jid = (char *) lm_message_node_get_attribute (msg->node, "from");
+        item->jid = (char *) lm_message_node_get_attribute (msg->node, "from");
 
-  resource = strchr (item->jid, '/');
-  if (resource)
-    item->resource = g_strdup (resource + 1);
-  else
-    item->resource = NULL;
+        resource = strchr (item->jid, '/');
+        if (resource)
+                item->resource = g_strdup (resource + 1);
+        else
+                item->resource = NULL;
   
-  if (!type || !g_ascii_strcasecmp (type, "available"))
-    item->is_online = TRUE;
-  else
-    item->is_online = FALSE;
+        if (!type || !g_ascii_strcasecmp (type, "available"))
+                item->is_online = TRUE;
+        else
+                item->is_online = FALSE;
 
-  if (show)
-    item->show_msg = g_strdup (lm_message_node_get_value (show));
-  else
-    item->show_msg = NULL;
-	  
-  if (status)
-    item->status_msg = g_strdup (lm_message_node_get_value (status));
-  else
-    item->status_msg = NULL;
+        if (show)
+                item->show_msg = g_strdup (lm_message_node_get_value (show));
+        else
+                item->show_msg = NULL;
+          
+        if (status)
+                item->status_msg = g_strdup (lm_message_node_get_value (status));
+        else
+                item->status_msg = NULL;
 
-  if (name)
-    item->nickname = g_strdup (lm_message_node_get_value (name));
-  else
-    item->nickname = NULL;
+        if (name)
+                item->nickname = g_strdup (lm_message_node_get_value (name));
+        else
+                item->nickname = NULL;
   
-  return item;
+        return item;
 }
-		     
+                     
 /*
   Called when presence of type 'available' or 'unavailable' is recieved
 */
@@ -76,42 +76,42 @@ roster_item_extract (LmMessage *msg)
 static void
 presence_availability_rcvd (const char *from, LmMessage *msg)
 {
-  if (from)
-    {
-      FtRosterItem *newi = roster_item_extract (msg);
-      FtRosterItem *old;
+        if (from)
+        {
+                FtRosterItem *newi = roster_item_extract (msg);
+                FtRosterItem *old;
 
-      old = ft_roster_lookup (from);
-      scm_run_hook (ex_presence_receive_hook, roster_item_to_list (newi));
+                old = ft_roster_lookup (from);
+                scm_run_hook (ex_presence_receive_hook, roster_item_to_list (newi));
 
-      if (old)
-	{
-	  old->is_online = newi->is_online;
+                if (old)
+                {
+                        old->is_online = newi->is_online;
 
-	  if (newi->nickname) {
-	    if (old->nickname)
-	      g_free (old->nickname);
-	    old->nickname = newi->nickname;
-	  }
-	  
-	  if (old->show_msg) g_free (old->show_msg);
-	  old->show_msg = newi->show_msg;
-	  
-	  if (old->status_msg) g_free (old->status_msg);
-	  old->status_msg = newi->status_msg;
-	  
-	  if (old->resource) g_free (old->resource);
-	  old->resource = newi->resource;
-	}
+                        if (newi->nickname) {
+                                if (old->nickname)
+                                        g_free (old->nickname);
+                                old->nickname = newi->nickname;
+                        }
+          
+                        if (old->show_msg) g_free (old->show_msg);
+                        old->show_msg = newi->show_msg;
+          
+                        if (old->status_msg) g_free (old->status_msg);
+                        old->status_msg = newi->status_msg;
+          
+                        if (old->resource) g_free (old->resource);
+                        old->resource = newi->resource;
+                }
 
-      g_free (newi);
-    }
+                g_free (newi);
+        }
 }
 
 static void
 presence_subscribe_rcvd (const char *from, LmMessage *msg)
 {
-  scm_run_hook (ex_subscribe_receive_hook, gh_list (gh_str02scm (from), SCM_UNDEFINED));
+        scm_run_hook (ex_subscribe_receive_hook, gh_list (gh_str02scm (from), SCM_UNDEFINED));
 }
 
 /* Callback for all presence messages */
@@ -119,24 +119,24 @@ presence_subscribe_rcvd (const char *from, LmMessage *msg)
 void
 ft_presence_cb (LmMessage *msg)
 {
-  const char *type = lm_message_node_get_attribute (msg->node, "type");
-  const char *from = lm_message_node_get_attribute (msg->node, "from");
+        const char *type = lm_message_node_get_attribute (msg->node, "type");
+        const char *from = lm_message_node_get_attribute (msg->node, "from");
 
-  if (type)
-    {
-      if (!g_ascii_strcasecmp (type, "unavailable"))
-	presence_availability_rcvd (from, msg);
+        if (type)
+        {
+                if (!g_ascii_strcasecmp (type, "unavailable"))
+                        presence_availability_rcvd (from, msg);
 
-      else if (!g_ascii_strcasecmp (type, "available"))
-	presence_availability_rcvd (from, msg);
+                else if (!g_ascii_strcasecmp (type, "available"))
+                        presence_availability_rcvd (from, msg);
 
-      else if (!g_ascii_strcasecmp (type, "subscribe"))
-	presence_subscribe_rcvd (from, msg);
-    }
-  else
-    {
-      presence_availability_rcvd (from, msg);
-    }
+                else if (!g_ascii_strcasecmp (type, "subscribe"))
+                        presence_subscribe_rcvd (from, msg);
+        }
+        else
+        {
+                presence_availability_rcvd (from, msg);
+        }
 }
 
 /*
@@ -146,10 +146,10 @@ ft_presence_cb (LmMessage *msg)
 void
 ft_presence_send_final (void)
 {
-  LmMessage *msg = lm_message_new_with_sub_type (NULL, LM_MESSAGE_TYPE_PRESENCE,
-						 LM_MESSAGE_SUB_TYPE_UNAVAILABLE);
-  lm_connection_send (state.conn, msg, NULL);
-  lm_message_unref (msg);
+        LmMessage *msg = lm_message_new_with_sub_type (NULL, LM_MESSAGE_TYPE_PRESENCE,
+                                                       LM_MESSAGE_SUB_TYPE_UNAVAILABLE);
+        lm_connection_send (state.conn, msg, NULL);
+        lm_message_unref (msg);
 }
 
 /*
@@ -159,11 +159,11 @@ ft_presence_send_final (void)
 void
 ft_presence_send_initial (void)
 {
-  LmMessage *msg;
-  msg = lm_message_new_with_sub_type (NULL, LM_MESSAGE_TYPE_PRESENCE,
-				      LM_MESSAGE_SUB_TYPE_AVAILABLE);
-  lm_connection_send (state.conn, msg, NULL);
-  lm_message_unref (msg);
+        LmMessage *msg;
+        msg = lm_message_new_with_sub_type (NULL, LM_MESSAGE_TYPE_PRESENCE,
+                                            LM_MESSAGE_SUB_TYPE_AVAILABLE);
+        lm_connection_send (state.conn, msg, NULL);
+        lm_message_unref (msg);
 }
 
 /*
@@ -172,10 +172,10 @@ ft_presence_send_initial (void)
 
 void ft_presence_subscription_allow (char *jid)
 {
-  LmMessage *msg = lm_message_new_with_sub_type (jid, LM_MESSAGE_TYPE_PRESENCE,
-						 LM_MESSAGE_SUB_TYPE_SUBSCRIBED);
-  lm_connection_send (state.conn, msg, NULL);
-  lm_message_unref (msg);
+        LmMessage *msg = lm_message_new_with_sub_type (jid, LM_MESSAGE_TYPE_PRESENCE,
+                                                       LM_MESSAGE_SUB_TYPE_SUBSCRIBED);
+        lm_connection_send (state.conn, msg, NULL);
+        lm_message_unref (msg);
 }
 
 /*
@@ -184,8 +184,8 @@ void ft_presence_subscription_allow (char *jid)
 
 void ft_presence_subscription_deny (char *jid)
 {
-  LmMessage *msg = lm_message_new_with_sub_type (jid, LM_MESSAGE_TYPE_PRESENCE,
-						 LM_MESSAGE_SUB_TYPE_UNSUBSCRIBED);
-  lm_connection_send (state.conn, msg, NULL);
-  lm_message_unref (msg);
+        LmMessage *msg = lm_message_new_with_sub_type (jid, LM_MESSAGE_TYPE_PRESENCE,
+                                                       LM_MESSAGE_SUB_TYPE_UNSUBSCRIBED);
+        lm_connection_send (state.conn, msg, NULL);
+        lm_message_unref (msg);
 }

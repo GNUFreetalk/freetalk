@@ -27,7 +27,7 @@ int interpreter (char *line);
 
 static inline char * complete_none (const char *txt, int state)
 {
-  return NULL;
+        return NULL;
 }
 
 char ** ft_auto_complete (const char *txt, int start, int end);

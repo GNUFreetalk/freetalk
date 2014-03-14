@@ -35,40 +35,40 @@
 #define N_(String) gettext_noop (String)
 
 enum ft_conn_state {
-  FT_DEAD = 0,
-  FT_CONN,
-  FT_AUTH
+        FT_DEAD = 0,
+        FT_CONN,
+        FT_AUTH
 };
 
 typedef struct {
-  int argc;
-  char **argv;
-  char *server;
-  char *jid_str;
-  jid_t jid;
-  char *password;
-  char *current_buddy; /* autoinsertion */
-  LmConnection *conn; /* = (LmConnection *) conn */
-  char *prompt; /* "freetalk> " */
-  GError *error;
-  char need_ssl;
-  unsigned short port;
-  char daemon;
-  char async_printf;
-  enum ft_conn_state conn_state;
-  char *status_msg;
-  GSList *roster;
-  char *script;
-  char *config_dir;
-  GSList *f_state; /* file transfer states - linked list */
-  char *download_dirname; /* default directory where all files xfered go */
-  time_t last;
-  char need_proxy;
-  char *proxyserver;
-  unsigned short proxyport;
-  char *proxyuname;
-  char *proxypasswd;
-  LmProxy *proxy;
+        int argc;
+        char **argv;
+        char *server;
+        char *jid_str;
+        jid_t jid;
+        char *password;
+        char *current_buddy; /* autoinsertion */
+        LmConnection *conn; /* = (LmConnection *) conn */
+        char *prompt; /* "freetalk> " */
+        GError *error;
+        char need_ssl;
+        unsigned short port;
+        char daemon;
+        char async_printf;
+        enum ft_conn_state conn_state;
+        char *status_msg;
+        GSList *roster;
+        char *script;
+        char *config_dir;
+        GSList *f_state; /* file transfer states - linked list */
+        char *download_dirname; /* default directory where all files xfered go */
+        time_t last;
+        char need_proxy;
+        char *proxyserver;
+        unsigned short proxyport;
+        char *proxyuname;
+        char *proxypasswd;
+        LmProxy *proxy;
 } ft_state;
 
 extern ft_state state;

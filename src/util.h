@@ -25,9 +25,9 @@
 
 typedef struct jid
 {
-  char *node;
-  char *domain;
-  char *resource;
+        char *node;
+        char *domain;
+        char *resource;
 } jid_t;
 
 void parse_jid_string (char *jid_str, jid_t *jid);

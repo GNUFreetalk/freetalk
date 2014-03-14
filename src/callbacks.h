@@ -18,10 +18,10 @@
 */
 
 void ft_authenticate_cb (LmConnection *conn, gboolean success,
-			 gpointer user_data);
+                         gpointer user_data);
 
 void ft_connection_open_cb (LmConnection *conn, gboolean success,
-			    gpointer user_data);
+                            gpointer user_data);
 
 void ft_register_msg_handlers (LmConnection *conn);
 

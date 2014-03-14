@@ -26,10 +26,10 @@ void ft_presence_send_final (void);
 void ft_presence_send_initial (void);
 
 typedef enum {
-  SUBSCRIBE,
-  SUBSCRIBED,
-  UNSUBSCRIBE,
-  UNSUBSCRIBED
+        SUBSCRIBE,
+        SUBSCRIBED,
+        UNSUBSCRIBE,
+        UNSUBSCRIBED
 } FtPresenceMsgType;
 
 void ft_presence_subscription_allow (char *jid);
