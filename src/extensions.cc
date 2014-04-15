@@ -145,6 +145,9 @@ register_primitives ()
         gh_new_procedure0_0 ("ft-get-sslconn?", ex_get_sslconn);
         gh_new_procedure1_0 ("ft-set-sslconn!", ex_set_sslconn);
 
+        gh_new_procedure0_0 ("ft-get-tlsconn?", ex_get_tlsconn);
+        gh_new_procedure1_0 ("ft-set-tlsconn!", ex_set_tlsconn);
+
         gh_new_procedure0_0 ("ft-connect", ex_connect);
         gh_new_procedure0_0 ("ft-disconnect", ex_disconnect);
 

@@ -48,6 +48,10 @@ SCM ex_set_password (SCM scm_password);
 SCM ex_get_sslconn (void);
 SCM ex_set_sslconn (SCM scm_ssl);
 
+SCM ex_get_tlsconn (void);
+SCM ex_set_tlsconn (SCM scm_ssl);
+
+
 SCM ex_connect (void);
 SCM ex_disconnect (void);
 

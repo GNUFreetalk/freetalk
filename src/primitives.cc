@@ -181,6 +181,20 @@ ex_set_sslconn (SCM scm_ssl)
 }
 
 SCM 
+ex_get_tlsconn (void)
+{
+        return scm_from_bool (state.need_tls);
+}
+
+SCM 
+ex_set_tlsconn (SCM scm_tls)
+{
+        do_set_tls (scm_to_bool (scm_tls));
+
+        return SCM_UNSPECIFIED;
+}
+
+SCM 
 ex_connect (void)
 {
         return scm_from_int (do_connect());
