@@ -79,13 +79,14 @@ do_connect_common ()
 
         lm_connection_set_jid (state.conn, state.jid_str);
 
-        if (state.need_ssl) {
+        if (state.need_ssl || state.need_tls) {
                 LmSSL *ssl;
     
                 if (!lm_ssl_is_supported ()) {
                         return -3;
                 }
                 ssl = lm_ssl_new (NULL, ft_ssl_response_cb, NULL, NULL);
+                lm_ssl_use_starttls(ssl, ! state.need_ssl, state.need_tls);
                 lm_connection_set_ssl (state.conn, ssl);
                 lm_connection_set_port (state.conn, do_get_port () ? do_get_port () : LM_CONNECTION_DEFAULT_PORT_SSL);
         } else {
@@ -308,6 +309,19 @@ int
 do_get_ssl (void)
 {
         return state.need_ssl;
+}
+
+int
+do_set_tls (char value)
+{
+        state.need_tls = value;
+        return 0;
+}
+
+int
+do_get_tls (void)
+{
+        return state.need_tls;
 }
 
 int

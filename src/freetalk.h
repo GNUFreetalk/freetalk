@@ -52,6 +52,7 @@ typedef struct {
         char *prompt; /* "freetalk> " */
         GError *error;
         char need_ssl;
+        char need_tls;
         unsigned short port;
         char daemon;
         char async_printf;

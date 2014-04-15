@@ -44,6 +44,8 @@ int do_set_prompt (const char *prompt);
 const char * do_get_prompt (void);
 int do_set_ssl (char value);
 int do_get_ssl (void);
+int do_set_tls (char value);
+int do_get_tls (void);
 int do_set_proxy (char value);
 int do_get_proxy (void);
 int do_send_message (char *jid, char *msg);
