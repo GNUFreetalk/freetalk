@@ -1,41 +1,47 @@
-dnl Copyright 200, 2006, 2007 Freetalk Core Team
+dnl Copyright 2005-2014 Freetalk Core Team
 dnl GNU General Publicense v3 or later
-    
+
 dnl Process this file with autoconf to produce a configure script
 
-AC_INIT([freetalk], [3.2], [freetalk-dev@gnu.org])
+AC_INIT([freetalk], [4.0], [freetalk-dev@gnu.org])
 AM_INIT_AUTOMAKE
 
 AC_PREREQ([2.57])
-AC_CONFIG_SRCDIR([src/freetalk.cc])
+AC_CONFIG_SRCDIR([src/freetalk.c])
 
 AC_CONFIG_FILES([Makefile src/Makefile extensions/Makefile extensions/init.scm extensions/first-time-run.sh doc/Makefile po/Makefile.in examples/Makefile])
 
 AC_PROG_MAKE_SET
 AC_PROG_CXX
 
+AC_CHECK_LIB([readline -lcurses],[readline],[RLLIBS="-lreadline -lcurses"])
+AC_CHECK_LIB([readline -ltermcap],[readline],[RLLIBS="-lreadline -ltermcap"])
+AC_CHECK_LIB([readline -lncurses],[readline],[RLLIBS="-lreadline -lncurses"])
+
+if test "x$RLLIBS" == "x"; then
+   AC_MSG_ERROR([ERROR! readline not found..])
+fi
+AC_SUBST(RLLIBS)
+
 AC_SEARCH_LIBS([tgetent],[ncurses termcap curses])
 AC_CHECK_LIB([readline], [readline],,AC_MSG_ERROR([ERROR! readline not found...]))
-GUILE_FLAGS
-AC_CHECK_LIB([guile],[scm_boot_guile],,AC_MSG_ERROR([ERROR! Guile 1.6 or above required.]))
-
 AC_CHECK_PROG([PKGCONFIG], [pkg-config], [yes], [no])
 if test "x$PKGCONFIG" = "xno"; then
    AC_MSG_ERROR([pkg-config not found])
 fi
 
-dnl AC_CHECK_LIB([glib-2.0],[g_slist_free],,AC_MSG_ERROR([ERROR! glib-2.0 not found...]))
-GLIB_CFLAGS=`pkg-config --cflags glib-2.0`
-GLIB_LIBS=`pkg-config --libs glib-2.0`
-AC_SUBST(GLIB_CFLAGS)
-AC_SUBST(GLIB_LIBS)
-
-dnl AC_CHECK_LIB([loudmouth1],[lm_session_is_open],,AC_MSG_ERROR([ERROR! loudmouth1 not found...]))
-LOUDMOUTH_CFLAGS=`pkg-config --cflags loudmouth-1.0`
-LOUDMOUTH_LIBS=`pkg-config --libs loudmouth-1.0`
-AC_SUBST(LOUDMOUTH_CFLAGS)
-AC_SUBST(LOUDMOUTH_LIBS)
-
+PKG_CHECK_MODULES([GUILE], [guile-2.0], [HAVE_GUILE_2="yes"], [HAVE_GUILE_2="no"])
+if test "x$HAVE_GUILE_2" == "xno"; then
+   AC_MSG_ERROR([ERROR! guile-2.0 not found...])
+fi
+PKG_CHECK_MODULES([GLIB], [glib-2.0], [HAVE_GLIB_2="yes"], [HAVE_GLIB_2="no"])
+if test "x$HAVE_GLIB_2" == "xno"; then
+   AC_MSG_ERROR([ERROR! glib-2.0 not found...])
+fi
+PKG_CHECK_MODULES([LOUDMOUTH], [loudmouth-1.0], [HAVE_LOUDMOUTH="yes"], [HAVE_LOUDMOUTH="no"])
+if test "x$HAVE_LOUDMOUTH" == "xno"; then
+   AC_MSG_ERROR([ERROR! loudmouth-1.0 not found...])
+fi
 
 AC_CHECK_HEADER([argp.h],AC_DEFINE(HAVE_ARGP,[1]))
 

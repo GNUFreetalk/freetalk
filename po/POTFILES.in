@@ -1,13 +1,13 @@
 # source files containing strings to translate
-src/freetalk.cc
-src/util.cc
-src/callbacks.cc
-src/commands.cc
-src/extensions.cc
-src/interpreter.cc
-src/presence.cc
-src/primitives.cc
-src/roster.cc
+src/freetalk.c
+src/util.c
+src/callbacks.c
+src/commands.c
+src/extensions.c
+src/interpreter.c
+src/presence.c
+src/primitives.c
+src/roster.c
 extensions/init.scm
 extensions/color.scm
 extensions/connection.scm

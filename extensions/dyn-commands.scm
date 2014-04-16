@@ -1,17 +1,17 @@
 ;;; dyn-commands.scm: Dynamic Commands support.
-;;; Copyright (c) 2005, 2006, 2007 Freetalk Core Team 
+;;; Copyright (c) 2005-2014 Freetalk Core Team
 ;;; This file is part of GNU Freetalk.
-;;; 
+;;;
 ;;; Freetalk is free software; you can redistribute it and/or modify it
 ;;; under the terms of the GNU General Public License as published by
 ;;; the Free Software Foundation; either version 3 of the License, or
 ;;; (at your option) any later version.
-;;; 
+;;;
 ;;; Freetalk is distributed in the hope that it will be useful, but
 ;;; WITHOUT ANY WARRANTY; without even the implied warranty of
 ;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;;; General Public License for more details.
-;;; 
+;;;
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with this program.  If not, see
 ;;; <http://www.gnu.org/licenses/>.
@@ -23,7 +23,7 @@
 (define (add-command! func command syntax description)
   "Adds a dynamic command"
   (if (procedure? func)
-      (set! dynamic-command-registry 
+      (set! dynamic-command-registry
 	    (assoc-set! dynamic-command-registry
 			command
 			(list func syntax description)))
@@ -33,7 +33,7 @@
 
 (define (remove-command! command)
   "Removes a dynamic command"
-  (set! dynamic-command-registry 
+  (set! dynamic-command-registry
 	(assoc-remove! dynamic-command-registry
 		       command)))
 
@@ -44,7 +44,7 @@
           ((car cmd-entry) args)
           (ft-hook-return)))) (assoc-ref dynamic-command-registry command)))
 (add-hook! ft-command-hook dynamic-command-proc)
-	
+
 (define (help args)
   "display help message"
   (let ((command-name (sans-surrounding-whitespace args))
@@ -67,8 +67,8 @@
 					    (cadddr command-entry)
 					    "\n"
 					    )))
-		  (sort dynamic-command-registry 
-			(lambda (a b) 
+		  (sort dynamic-command-registry
+			(lambda (a b)
 			  (string<? (car a) (car b))))))))
 
 (add-command! help "help" "help [COMMAND]" "show help")

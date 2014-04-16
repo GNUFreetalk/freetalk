@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005, 2006, 2007 Freetalk Core Team 
+  Copyright (c) 2005-2014 Freetalk Core Team
   This file is part of GNU Freetalk.
 
   Freetalk is free software; you can redistribute it and/or modify it
@@ -33,7 +33,7 @@
 #include "roster.h"
 #include "presence.h"
 
-int 
+int
 do_connect_common ()
 {
         if (do_get_conn_status ())
@@ -60,7 +60,7 @@ do_connect_common ()
 
         if (state.need_proxy) {
 
-                if (!state.proxyserver) 
+                if (!state.proxyserver)
                         return -5;
 
                 state.proxy = lm_proxy_new_with_server (LM_PROXY_TYPE_HTTP,
@@ -68,10 +68,10 @@ do_connect_common ()
                                                         state.proxyport);
                 if (!state.proxyuname) state.proxyuname = NULL;
                 if (!state.proxypasswd) state.proxypasswd = NULL;
-    
+
                 lm_proxy_set_username (state.proxy, state.proxyuname);
                 lm_proxy_set_password (state.proxy, state.proxypasswd);
-    
+
                 lm_connection_set_proxy (state.conn, state.proxy);
                 lm_proxy_unref(state.proxy);
         }
@@ -81,7 +81,7 @@ do_connect_common ()
 
         if (state.need_ssl || state.need_tls) {
                 LmSSL *ssl;
-    
+
                 if (!lm_ssl_is_supported ()) {
                         return -3;
                 }
@@ -98,7 +98,7 @@ do_connect_common ()
         return 0;
 }
 
-int 
+int
 do_connect (void)
 {
         int ret;
@@ -123,8 +123,8 @@ do_session_init (gboolean success)
 {
         LmMessage *msg;
 
-        scm_run_hook (ex_login_hook, gh_list (gh_bool2scm (success),
-                                              SCM_UNDEFINED));
+        scm_run_hook (ex_login_hook, scm_list_n (scm_from_bool (success),
+                                                 SCM_UNDEFINED));
         if (success) {
                 do_set_conn_status (FT_AUTH);
         } else {
@@ -140,7 +140,7 @@ do_session_init (gboolean success)
         lm_message_unref (msg);
 }
 
-int 
+int
 do_connect_blocking (void)
 {
         int ret;
@@ -156,13 +156,13 @@ do_connect_blocking (void)
                 PRINTF (_("Could not connect."));
                 return -4;
         }
-  
+
         PRINTF (_("Connected."));
-  
+
         do_set_conn_status (FT_CONN);
 
         PRINTF (_("Authenticating ..."));
-        ret = lm_connection_authenticate_and_block (state.conn, 
+        ret = lm_connection_authenticate_and_block (state.conn,
                                                     state.jid.node,
                                                     state.password,
                                                     state.jid.resource,
@@ -202,18 +202,18 @@ int
 do_quit (int err)
 {
         do_disconnect();
-        scm_run_hook(ex_quit_hook, gh_list (gh_int2scm(err),
-                                            SCM_UNDEFINED));
+        scm_run_hook(ex_quit_hook, scm_list_n (scm_from_int(err),
+                                               SCM_UNDEFINED));
         exit (err);
 }
 
 int
 do_set_jid (const char *jidstr)
 {
-        if (!jidstr) 
+        if (!jidstr)
                 return -1;
 
-        if (state.jid_str) 
+        if (state.jid_str)
                 free (state.jid_str);
         state.jid_str = strdup (jidstr);
 
@@ -231,7 +231,7 @@ do_set_password (const char *password)
 {
         if (!password)
                 return -1;
-  
+
         if (state.password)
                 free (state.password);
         state.password = strdup (password);
@@ -248,10 +248,10 @@ do_get_password (void)
 int
 do_set_server (const char *server)
 {
-        if (!server) 
+        if (!server)
                 return -1;
 
-        if (state.server) 
+        if (state.server)
                 free (state.server);
         state.server = strdup (server);
 
@@ -282,7 +282,7 @@ do_set_prompt (const char *prompt)
 {
         if (!prompt)
                 return -1;
-  
+
         if (state.prompt)
                 free (state.prompt);
         state.prompt = strdup (prompt);
@@ -354,7 +354,7 @@ do_send_message_no_hook (char *jid, char *msg_str)
 int
 do_send_message (char *jid, char *msg_str)
 {
-        /* set before hook, allowing hook functions to override 
+        /* set before hook, allowing hook functions to override
            default buddy
         */
 
@@ -367,9 +367,10 @@ do_send_message (char *jid, char *msg_str)
                 return -1;
 
         set_hook_return (0);
-        scm_run_hook (ex_message_send_hook, gh_list (gh_str02scm (jid),
-                                                     gh_str02scm (msg_str),
-                                                     SCM_UNDEFINED));
+        scm_run_hook (ex_message_send_hook,
+                      scm_list_n (scm_from_locale_string (jid),
+                                  scm_from_locale_string (msg_str),
+                                  SCM_UNDEFINED));
         if (get_hook_return () == 1)
                 return LM_HANDLER_RESULT_REMOVE_MESSAGE;
 
@@ -439,7 +440,7 @@ do_printf (const char *fmt, ...)
                 else
                         sync_printf (fmt, ap);
         }
-  
+
         return 0;
 }
 
@@ -475,7 +476,7 @@ do_set_status_msg (char *status)
 {
         const char *valid[] = { "online", "away", "chat", "xa", "dnd", "invisible", NULL }, *text = NULL;
         int show, offset;
-  
+
         if((text = strchr(status, ' '))) {
                 offset = text - status;
                 text++;
@@ -581,7 +582,7 @@ do_change_password (char *npass)
                 lm_message_node_add_child (query, "username", state.jid.node);
                 lm_message_node_add_child (query, "password", npass);
 
-                LmMessage *reply = lm_connection_send_with_reply_and_block (state.conn, 
+                LmMessage *reply = lm_connection_send_with_reply_and_block (state.conn,
                                                                             msg, NULL);
 
                 const char *type = lm_message_node_get_attribute (reply->node, "type");
@@ -598,14 +599,14 @@ do_change_password (char *npass)
         free (npass);
 }
 
-int 
+int
 do_set_proxy (char value)
 {
         state.need_proxy = value;
         return 0;
 }
 
-int 
+int
 do_get_proxy (void)
 {
         return state.need_proxy;
@@ -617,18 +618,18 @@ do_get_proxyserver (void)
         return state.proxyserver ? state.proxyserver : "";
 }
 
-int 
+int
 do_get_proxyport (void)
 {
         return state.proxyport;
 }
 
-int 
+int
 do_set_proxyserver (const char *proxyserver)
 {
-        if (!proxyserver) 
+        if (!proxyserver)
                 return -1;
-  
+
         if (state.proxyserver)
                 free (state.proxyserver);
         state.proxyserver = strdup (proxyserver);
@@ -644,7 +645,7 @@ do_set_proxyport (unsigned short int proxyport)
 
 
 const char *
-do_get_proxyuname (void) 
+do_get_proxyuname (void)
 {
         return state.proxyuname ? state.proxyuname : "";
 }
@@ -655,10 +656,10 @@ do_get_proxypasswd (void)
         return state.proxypasswd ? state.proxypasswd : "";
 }
 
-int 
-do_set_proxyuname (const char *proxyuname) 
+int
+do_set_proxyuname (const char *proxyuname)
 {
-        if (!proxyuname) 
+        if (!proxyuname)
                 return -1;
 
         if (state.proxyuname)
@@ -669,10 +670,10 @@ do_set_proxyuname (const char *proxyuname)
         return 0;
 }
 
-int 
-do_set_proxypasswd (const char *proxypasswd) 
+int
+do_set_proxypasswd (const char *proxypasswd)
 {
-        if (!proxypasswd) 
+        if (!proxypasswd)
                 return -1;
 
         if (state.proxypasswd)
@@ -682,4 +683,3 @@ do_set_proxypasswd (const char *proxypasswd)
 
         return 0;
 }
-

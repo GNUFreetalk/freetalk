@@ -1,17 +1,17 @@
 /*
-  Copyright (c) 2005, 2006, 2007 Freetalk Core Team
+  Copyright (c) 2005-2014 Freetalk Core Team
   This file is part of Freetalk.
-  
+
   Freetalk is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published
   by the Free Software Foundation; either version 3 of the License,
   or (at your option) any later version.
-  
+
   Freetalk is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
   General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see
   <http://www.gnu.org/licenses/>.
@@ -21,7 +21,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include <guile/gh.h>
+#include <libguile.h>
 
 #include "freetalk.h"
 #include "commands.h"
@@ -71,41 +71,41 @@ SCM ex_set_server (SCM scm_server)
         return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 ex_get_proxyserver (void)
 {
         return scm_from_locale_string (do_get_proxyserver ());
 }
 
-SCM 
+SCM
 ex_set_proxyserver (SCM scm_proxyserver)
 {
         char *proxyserver = scm_to_locale_string (scm_proxyserver);
-  
+
         do_set_proxyserver (proxyserver);
         free (proxyserver);
 
         return SCM_UNSPECIFIED;
 }
 
-SCM 
-ex_get_proxyport (void) 
+SCM
+ex_get_proxyport (void)
 {
         return scm_from_int (do_get_proxyport ());
 }
 
-SCM 
-ex_set_proxyport (SCM scm_proxyport) 
+SCM
+ex_set_proxyport (SCM scm_proxyport)
 {
         do_set_proxyport (scm_to_int (scm_proxyport));
         return SCM_UNSPECIFIED;
 }
 
 SCM
-ex_set_proxyuname (SCM scm_proxyuname) 
+ex_set_proxyuname (SCM scm_proxyuname)
 {
         char *proxyuname = scm_to_locale_string (scm_proxyuname);
-  
+
         do_set_proxyuname (proxyuname);
         free (proxyuname);
 
@@ -118,7 +118,7 @@ ex_get_proxyuname (void)
         return scm_from_locale_string (do_get_proxyuname ());
 }
 
-SCM 
+SCM
 ex_set_proxypasswd (SCM scm_proxypasswd)
 {
         char *proxypasswd = scm_to_locale_string (scm_proxypasswd);
@@ -135,13 +135,13 @@ ex_get_proxypasswd (void)
         return scm_from_locale_string (do_get_proxypasswd ());
 }
 
-SCM 
+SCM
 ex_get_password (void)
 {
         return scm_from_locale_string (do_get_password ());
 }
 
-SCM 
+SCM
 ex_set_password (SCM scm_password)
 {
         char *password = scm_to_locale_string (scm_password);
@@ -152,7 +152,7 @@ ex_set_password (SCM scm_password)
         return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 ex_get_proxy (void)
 {
         return scm_from_bool (state.need_proxy);
@@ -162,17 +162,17 @@ SCM
 ex_set_proxy (SCM scm_proxy)
 {
         do_set_proxy (scm_to_bool (scm_proxy));
-  
+
         return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 ex_get_sslconn (void)
 {
         return scm_from_bool (state.need_ssl);
 }
 
-SCM 
+SCM
 ex_set_sslconn (SCM scm_ssl)
 {
         do_set_ssl (scm_to_bool (scm_ssl));
@@ -180,13 +180,13 @@ ex_set_sslconn (SCM scm_ssl)
         return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 ex_get_tlsconn (void)
 {
         return scm_from_bool (state.need_tls);
 }
 
-SCM 
+SCM
 ex_set_tlsconn (SCM scm_tls)
 {
         do_set_tls (scm_to_bool (scm_tls));
@@ -194,13 +194,13 @@ ex_set_tlsconn (SCM scm_tls)
         return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 ex_connect (void)
 {
         return scm_from_int (do_connect());
 }
 
-SCM 
+SCM
 ex_disconnect (void)
 {
         do_disconnect ();
@@ -208,7 +208,7 @@ ex_disconnect (void)
         return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 ex_send_message (SCM scm_to, SCM scm_msg)
 {
         char *to = scm_to_locale_string (scm_to);
@@ -218,7 +218,7 @@ ex_send_message (SCM scm_to, SCM scm_msg)
 
         free (to);
         free (msg);
-  
+
         return SCM_UNSPECIFIED;
 }
 
@@ -227,7 +227,7 @@ ex_send_message_no_hook (SCM scm_to, SCM scm_msg)
 {
         char *to = scm_to_locale_string (scm_to);
         char *msg = scm_to_locale_string (scm_msg);
-  
+
         do_send_message_no_hook (to, msg);
 
         free (to);
@@ -375,7 +375,7 @@ roster_iterator (gpointer r_item, gpointer retval)
 {
         FtRosterItem *item = (FtRosterItem *)r_item;
         SCM *ret = (SCM *)retval;
-  
+
         *ret = scm_cons (roster_item_to_list (item), *ret);
 }
 
@@ -420,7 +420,7 @@ ex_roster_set_nickname (SCM scm_jid, SCM scm_nickname)
 {
         char *jid = scm_to_locale_string (scm_jid);
         char *nickname = scm_to_locale_string (scm_nickname);
-  
+
         ft_roster_set_nickname (jid, nickname);
 
         return SCM_UNSPECIFIED;
@@ -513,7 +513,7 @@ ex_load_default_config (void)
 SCM
 ex_get_config_dir (void)
 {
-        return scm_from_locale_string (state.config_dir);   
+        return scm_from_locale_string (state.config_dir);
 }
 
 SCM
@@ -559,7 +559,7 @@ ex_quit (SCM scm_exit_code)
         return SCM_UNSPECIFIED;
 }
 
-/* File transfer */
+/* TODO: File transfer
 SCM
 ex_send_file (SCM scm_reciever_jid, SCM scm_file_name)
 {
@@ -579,14 +579,14 @@ ex_set_allow_file (SCM scm_cookie, SCM scm_file_name)
 {
         int ret = -1;
         char *file_name = scm_to_locale_string (scm_file_name);
-  
+
         ret = ft_set_allow_file (scm_to_int (scm_cookie), file_name);
         free (file_name);
 
         return scm_from_int (ret);
 }
 
-/* End file transfer */
+*/
 
 SCM
 ex_change_password (SCM newpass)

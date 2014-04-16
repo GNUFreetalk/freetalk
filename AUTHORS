@@ -1,18 +1,21 @@
 FreeTalk Contributors (sorted alphabetically)
 =============================================
 
-Core team
+Active
 ---------
-1. Anand Avati        <avati@gluster.com>
-2. Anand Babu         <ab@gluster.com>
-3. Harshavardhana     <harsha@gluster.com>
-4. Vikas Gorur        <vikas@gluster.com>
+* Anand Babu
+* Harshavardhana
+
+TLS-feature
+---------
+* Anis Elleuch
 
 Documentation
 -------------
-1. Harshavardhana     <harsha@gluster.com>
+* Harshavardhana
 
-Logo design
------------
-1. Ravi Shekhar S     <ravi@inf.in>
-
+Inactive
+----------
+* Anand Avati
+* Vikas Gorur
+* Ravi Shekhar S

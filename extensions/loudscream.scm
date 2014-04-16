@@ -1,22 +1,22 @@
 ;;; loudscream.scm: Guile interface to the Loudmouth library
-;;; Copyright (c) 2005, 2006, 2007 Freetalk Core Team 
+;;; Copyright (c) 2005-2014 Freetalk Core Team
 ;;; This file is part of GNU Freetalk.
-;;; 
+;;;
 ;;; Freetalk is free software; you can redistribute it and/or modify it
 ;;; under the terms of the GNU General Public License as published by
 ;;; the Free Software Foundation; either version 3 of the License, or
 ;;; (at your option) any later version.
-;;; 
+;;;
 ;;; Freetalk is distributed in the hope that it will be useful, but
 ;;; WITHOUT ANY WARRANTY; without even the implied warranty of
 ;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;;; General Public License for more details.
-;;; 
+;;;
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with this program.  If not, see
 ;;; <http://www.gnu.org/licenses/>.
 
-(use-modules (ice-9 syncase) (ice-9 pretty-print))
+(use-modules (ice-9 pretty-print))
 
 (define-syntax node-set-attrs
   (syntax-rules ()
@@ -32,7 +32,7 @@
      (let ((child (lm-message-node-add-child parent name "")))
 	      (node-set-attrs child attrs)
 	      (node-transform child childer)
-	      (node-transform parent rest))) 
+	      (node-transform parent rest)))
     ((_ parent (str)) (lm-message-node-set-value parent str))
     ((_ parent str) (lm-message-node-set-value parent str))))
 
@@ -78,7 +78,7 @@
 
 (define (safe-repl args)
   (if (not seed)
-      (set! seed (call-with-current-continuation 
+      (set! seed (call-with-current-continuation
 		  (lambda (escape)
 		    (dynamic-wind
 			(lambda ()

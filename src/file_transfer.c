@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005, 2006, 2007 Freetalk Core Team 
+  Copyright (c) 2005-2014 Freetalk Core Team
   This file is part of GNU Freetalk.
 
   Freetalk is free software; you can redistribute it and/or modify it
@@ -66,28 +66,28 @@ static int ft_send_sdisco(char *reciever)
         char *reciever_full = NULL;
 
         rcv_item = ft_roster_lookup (reciever);
-  
+
         if (!rcv_item) {
                 return -1;
         }
-  
+
         if (!rcv_item->is_online || !rcv_item->resource) {
                 return -2;
         }
 
-        reciever_full = (char *)calloc (strlen (reciever) + 
+        reciever_full = (char *)calloc (strlen (reciever) +
                                         strlen (rcv_item->resource) + 2, 1);
         sprintf(reciever_full, "%s/%s", reciever, rcv_item->resource);
-  
-        msg = lm_message_new_with_sub_type (reciever_full, 
+
+        msg = lm_message_new_with_sub_type (reciever_full,
                                             LM_MESSAGE_TYPE_IQ,
                                             LM_MESSAGE_SUB_TYPE_GET);
 
         child_node = lm_message_node_add_child (msg->node, "query", NULL);
         lm_message_node_set_attribute (child_node,
                                        "xmlns", "http://jabber.org/protocol/disco#info");
-  
-  
+
+
         reply = lm_connection_send_with_reply_and_block (state.conn, msg, NULL);
 
         /* check if the far end supports the protocol we expect them to support
@@ -111,22 +111,22 @@ int ft_msg_sub_type_get_cb(LmMessage *msg)
         const char *id   = lm_message_node_get_attribute (msg->node, "id");
         LmMessage *send_msg;
         LmMessageNode *child, *parent_node = NULL;
-  
+
         send_msg = lm_message_new_with_sub_type (from,
                                                  LM_MESSAGE_TYPE_IQ,
                                                  LM_MESSAGE_SUB_TYPE_RESULT);
-  
+
         lm_message_node_set_attribute (send_msg->node,
                                        "id", id);
         child = lm_message_node_add_child (send_msg->node, "query", NULL);
-        lm_message_node_set_attribute (child, 
+        lm_message_node_set_attribute (child,
                                        "xmlns", "http://jabber.org/protocol/disco#info");
-  
+
         parent_node = child;
         child = lm_message_node_add_child (parent_node, "feature", NULL);
         lm_message_node_set_attribute (child,
                                        "var", "http://jabber.org/protocol/si");
-  
+
         child = lm_message_node_add_child (parent_node, "feature", NULL);
         lm_message_node_set_attribute (child,
                                        "var", "http://jabber.org/protocol/si/profile/file-transfer");
@@ -167,7 +167,7 @@ static int file_receiver_compare (gconstpointer p, gconstpointer q)
         return 1;
 }
 
-/* 'set' request is assumed to be for file-transfer init 
+/* 'set' request is assumed to be for file-transfer init
  * we'll setup the ft_file_state list */
 int ft_msg_sub_type_set_cb(LmMessage *msg)
 {
@@ -182,7 +182,7 @@ int ft_msg_sub_type_set_cb(LmMessage *msg)
         if (!g_ascii_strcasecmp (msg_id, "offer1")){
                 /* Get the name of the file that the reciever is willing to send */
                 file = (ft_file_state *)calloc (sizeof (ft_file_state), 1);
-    
+
                 /* set cookie, increment the global cookie count */
                 file->cookie = cookie_count++;
 
@@ -205,7 +205,7 @@ int ft_msg_sub_type_set_cb(LmMessage *msg)
                 state.f_state = g_slist_append (state.f_state, file);
         } else {
                 /* this is for IBB 'close'/'open' */
-    
+
                 if ((child_node = lm_message_node_get_child (msg->node, "open"))){
                         const char *session = lm_message_node_get_attribute (child_node, "sid");
                         const char *sender = lm_message_node_get_attribute (msg->node, "from");
@@ -216,7 +216,7 @@ int ft_msg_sub_type_set_cb(LmMessage *msg)
                         file->session_id = g_strdup (session);
                         if (incoming.sender)
                                 g_free (incoming.sender);
-      
+
                         /* Before sending the 'result' reply, open the file to write to */
                         if ((file->fd = open (file->local_file, O_CREAT | O_WRONLY, S_IWUSR)) < 0){
                                 scm_run_hook (ex_notify_file_hook, scm_list_n (scm_from_locale_string (file->sender),
@@ -232,7 +232,7 @@ int ft_msg_sub_type_set_cb(LmMessage *msg)
                                 send_msg = lm_message_new_with_sub_type (from,
                                                                          LM_MESSAGE_TYPE_IQ,
                                                                          LM_MESSAGE_SUB_TYPE_ERROR);
-                                lm_message_node_set_attribute (send_msg->node, 
+                                lm_message_node_set_attribute (send_msg->node,
                                                                "id", msg_id);
                                 ret = lm_connection_send (state.conn, send_msg, NULL);
 
@@ -253,14 +253,14 @@ int ft_msg_sub_type_set_cb(LmMessage *msg)
                                 g_free (file->session_id);
                         if (file->sender)
                                 g_free (file->sender);
-        
+
                         /* close the file we are writing to */
                         close (file->fd);
-      
+
                         state.f_state = g_slist_remove (state.f_state, file);
                         if (file)
                                 free (file);
-      
+
                 } else {
                         /* this is not the case of 'open'/'close' */
                         ;
@@ -270,13 +270,13 @@ int ft_msg_sub_type_set_cb(LmMessage *msg)
                 send_msg = lm_message_new_with_sub_type (from,
                                                          LM_MESSAGE_TYPE_IQ,
                                                          LM_MESSAGE_SUB_TYPE_RESULT);
-                lm_message_node_set_attribute (send_msg->node, 
+                lm_message_node_set_attribute (send_msg->node,
                                                "id", msg_id);
                 ret = lm_connection_send (state.conn, send_msg, NULL);
 
 
         }
-  
+
         return ret;
 
 }
@@ -298,7 +298,7 @@ int ft_send_file_message_data(LmMessage *msg)
                 const char *session = lm_message_node_get_attribute (child_node, "sid");
 
                 incoming.session_id = g_strdup (session);
-    
+
                 file_slist = g_slist_find_custom (state.f_state, &incoming, file_sid_compare);
                 file = (ft_file_state *)file_slist->data;
 
@@ -311,7 +311,7 @@ int ft_send_file_message_data(LmMessage *msg)
         /* recieve the file data. decode file data. store it to a local file */
         /* right now, assumed that we get the whole file in one stretch, and file is
          * zero sized */
-        /* not required here 
+        /* not required here
            if ( !atoi (lm_message_node_get_attribute (child_node, "seq"))){
            if ((fd = open(file->local_file, O_CREAT | O_WRONLY)) < 0){
            return -2;
@@ -319,7 +319,7 @@ int ft_send_file_message_data(LmMessage *msg)
            file->fd = fd;
            }
            } */
-  
+
         /* get the data and write to file */
         file_data = g_strdup (lm_message_node_get_value (child_node));
         data_len = strlen (file_data);
@@ -330,7 +330,7 @@ int ft_send_file_message_data(LmMessage *msg)
                 g_free (file_data);
         }
 
-  
+
         return ret;
 }
 /* transfer the file using In-Band Bytestream */
@@ -348,7 +348,7 @@ static int ft_do_send_file(char *reciever, char *file)
 
 
 
-        session = (char *)calloc (strlen (file) + strlen (reciever) + 
+        session = (char *)calloc (strlen (file) + strlen (reciever) +
                                   2 + FT_INT_STR_LEN, 1);
         sprintf (session, "%s_%s_%d", file, reciever, (int)(random()));
         block_size = (char *)calloc (FT_INT_STR_LEN, 1);
@@ -359,26 +359,26 @@ static int ft_do_send_file(char *reciever, char *file)
         send_msg = lm_message_new_with_sub_type (reciever,
                                                  LM_MESSAGE_TYPE_IQ,
                                                  LM_MESSAGE_SUB_TYPE_SET);
-        lm_message_node_set_attribute (send_msg->node, 
+        lm_message_node_set_attribute (send_msg->node,
                                        "id", "inband_1");
-  
+
         child_node = lm_message_node_add_child (send_msg->node, "open", NULL);
         lm_message_node_set_attributes (child_node,
                                         "sid", session,
                                         "block-size", block_size,
                                         "xmlns", "http://jabber.org/protocol/ibb",
                                         NULL);
-  
+
         reply = lm_connection_send_with_reply_and_block (state.conn, send_msg, NULL);
-  
+
         if (!reply){
                 return -2;
         }
-  
+
         if ((fd = open (file, O_RDONLY)) < 0){
                 return -2;
         }
-  
+
         data_buffer = (char *)calloc (FT_FILE_BUFFER_SIZE, sizeof(char));
 
         if (data_buffer && (LM_MESSAGE_SUB_TYPE_RESULT == lm_message_get_sub_type (reply))) {
@@ -389,9 +389,9 @@ static int ft_do_send_file(char *reciever, char *file)
                                                    LM_MESSAGE_TYPE_MESSAGE);
                         lm_message_node_set_attribute (file_msg->node,
                                                        "id", "data_1");
-    
+
                         child_node = lm_message_node_add_child (file_msg->node, "data", NULL);
-      
+
                         lm_message_node_set_value (child_node, data_buffer);
 
                         sprintf (sequence, "%d", seqno++);
@@ -400,11 +400,11 @@ static int ft_do_send_file(char *reciever, char *file)
                                                         "sid", session,
                                                         "seq", sequence,
                                                         NULL);
-    
+
                         child_node = lm_message_node_add_child (file_msg->node, "amp", NULL);
                         lm_message_node_set_attribute (child_node,
                                                        "xmlns", "http://jabber.org/protocol/amp");
-    
+
                         parent_node = child_node;
                         child_node = lm_message_node_add_child (child_node, "rule", NULL);
                         lm_message_node_set_attributes (child_node,
@@ -412,7 +412,7 @@ static int ft_do_send_file(char *reciever, char *file)
                                                         "value", "stored",
                                                         "action", "error",
                                                         NULL);
-      
+
                         child_node = lm_message_node_add_child (parent_node, "rule", NULL);
                         lm_message_node_set_attributes (child_node,
                                                         "condition", "match-resource",
@@ -424,27 +424,27 @@ static int ft_do_send_file(char *reciever, char *file)
                         sleep(1);
                         memset (data_buffer, 0, FT_FILE_BUFFER_SIZE);
                 }
-    
+
         } else {
                 /* reciever is not ready to recieve the file */
                 return -2;
         }
         if (data_buffer)
                 free (data_buffer);
-  
+
         /* we are done with sending the file. Now we have to close the IBB */
         send_msg = lm_message_new_with_sub_type (reciever,
                                                  LM_MESSAGE_TYPE_IQ,
                                                  LM_MESSAGE_SUB_TYPE_SET);
         lm_message_node_set_attribute (send_msg->node,
                                        "id", "inband_2");
-  
+
         child_node = lm_message_node_add_child (send_msg->node, "close", NULL);
-        lm_message_node_set_attributes (child_node, 
+        lm_message_node_set_attributes (child_node,
                                         "xmlns", "http://jabber.org/protocol/ibb",
                                         "sid", session,
                                         NULL);
-  
+
         reply = lm_connection_send_with_reply_and_block (state.conn, send_msg, NULL);
 
         if (session)
@@ -457,13 +457,13 @@ static int ft_do_send_file(char *reciever, char *file)
         if (!reply) {
                 return -2;
         }
-  
+
         if (LM_MESSAGE_SUB_TYPE_RESULT == lm_message_get_sub_type (reply)){
                 return 0;
         }
-  
+
         return -2;
-                  
+
 }
 
 int ft_msg_sub_type_result_cb(LmMessage *msg)
@@ -486,15 +486,15 @@ int ft_msg_sub_type_result_cb(LmMessage *msg)
                         return -2;
 
                 file_state = (ft_file_state *)file_slist->data;
-    
+
                 if (incoming.message_id)
                         g_free (incoming.message_id);
                 if (incoming.reciever)
                         g_free (incoming.reciever);
-    
+
                 from_jid = g_strdup (from);
 
-    
+
                 if (ft_do_send_file(from_jid, file_state->local_file)){
                         if (from_jid)
                                 g_free (from_jid);
@@ -505,9 +505,9 @@ int ft_msg_sub_type_result_cb(LmMessage *msg)
                         g_free (from_jid);
                 /* file transfer is done, remove the file state from the list */
                 state.f_state = g_slist_remove (state.f_state, file_state);
-    
+
                 return 0;
-        
+
         }
 
         /* see, from whom we have recieved the result message.
@@ -518,9 +518,9 @@ int ft_msg_sub_type_result_cb(LmMessage *msg)
 
 
 
-/* send file transfer init negotiation message 
+/* send file transfer init negotiation message
  * this function blocks till a result/error response is recieved
- * target */  
+ * target */
 static int ft_send_file_init(char *reciever, char *file)
 {
         LmMessage *msg = NULL;
@@ -534,11 +534,11 @@ static int ft_send_file_init(char *reciever, char *file)
 
         stat (file, &file_stat);
         sprintf (file_size, "%d", (int)file_stat.st_size);
-  
-        /* Here we check if reciever is online and we append /resource to the 
+
+        /* Here we check if reciever is online and we append /resource to the
          * jabber ID of the reciever */
         rcv_item = ft_roster_lookup (reciever);
-  
+
         if (!rcv_item){
                 return -1;
         }
@@ -552,14 +552,14 @@ static int ft_send_file_init(char *reciever, char *file)
         sprintf (reciever_full, "%s/%s", reciever, rcv_item->resource);
 
         /* Create a message of type IQ, this message is gives an offer to the reciver
-         * about the intended file transfer 
+         * about the intended file transfer
          * http://jabber.org/jeps/jep-0096.html */
         msg = lm_message_new_with_sub_type (reciever_full,
                                             LM_MESSAGE_TYPE_IQ,
                                             LM_MESSAGE_SUB_TYPE_SET);
         lm_message_node_set_attribute (msg->node,
                                        "id", "offer1");
-  
+
         child_node = lm_message_node_add_child (msg->node, "si", NULL);
         lm_message_node_set_attributes (child_node,
                                         "xmlns", "http://jabber.org/protocol/si",
@@ -567,19 +567,19 @@ static int ft_send_file_init(char *reciever, char *file)
                                         "mime-type", "text/plain",
                                         "profile", "http://jabber.org/protocol/si/profile/file-transfer",
                                         NULL);
-  
+
         parent_node = child_node;
         child_node = lm_message_node_add_child (child_node, "file", NULL);
-        lm_message_node_set_attributes (child_node, 
+        lm_message_node_set_attributes (child_node,
                                         "xmlns", "http://jabber.org/protocol/si/profile/file-transfer",
                                         "name", file,
                                         "size", file_size,
                                         NULL);
-  
+
         child_node = lm_message_node_add_child (parent_node, "feature", NULL);
-        lm_message_node_set_attribute (child_node, 
+        lm_message_node_set_attribute (child_node,
                                        "xmlns", "http://jabber.org/protocol/feature-neg");
-  
+
         parent_node = child_node;
         child_node = lm_message_node_add_child (parent_node, "x", NULL);
         lm_message_node_set_attributes (child_node,
@@ -592,17 +592,17 @@ static int ft_send_file_init(char *reciever, char *file)
                                         "var", "stream-method",
                                         "type", "list-single",
                                         NULL);
-  
+
         parent_node = child_node;
         child_node = lm_message_node_add_child (parent_node, "option", NULL);
         child_node = lm_message_node_add_child (child_node, "value", "http://jabber.org/protocol/ibb");
-  
+
         /* we send a file transfer offer to the reciever and store the state in the
            linked list of f_state. file data will be sent in ft_sub_type_result_cb */
         ret = lm_connection_send (state.conn, msg, NULL);
-  
+
         file_state = (ft_file_state *)calloc (sizeof (ft_file_state), 1);
-  
+
         if (!file_state)
                 return -2;
 
@@ -617,12 +617,12 @@ static int ft_send_file_init(char *reciever, char *file)
         return ret;
 
 }
-  
-  
+
+
 
 int ft_send_file(char *jid_str, char *reciever, char *file_name)
 {
-  
+
         if (ft_send_sdisco (reciever) < 0){
                 scm_run_hook (ex_notify_file_hook, scm_list_n (scm_from_locale_string (reciever),
                                                                scm_from_locale_string (file_name),
@@ -673,41 +673,41 @@ int ft_set_allow_file(int cookie_id, char *file_name)
                 sprintf (file->local_file, "%s/%s", state.download_dirname, file->remote_file);
         }
 
-        /* we are called as soon as a file-transfer init is called. 
-         * user does /allow-file. this is continuation from the point 
+        /* we are called as soon as a file-transfer init is called.
+         * user does /allow-file. this is continuation from the point
          * that we have recieved a file-transfer offer */
 
         /* prepare a reply for file transfer offer */
         send_msg = lm_message_new_with_sub_type (file->sender,
                                                  LM_MESSAGE_TYPE_IQ,
                                                  LM_MESSAGE_SUB_TYPE_RESULT);
-  
+
         lm_message_node_set_attribute (send_msg->node,
                                        "id", "offer1");
-  
+
         child_node = lm_message_node_add_child (send_msg->node, "si", NULL);
         lm_message_node_set_attribute (child_node,
                                        "xmlns", "http://jabber.org/protocol/si");
-  
+
         child_node = lm_message_node_add_child (child_node, "feature", NULL);
         lm_message_node_set_attribute (child_node,
                                        "xmlns", "http://jabber.org/protocol/feature-neg");
-  
+
         child_node = lm_message_node_add_child (child_node, "x", NULL);
         lm_message_node_set_attributes (child_node,
                                         "x", "jabber:x:data",
                                         "type", "submit", NULL);
-  
+
         child_node = lm_message_node_add_child (child_node, "field", NULL);
         lm_message_node_set_attribute (child_node,
                                        "var", "stream-method");
-  
+
         child_node = lm_message_node_add_child (child_node, "value", "http://jabber.org/protocol/ibb");
 
         /* upon delivery of this message we'll get a 'set' message to open an
          * IBB, which will be handled asyncronously */
         ret = lm_connection_send (state.conn, send_msg, NULL);
-    
+
         return ret;
 }
 

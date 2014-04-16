@@ -1,16 +1,16 @@
-;;; Copyright (c) 2005, 2006, 2007 Freetalk Core Team 
+;;; Copyright (c) 2005-2014 Freetalk Core Team
 ;;; This file is part of GNU Freetalk.
-;;; 
+;;;
 ;;; Freetalk is free software; you can redistribute it and/or modify it
 ;;; under the terms of the GNU General Public License as published by
 ;;; the Free Software Foundation; either version 3 of the License, or
 ;;; (at your option) any later version.
-;;; 
+;;;
 ;;; Freetalk is distributed in the hope that it will be useful, but
 ;;; WITHOUT ANY WARRANTY; without even the implied warranty of
 ;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;;; General Public License for more details.
-;;; 
+;;;
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with this program.  If not, see
 ;;; <http://www.gnu.org/licenses/>.
@@ -22,8 +22,8 @@
   (if (= (string-length args) 0)
     (ft-display (_ "No file to send"))
     (begin
-	(split-discarding-char #\space 
-			       (sans-surrounding-whitespace args) 
+	(split-discarding-char #\space
+			       (sans-surrounding-whitespace args)
 			       (lambda (id file)
 				 (and (if (> (string-length id) 0)
 					  #t
@@ -56,7 +56,7 @@
 	(add-command! /allow-file "/allow-file" "/allow-file" "Allow transfer of file from far end")
 	(ft-display (string-append "[" jid " wants to send file " file "]"))
 	(ft-display (string-append (_ "[use /allow-file ") (number->string cookie) (_ " [file-name] to accept]"))))
-      (begin 
+      (begin
 	(if (= errno 2)
 	    (ft-display (string-append "[" jid (_ " does not support IBB for file transfer]")))
 	    (ft-display (string-append (_ "[failed to open file ") file "]"))))))

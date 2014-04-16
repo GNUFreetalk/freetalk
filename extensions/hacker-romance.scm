@@ -1,17 +1,17 @@
 ;;; hacker-romance.scm: extensible romance :p
-;;; Copyright (c) 2005, 2006, 2007 Freetalk Core Team 
+;;; Copyright (c) 2005-2014 Freetalk Core Team
 ;;; This file is part of GNU Freetalk.
-;;; 
+;;;
 ;;; Freetalk is free software; you can redistribute it and/or modify it
 ;;; under the terms of the GNU General Public License as published by
 ;;; the Free Software Foundation; either version 3 of the License, or
 ;;; (at your option) any later version.
-;;; 
+;;;
 ;;; Freetalk is distributed in the hope that it will be useful, but
 ;;; WITHOUT ANY WARRANTY; without even the implied warranty of
 ;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;;; General Public License for more details.
-;;; 
+;;;
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with this program.  If not, see
 ;;; <http://www.gnu.org/licenses/>.
@@ -44,7 +44,7 @@
 	      (burst-of-romance buddy count message)))
 	(ft-display (_ "usage: /burst-of-romance BUDDY COUNT MESSAGE")))))
 
-(add-command! /burst-of-romance "/burst-of-romance" 
+(add-command! /burst-of-romance "/burst-of-romance"
 	      "/burst-of-romance BUDDY COUNT MESSAGE"
 	      "send COUNT number of MESSAGEs to BUDDY as though you typed by hand")
 
@@ -62,7 +62,7 @@
       ""
       (begin
         (string-append
-	  (nstr (list->string (list (car (string->list str)))) 
+	  (nstr (list->string (list (car (string->list str))))
 	        (+ min (random max rand-state)))
 	  (burst (list->string (cdr (string->list str))) min max)))))
 
@@ -75,14 +75,14 @@
 	(ft-send-message buddy (burst message min-chars max-chars))
 	(ft-display (_ "usage: /burst BUDDY MESSAGE")))))
 
-(add-command! /burst "/burst" 
+(add-command! /burst "/burst"
 	      "/burst BUDDY MESSAGE"
 	      "Send IRC greeting style MESSAGE")
 
 (define (/greet args)
   "IRC style greeting command"
   (if (> (string-length args) 0)
-      (ft-send-message args 
+      (ft-send-message args
 		       (burst (car (string-split args #\@))
 			      min-chars max-chars))
       (ft-display (_ "usage: /greet BUDDY"))))

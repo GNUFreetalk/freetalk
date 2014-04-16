@@ -1,17 +1,17 @@
 /*
-  Copyright (c) 2005, 2006, 2007 Freetalk Core Team
+  Copyright (c) 2005-2014 Freetalk Core Team
   This file is part of Freetalk.
-  
+
   Freetalk is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published
   by the Free Software Foundation; either version 3 of the License,
   or (at your option) any later version.
-  
+
   Freetalk is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
   General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see
   <http://www.gnu.org/licenses/>.
@@ -34,7 +34,7 @@ static char *server;
 
 static LmMessage *send_registration_query ()
 {
-        LmMessage *msg = lm_message_new_with_sub_type (server, LM_MESSAGE_TYPE_IQ, 
+        LmMessage *msg = lm_message_new_with_sub_type (server, LM_MESSAGE_TYPE_IQ,
                                                        LM_MESSAGE_SUB_TYPE_GET);
         LmMessageNode *query = lm_message_node_add_child (msg->node, "query", "");
         lm_message_node_set_attribute (query, "xmlns", "jabber:iq:register");
@@ -103,14 +103,14 @@ static void send_required_fields (LmMessageNode *query)
         }
 
 
-        LmMessage *msg = lm_message_new_with_sub_type (server, 
+        LmMessage *msg = lm_message_new_with_sub_type (server,
                                                        LM_MESSAGE_TYPE_IQ,
                                                        LM_MESSAGE_SUB_TYPE_SET);
-        LmMessageNode *q = lm_message_node_add_child (msg->node, 
+        LmMessageNode *q = lm_message_node_add_child (msg->node,
                                                       "query", "");
         lm_message_node_set_attribute (q, "xmlns", "jabber:iq:register");
 
-        for (map<string,string>::iterator i = fields.begin (); 
+        for (map<string,string>::iterator i = fields.begin ();
              i != fields.end (); i++)
         {
                 lm_message_node_add_child (q, i->first.c_str (), i->second.c_str ());
@@ -132,14 +132,14 @@ static void do_registration ()
         }
         else
         {
-                LmMessageNode *query = lm_message_node_get_child (reply->node, 
+                LmMessageNode *query = lm_message_node_get_child (reply->node,
                                                                   "query");
                 if (lm_message_node_find_child (query, "registered"))
                 {
                         printf ("You have already registered\n");
                         exit (1);
                 }
-      
+
                 send_required_fields (query);
         }
 }

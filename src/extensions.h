@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005, 2006, 2007 Freetalk Core Team 
+  Copyright (c) 2005-2014 Freetalk Core Team
   This file is part of GNU Freetalk.
 
   Freetalk is free software; you can redistribute it and/or modify it
@@ -20,7 +20,7 @@
 #ifndef __EXTENSIONS_H__
 #define __EXTENSIONS_H__
 
-#include <guile/gh.h>
+#include <libguile.h>
 
 extern SCM ex_message_receive_hook;
 extern SCM ex_message_send_hook;

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005, 2006, 2007 Freetalk Core Team 
+  Copyright (c) 2005-2014 Freetalk Core Team
   This file is part of GNU Freetalk.
 
   Freetalk is free software; you can redistribute it and/or modify it
@@ -24,7 +24,7 @@
 
 #include "compat.h"
 
-error_t 
+error_t
 argp_parse_ (const struct argp * __argp,
              int __argc, char **  __argv,
              unsigned __flags, int * __arg_index,
@@ -66,7 +66,7 @@ argp_parse_ (const struct argp * __argp,
 
                 c = getopt_long (__argc, __argv, getopt_short_options,
                                  getopt_long_options, &option_index);
-    
+
                 if (c == -1)
                         break;
 
@@ -74,4 +74,3 @@ argp_parse_ (const struct argp * __argp,
         }
         return 0;
 }
-

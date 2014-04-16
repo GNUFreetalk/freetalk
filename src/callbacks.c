@@ -1,19 +1,19 @@
 /*
   callbacks.c: Callback functions
-  
-  Copyright (c) 2005, 2006, 2007 Freetalk Core Team
+
+  Copyright (c) 2005-2014 Freetalk Core Team
   This file is part of GNU Freetalk.
-  
+
   Freetalk is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published
   by the Free Software Foundation; either version 3 of the License,
   or (at your option) any later version.
-  
+
   Freetalk is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
   General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see
   <http://www.gnu.org/licenses/>.
@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <glib.h> 
+#include <glib.h>
 #include <loudmouth/loudmouth.h>
 #include <readline/readline.h>
 
@@ -40,7 +40,7 @@
   Callback for SSL verification
 */
 
-LmSSLResponse 
+LmSSLResponse
 ft_ssl_response_cb (LmSSL *ssl,
                     LmSSLStatus st,
                     gpointer user_datta)
@@ -53,7 +53,7 @@ ft_ssl_response_cb (LmSSL *ssl,
 /*
   Called when authentication succeeds
 */
- 
+
 void
 ft_authenticate_cb (LmConnection *conn, gboolean success, gpointer user_data)
 {
@@ -75,7 +75,7 @@ ft_connection_open_cb (LmConnection *conn, gboolean success, gpointer u)
         else
         {
                 do_set_conn_status (FT_DEAD);
-                PRINTF ("%s",_("Could not connect.")); 
+                PRINTF ("%s",_("Could not connect."));
                 return;
         }
 
@@ -128,7 +128,7 @@ ft_msg_msg_handler (LmMessageHandler *handler, LmConnection *conn,
          * ignore messages with no 'body' */
         if (body){
                 msg_str = lm_message_node_get_value (body);
-  
+
                 type = lm_message_node_get_attribute (msg->node, "type");
                 if (type && g_ascii_strcasecmp (type, "chat") != 0)
                 {
@@ -148,17 +148,17 @@ ft_msg_msg_handler (LmMessageHandler *handler, LmConnection *conn,
                                 }
                         }
                 }
-    
+
                 set_hook_return (0);
                 {
                         FtRosterItem *item = ft_roster_lookup (from);
                         char *nickname;
-      
+
                         if (!item)
                                 nickname = NULL;
                         else
                                 nickname = item->nickname;
-      
+
                         scm_run_hook (ex_message_receive_hook,
                                       scm_list_n (ts ? scm_from_locale_string (ts) : scm_from_locale_string (""),
                                                   scm_from_locale_string (from),
@@ -167,16 +167,16 @@ ft_msg_msg_handler (LmMessageHandler *handler, LmConnection *conn,
                                                   SCM_UNDEFINED));
                 }
                 if (ts) g_free (ts);
-    
+
                 if (get_hook_return () == 1)
                         return LM_HANDLER_RESULT_REMOVE_MESSAGE;
-    
+
                 PRINTF ("%s: %s", from, msg_str);
-        } else {
-                /* This logic should be looked into : FIXME */
+        } /* TODO : file transfer
+             else {
                 ft_send_file_message_data (msg);
 
-        }
+        } */
         return LM_HANDLER_RESULT_REMOVE_MESSAGE;
 }
 
@@ -209,7 +209,7 @@ ft_msg_iq_handler (LmMessageHandler *handler, LmConnection *conn,
 
         if (query) {
                 const char *ns = lm_message_node_get_attribute (query, "xmlns");
-    
+
                 if (ns && !g_ascii_strcasecmp (ns, "jabber:iq:roster")) {
                         ft_roster_cb (msg);
                 } else if (ns && !g_ascii_strcasecmp (ns, "jabber:iq:version")) {
@@ -220,20 +220,24 @@ ft_msg_iq_handler (LmMessageHandler *handler, LmConnection *conn,
                         if( type == LM_MESSAGE_SUB_TYPE_GET ) {
                                 ft_msg_iq_last_cb (msg);
                         }
+                /* TODO: file transfer
                 } else if (ns && !g_ascii_strcasecmp (ns, "http://jabber.org/protocol/disco#info")) {
                         if( type == LM_MESSAGE_SUB_TYPE_GET ) {
                                 ft_msg_sub_type_get_cb (msg);
                         } else if( type == LM_MESSAGE_SUB_TYPE_RESULT ) {
                                 ft_msg_sub_type_result_cb (msg);
                         }
+                */
                 } else
                         PRINTF (_("[iq received: %s (unhandled yet)]"), ns);
 
         } else {
+                /* TODO: file transfer
                 if ((LM_MESSAGE_SUB_TYPE_SET == lm_message_get_sub_type (msg)))
                         ft_msg_sub_type_set_cb (msg);
                 else
-                        PRINTF (_("[iq received: (unhandled yet)]"));
+                */
+                PRINTF (_("[iq received: (unhandled yet)]"));
         }
 
         return LM_HANDLER_RESULT_REMOVE_MESSAGE;
@@ -251,7 +255,7 @@ ft_disconnect_function (LmConnection *conn,
         lm_connection_unref (state.conn);
         state.conn = NULL;
         ft_roster_flush ();
-        ft_file_flush ();
+        // TODO: ft_file_flush ();
 
         scm_run_hook (ex_disconnect_hook, scm_list_n (scm_from_int (reason), SCM_UNDEFINED));
         /* set conn_status after hook so that discon hook procedures can get
@@ -276,14 +280,14 @@ ft_register_msg_handlers (LmConnection *conn)
                                                 LM_HANDLER_PRIORITY_NORMAL);
         lm_message_handler_unref (handler);
 
-  
+
         handler = lm_message_handler_new ((LmHandleMessageFunction) ft_msg_presence_handler,
                                           NULL, NULL);
         lm_connection_register_message_handler (conn, handler, LM_MESSAGE_TYPE_PRESENCE,
                                                 LM_HANDLER_PRIORITY_NORMAL);
         lm_message_handler_unref (handler);
 
-  
+
         handler = lm_message_handler_new ((LmHandleMessageFunction) ft_msg_iq_handler,
                                           NULL, NULL);
         lm_connection_register_message_handler (conn, handler, LM_MESSAGE_TYPE_IQ,

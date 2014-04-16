@@ -1,18 +1,18 @@
 ;;; history.scm: logs all the sent and received messages in
 ;;; ~/.freetalk/history directory
-;;; Copyright (c) 2005, 2006, 2007 Freetalk Core Team 
+;;; Copyright (c) 2005-2014 Freetalk Core Team
 ;;; This file is part of GNU Freetalk.
-;;; 
+;;;
 ;;; Freetalk is free software; you can redistribute it and/or modify it
 ;;; under the terms of the GNU General Public License as published by
 ;;; the Free Software Foundation; either version 3 of the License, or
 ;;; (at your option) any later version.
-;;; 
+;;;
 ;;; Freetalk is distributed in the hope that it will be useful, but
 ;;; WITHOUT ANY WARRANTY; without even the implied warranty of
 ;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;;; General Public License for more details.
-;;; 
+;;;
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with this program.  If not, see
 ;;; <http://www.gnu.org/licenses/>.
@@ -44,7 +44,7 @@
 (define (history filename buddy message)
   "log the message to history file"
   (history-raw filename
-	       (string-append 
+	       (string-append
 		(local-date-time) " [" buddy "] " message "\n")))
 
 (define (history-create-dirs)
@@ -72,14 +72,14 @@
 
 ;;; hook procedure for logging all revceived messages
 (define (log-received-message time from nickname message)
-  "hook procedure for logging all revceived messages" 
+  "hook procedure for logging all revceived messages"
   (history (string-append history-path "/" from)
 	   from
 	   message))
-  
+
 ;;; hook procedure for logging all revceived offline messages
 ;(define (log-received-offline-message from message time)
-;  "hook procedure for logging all revceived messages" 
+;  "hook procedure for logging all revceived messages"
 ;  (define history-filename
 ;    (string-append history-path "/" from))
 ;  (define history-message

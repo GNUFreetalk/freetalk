@@ -17,7 +17,7 @@
 Freetalk is a freely available console based Jabber client-cum-bot powered
 by GNU Guile, GNU Readline and Loudmouth.
 
-Copyright @copyright{} 2005, 2007 Freetalk Core Team http://www.gnu.org/software/freetalk
+Copyright @copyright{} 2005-2014 Freetalk Core Team http://www.gnu.org/software/freetalk
 
 @end ifinfo
 
@@ -26,12 +26,12 @@ Copyright @copyright{} 2005, 2007 Freetalk Core Team http://www.gnu.org/software
 @titlepage
 @title Freetalk version @value{VERSION}
 @subtitle User/Developers guide, @value{UPDATED}
-@author Harshavardhana Ranganath @email{harsha@@80x25.org}
+@author Harshavardhana @email{harsha@@harshavardhana.net}
 
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 2005, 2007 Freetalk Core Team
+Copyright @copyright{} 2005-2014 Freetalk Core Team
 @sp 2
 This is the first edition of the Freetalk documentation.
 @sp 2
@@ -67,7 +67,7 @@ translation approved by the Free Software Foundation.
 Freetalk is a freely available console based Jabber client-cum-bot powered
 by GNU Guile, GNU Readline and Loudmouth.
 
-@c @noindent Copyright @copyright{} 2005, 2007 Freetalk core team
+@c @noindent Copyright @copyright{} 2005-2014 Freetalk core team
 @menu
 * Overview::                    These are features of Freetalk
 * Invoking::                    Command line arguments
@@ -79,7 +79,7 @@ by GNU Guile, GNU Readline and Loudmouth.
 Extension Developer Guide (Advanced)
 
 * Extension language::          About an extension language
-* Variables::                   
+* Variables::
 * Procedures::                  Freetalk exported Scheme primitives
 * Hooks::                       Freetalk exported Scheme hooks
 * Learning further::            Guile and Scheme URLs
@@ -89,11 +89,11 @@ Miscellaneous
 
 * Authors::                     Freetalk contributors
 * URLs::                        Mailing list, Downloads, CVS
-* Guidelines for submitting a patch::  
+* Guidelines for submitting a patch::
 * Portability::                 Porting Freetalk
-* Concept Index::               
-* Command Index::               
-* Procedure Index::             
+* Concept Index::
+* Command Index::
+* Procedure Index::
 @end menu
 @end ifinfo
 
@@ -167,10 +167,10 @@ any argument.
 @node Commands, Customization, Invoking, Top
 @chapter Freetalk commands
 @menu
-* connect::                     Connect to jabber server.     
+* connect::                     Connect to jabber server.
 * disconnect::                  Disconnect from the present server.
 * server::                      Specify the server to connect.
-* jid::                         Specify the jabber Id to connect. 
+* jid::                         Specify the jabber Id to connect.
 * add::                         Add Buddies in your buddy list.
 * allow::                       Allow a buddy to see your status.
 * deny::                        Deny permission to a buddy to see your status.
@@ -182,7 +182,7 @@ any argument.
 * shell::                       run or escape to shell.
 * date::                        date command.
 * who::                         view buddy list.
-* status::                      
+* status::
 * whoami::                      display current account info.
 * version::                     displays freetalk version information.
 * logout::                      same as disconnect.
@@ -206,12 +206,12 @@ any argument.
 @node connect, disconnect, Commands, Commands
 @section Freetalk command - connect
 @deffn command /connect
-Connect to the configured jabber server (see @command{/server}).  
+Connect to the configured jabber server (see @command{/server}).
 
 @example
 ~\/~ /connect
 Connecting...
-~\/~  
+~\/~
 @end example
 
 If server is not configured, it displays an error message and stops
@@ -232,7 +232,7 @@ Disconnect from the currently connected server.
 @example
 ~\/~ /disconnect
 Disconnected from @var{server}. Reason (0): User request
-~\/~ 
+~\/~
 @end example
 @end deffn
 @cmindex disconnect
@@ -261,8 +261,8 @@ Current server: jabber.org
 Specify the Jabber ID which you want to use, or display the currently set Jabber ID.
 
 @example
-~\/~ /jid 
-Current JID: 
+~\/~ /jid
+Current JID:
 ~\/~ /jid avati@@jabber.org
 ~\/~ /jid
 Current JID: avati@@jabber.org
@@ -278,7 +278,7 @@ This command is meant to be used when changing accounts and quick logins.
 This command sends a buddy add request to user@@domain into your buddy list.
 
 @example
-~\/~ /add harshavardhanacool@@gmail.com
+~\/~ /add harshavardhana@@gmail.com
 ~\/~
 @end example
 
@@ -316,7 +316,7 @@ Deny the user permission to see (``subscribe to'') your status.
 Quits Freetalk with a banner.
 
 @example
-~\/~ /quit 
+~\/~ /quit
 shell$
 @end example
 @end deffn
@@ -357,7 +357,7 @@ Pipe the output of @var{command} to @var{buddy}. @var{options} are
 passed to @var{command}.
 
 @example
-~\/~> /pipe harsha@@gmail.com ls -alh 
+~\/~> /pipe harsha@@gmail.com ls -alh
 ~\/~>
 @end example
 @end deffn
@@ -370,7 +370,7 @@ passed to @var{command}.
 
 Example:
 
-@example 
+@example
 ~\/~> /port 995
 ~\/~>
 @end example
@@ -398,10 +398,10 @@ drwx------    2 root   root    4.0k Jan  1 00:13 xdvi7GIKqr
 press C-d to return to freetalk
 $ rm -f /tmp/xdvi7GIKqr
 C-d @kbd{RET}
-~\/~> 
+~\/~>
 @end example
 @end deffn
-@cmindex shell 
+@cmindex shell
 
 
 @node date, who, shell, Commands
@@ -441,7 +441,7 @@ Example:
 
 @example
 ~\/~ /status online Using Freetalk
-~\/~ /status 
+~\/~ /status
 Current status: online Using Freetalk
 ~\/~
 @end example
@@ -477,7 +477,7 @@ Example:
 @example
 ~\/~ /version
 freetalk (Freetalk) @value{VERSION}
-Copyright (C) 2005, 2007 FreeTalk Core Team
+Copyright (C) 2005-2014 FreeTalk Core Team
 @dots{}
 
 ~\/~
@@ -493,7 +493,7 @@ This command works same as /disconnect but looks more meaningfull.
 Example:
 
 @example
-~\/~ /logout 
+~\/~ /logout
 Disconnected from @var{server}, reason(0): User request
 ~\/~
 @end example
@@ -504,7 +504,7 @@ Disconnected from @var{server}, reason(0): User request
 @section Freetalk command - history
 @deffn command /history [BUDDY]
 This command displays paginated history with @var{BUDDY}. If @var{BUDDY}
-is not specified, it displays paginated history of only the current session. 
+is not specified, it displays paginated history of only the current session.
 
 Example:
 
@@ -546,7 +546,7 @@ Example:
 @node setup, login, load, Commands
 @section Freetalk command - setup
 @deffn command /setup
-This command prepares a fresh @file{~/.freetalk} directory with backing up 
+This command prepares a fresh @file{~/.freetalk} directory with backing up
 the older one.
 
 Example:
@@ -573,7 +573,7 @@ Example:
 
 @example
 ~\/~ /login
-Jabber ID: harshavardhanacool@@gmail.com
+Jabber ID: harshavardhana@@gmail.com
 Password:
 Enable TLS/SSL (Y/N)? [Y]: y
 Port [5223]: 2401
@@ -586,8 +586,8 @@ Connecting...
 @node help, repl, login, Commands
 @section Freetalk command - help
 @deffn command /help [freetalk-command]
-This command prints help information on @var{freetalk-command} 
-commands interatively in a sorted way.If no argument in given 
+This command prints help information on @var{freetalk-command}
+commands interatively in a sorted way.If no argument in given
 it prints the help for all the commands.
 
 Example:
@@ -666,7 +666,7 @@ Example:
 ab@@jabber.org> /greet avati@@jabber.org
 
 On the other side avati@@jabber.org gets a message
-``aaaaaavvvvvvvvvvtttttttiiiiiii''. 
+``aaaaaavvvvvvvvvvtttttttiiiiiii''.
 @end example
 @end deffn
 @cmindex greet
@@ -683,7 +683,7 @@ Example:
 ab@@jabber.org> /burst avati@@jabber.org avati
 
 On the other side avati@@jabber.org gets a message
-``aaaaaavvvvvvvvvvtttttttiiiiiii''. 
+``aaaaaavvvvvvvvvvtttttttiiiiiii''.
 @end example
 @end deffn
 @cmindex burst
@@ -705,7 +705,7 @@ ab@@jabber.org> /burst hackergirl@@jabber.org 45 :-*
 @node broadcast, proxyserver, burst-of-romance, Commands
 @section Freetalk command - broadcast
 @deffn command /broadcast MESSAGE
-Send @var{MESSAGE} to all the buddies 
+Send @var{MESSAGE} to all the buddies
 
 @example
 Example:
@@ -743,7 +743,7 @@ for the next @command{/connect} or display the currently set proxyport
 Current Port (8080 = default): 0
 ~\/~
 ~\/~ /proxyport 8080
-~\/~ /proxyport 
+~\/~ /proxyport
 Current Port (8080 = default): 8080
 @end example
 @end deffn
@@ -787,8 +787,8 @@ in this file.
                 ;; Proxy support
                 (ft-set-proxyserver! "your.proxy.org")
                 (ft-set-proxyport! "8080"))
-@end lisp 
-All entries in this file freetalk.scm are optional.How ever there is no 
+@end lisp
+All entries in this file freetalk.scm are optional.How ever there is no
 limit of cutomizing this file using Guile Interface. (@pxref{Extension language})
 @cindex Startup
 @cindex freetalk.scm
@@ -937,13 +937,13 @@ Example:
 Set @var{defaultid} as the Jabber ID to be used on the next connect.
 
 Example:
-@lisp 
+@lisp
 (ft-set-jid! "anand.avati@@gmail.com")
 @end lisp
 @end deffn
 @prindex ft-set-jid!
 
-@deffn primitive ft-get-conn-status 
+@deffn primitive ft-get-conn-status
 Gets the status of the connection from the server.
 0 - Not connected.
 1 - Connected, Not authenticated.
@@ -1044,7 +1044,7 @@ Example:
 @node Utility procedures,  , Hook related procedures, Procedures
 @section Utility procedures
 These are general purpose utility procedures written completly in
-Scheme. 
+Scheme.
 
 @footnote{utility procedures are loaded through
 /DATADIR/freetalk/extensions/ and you are free to hack for
@@ -1105,7 +1105,7 @@ Example:
 @end deffn
 @prindex ft-presence-receive-hook
 
-@deffn hook ft-disconnect-hook 
+@deffn hook ft-disconnect-hook
 
 Supporting primitives:
 @multitable @columnfractions 0.05 0.95
@@ -1148,7 +1148,7 @@ and Scheme.
 @chapter Authors
 We believe in Software Freedom and Ethics, the GNU's way.
 
-@include authors.texi 
+@include authors.texi
 @cindex AUTHORS
 
 
@@ -1171,7 +1171,7 @@ visit @url{http://www.gnu.org/software/freetalk/}
 @deffn URL Mailing list
 Freetalk has its own mailing list. The mailing list is for support,
 reporting bugs, mailing announcements. You are welcome to
-subscribe. 
+subscribe.
 
 To Subscribe/Unsubscribe visit,
 @url{https://savannah.gnu.org/mail/?group=freetalk}.
@@ -1182,7 +1182,7 @@ You are welcome to send bug reports about freetalk to
 @url{https://savannah.gnu.org/bugs/?group=freetalk}.
 The bugs that you think are of the interest to the public
 (i.e.  more people should be informed about them) can be
-Cc-ed to the above mailing lists. 
+Cc-ed to the above mailing lists.
 
 Before actually submitting a bug report, please try to follow a few
 simple guidelines.
@@ -1240,16 +1240,16 @@ particular Unix, it should compile (and work) on all common Unix
 flavors.
 
 Various freetalk versions have been compiled and tested under GNU/Linux.
-However freetalk can be easily ported to any POSIX complaint platform 
-with Guile and Readline ports.  If you compile it on an architecture 
+However freetalk can be easily ported to any POSIX complaint platform
+with Guile and Readline ports.  If you compile it on an architecture
 not listed here, please let us know so that we can update it.
 (@pxref{URLs})
 @cindex Portability
 
 
 @menu
-* Freetalk License::            
-* Freetalk Documentation License::  
+* Freetalk License::
+* Freetalk Documentation License::
 @end menu
 
 @node Freetalk License, Freetalk Documentation License, Portability, Portability
@@ -1280,6 +1280,3 @@ Freetalk documentation licensed under GNU Free Documentation License
 @printindex pr
 
 @bye
-
-
-

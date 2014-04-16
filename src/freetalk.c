@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005, 2006, 2007 Freetalk Core Team 
+  Copyright (c) 2005-2014 Freetalk Core Team
   This file is part of GNU Freetalk.
 
   Freetalk is free software; you can redistribute it and/or modify it
@@ -26,7 +26,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <loudmouth/loudmouth.h>
-#include <guile/gh.h>
+#include <libguile.h>
 #include <getopt.h>
 
 #ifdef HAVE_ARGP
@@ -95,7 +95,11 @@ process_line (char *line)
 
         state.async_printf = 0;
         if (interpreter (line) != 0) {
-                gh_eval_str_with_catch (eval_str, (scm_t_catch_handler) catcher);
+                scm_internal_catch (SCM_BOOL_T,
+                                    (scm_t_catch_body) scm_c_eval_string,
+                                    (void *) eval_str,
+                                    (scm_t_catch_handler) catcher,
+                                    (void *) eval_str);
                 scm_force_output (scm_current_output_port ());
         }
         g_free (eval_str);
@@ -124,14 +128,14 @@ void
 interface_init (void)
 {
         GIOChannel *chan;
-  
+
         interpreter_init ();
-  
+
         rl_callback_handler_install (state.prompt, process_line);
         rl_pre_input_hook = insert_current_buddy;
         rl_attempted_completion_function = ft_auto_complete;
         rl_completion_entry_function = complete_none;
-  
+
         state.async_printf = 1;
 
         chan = g_io_channel_unix_new (0);
@@ -152,7 +156,8 @@ parse_opts (int key, char *arg, struct argp_state *_state)
                 state.script = arg;
                 break;
         case 'r':
-                ft_register ();
+                // TODO - C++ code fix it later
+                //ft_register ();
                 break; /* not reached */
         default:
                 /* hack to allow args to script */
@@ -206,7 +211,7 @@ inner_main (void *closure, int argc, char **argv)
 
         extensions_init ();
         //loudscream_init ();
-  
+
         if (!state.script) {
                 load_default_config (); /* ~/.freetalk/freetalk.scm */
                 args_init ();
@@ -247,17 +252,17 @@ int ft_msg_iq_version_cb(LmMessage *msg)
         const char *id   = lm_message_node_get_attribute (msg->node, "id");
         LmMessage *send_msg;
         LmMessageNode *query, *name, *version;
-  
+
         send_msg = lm_message_new_with_sub_type (from,
                                                  LM_MESSAGE_TYPE_IQ,
                                                  LM_MESSAGE_SUB_TYPE_RESULT);
-  
+
         lm_message_node_set_attribute (send_msg->node,
                                        "id", id);
         query = lm_message_node_add_child (send_msg->node, "query", NULL);
-        lm_message_node_set_attribute (query, 
+        lm_message_node_set_attribute (query,
                                        "xmlns", "jabber:iq:version");
-  
+
         name = lm_message_node_add_child (query, "name", PACKAGE_NAME);
         version = lm_message_node_add_child (query, "version", PACKAGE_VERSION);
 
@@ -276,23 +281,23 @@ int ft_msg_iq_last_cb(LmMessage *msg)
         const char *id   = lm_message_node_get_attribute (msg->node, "id");
         LmMessage *send_msg;
         LmMessageNode *query;
-  
+
         char seconds[256];
         snprintf( seconds, sizeof(seconds)-1, "%ld", time(NULL) - state.last );
 
         send_msg = lm_message_new_with_sub_type (from,
                                                  LM_MESSAGE_TYPE_IQ,
                                                  LM_MESSAGE_SUB_TYPE_RESULT);
-  
+
         lm_message_node_set_attribute (send_msg->node,
                                        "id", id);
         query = lm_message_node_add_child (send_msg->node, "query", NULL);
-  
-        lm_message_node_set_attribute (query, 
+
+        lm_message_node_set_attribute (query,
                                        "seconds", seconds );
-        lm_message_node_set_attribute (query, 
+        lm_message_node_set_attribute (query,
                                        "xmlns", "jabber:iq:last" );
-  
+
         int result = lm_connection_send (state.conn, send_msg, NULL);
         lm_message_node_unref (query);
         lm_message_unref (send_msg);
@@ -309,7 +314,7 @@ int ft_key_bound (int count, int key)
                         scm_force_output (scm_current_output_port ());
                         return 0;
                 }
-        } 
+        }
         return 1;
 }
 
@@ -324,7 +329,7 @@ void ft_bind_key (char key, char *command)
                         free (old);
                         return;
                 }
-        } 
+        }
         key_binding *b = (key_binding*) malloc (sizeof (key_binding));
         b->key = key;
         b->command = strdup (command);

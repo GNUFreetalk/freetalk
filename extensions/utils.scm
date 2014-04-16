@@ -1,17 +1,17 @@
 ;;; utils.scm: common utility procedures
-;;; Copyright (c) 2005, 2006, 2007 Freetalk Core Team 
+;;; Copyright (c) 2005-2014 Freetalk Core Team
 ;;; This file is part of GNU Freetalk.
-;;; 
+;;;
 ;;; Freetalk is free software; you can redistribute it and/or modify it
 ;;; under the terms of the GNU General Public License as published by
 ;;; the Free Software Foundation; either version 3 of the License, or
 ;;; (at your option) any later version.
-;;; 
+;;;
 ;;; Freetalk is distributed in the hope that it will be useful, but
 ;;; WITHOUT ANY WARRANTY; without even the implied warranty of
 ;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;;; General Public License for more details.
-;;; 
+;;;
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with this program.  If not, see
 ;;; <http://www.gnu.org/licenses/>.
@@ -23,7 +23,7 @@
 (define (/version args)
   "display version info"
   (display (string-append (_ "freetalk (FreeTalk) ") (ft-version) "\n"
-			  (_ "Copyright (C) 2005, 2006 FreeTalk Core Team.\n")
+			  (_ "Copyright (C) 2005-2014 FreeTalk Core Team.\n")
 			  (_ "This is free software; see the source for copying conditions.  There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"))))
 
 (add-command! /version "/version" "/version" "display freetalk version information")
@@ -47,14 +47,14 @@
       (if (string? item)
 	  (string->symbol item)
 	  item)))
-  
-(define (list->asv li any) 
+
+(define (list->asv li any)
   "convert list to any separated vector"
   (if (=(length li) 1)
       (car li)
       (string-append (car li) any (list->asv (cdr li) any))))
 
-(define (list->csv li) 
+(define (list->csv li)
   "convert list to comma separated vector"
   (list->asv li ", "))
 
@@ -69,11 +69,11 @@
   (if (= (length li) 0)
       '()
       (if (= (length li) 1)
-	  (list 
-	   (symbol->string 
+	  (list
+	   (symbol->string
 	    (any->symbol (car li))))
-	  (append (list 
-		   (symbol->string 
+	  (append (list
+		   (symbol->string
 		    (any->symbol (car li))))
 		  (list->strlist (cdr li))))))
 
@@ -158,7 +158,7 @@
 		(if (eof-object? word)
 		    word-list
 		    (begin
-		      (append-word 
+		      (append-word
 		       (append word-list (list word)))))))))
 	(append-word '())))))
 
@@ -187,7 +187,7 @@
 			    (if (eof-object? word)
 				word-list
 				(begin
-				  (append-word (append word-list 
+				  (append-word (append word-list
 						       (list word)))))))))
 	(append-word '())))))
 
@@ -207,9 +207,9 @@
   (let ((index (string-index str ch)))
     (if index
 	(cons (substring str 0 index)
-	      (string-separate (substring str 
-				       (+ index 1) 
-				       (string-length str)) 
+	      (string-separate (substring str
+				       (+ index 1)
+				       (string-length str))
 			    ch))
 	(list str))))
 
@@ -222,7 +222,7 @@
 
 (define (dollor->number dollor)
   "convert dollor symbol to number"
-  (string->number 
+  (string->number
    (cadr (string-separate (symbol->string dollor) #\$))))
 
 
@@ -243,9 +243,9 @@
 
 (define (date->list date)
   "convert flat yymmdd num to (yy mm dd) list"
-  (let* 
-      ((date-str (list->string 
-		  (map (lambda (c) 
+  (let*
+      ((date-str (list->string
+		  (map (lambda (c)
 			 (if (eq? c #\space) #\0 c))
 		       (string->list (format #f "~6d" date)))))
        (yy (substring date-str 0 2))

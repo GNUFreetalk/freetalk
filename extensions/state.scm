@@ -1,17 +1,17 @@
 ;;; dist-buddy.scm: talk to dict buddy
-;;; Copyright (c) 2005, 2006, 2007 Freetalk Core Team 
+;;; Copyright (c) 2005-2014 Freetalk Core Team
 ;;; This file is part of GNU Freetalk.
-;;; 
+;;;
 ;;; Freetalk is free software; you can redistribute it and/or modify it
 ;;; under the terms of the GNU General Public License as published by
 ;;; the Free Software Foundation; either version 3 of the License, or
 ;;; (at your option) any later version.
-;;; 
+;;;
 ;;; Freetalk is distributed in the hope that it will be useful, but
 ;;; WITHOUT ANY WARRANTY; without even the implied warranty of
 ;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;;; General Public License for more details.
-;;; 
+;;;
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with this program.  If not, see
 ;;; <http://www.gnu.org/licenses/>.
@@ -42,8 +42,8 @@
 (add-command! /password "/password" "/password" "set password for next /connect")
 
 (define (/port args)
-  (usual-crap 
-   (lambda () (number->string (ft-get-port))) 
+  (usual-crap
+   (lambda () (number->string (ft-get-port)))
    (lambda (str_port) (ft-set-port! (string->number str_port)))
    "Current Port (0 = default): "
    args))
@@ -54,7 +54,7 @@
 (add-command! /proxyserver "/proxyserver" "/proxyserver [HOST|IP]" "set proxy server for next /connect")
 
 (define (/proxyport args)
-  (usual-crap 
+  (usual-crap
    (lambda () (number->string (ft-get-proxyport)))
    (lambda (str_proxyport) (ft-set-proxyport! (string->number str_proxyport)))
    "Current Port (8080 = default): "
@@ -70,7 +70,7 @@
 (add-command! /proxypasswd "/proxypasswd" "/proxypasswd" "set proxy password for next /connect")
 
 
-(add-command! (lambda (str) 
+(add-command! (lambda (str)
 		(if (> (string-length str) 0)
 		     (ft-load (sans-surrounding-whitespace str))
 		     (ft-display (_ "usage: /load [FILE]"))))

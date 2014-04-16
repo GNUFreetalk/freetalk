@@ -1,17 +1,17 @@
 ;;; shell.scm: provides basic shell like facility
-;;; Copyright (c) 2005, 2006, 2007 Freetalk Core Team 
+;;; Copyright (c) 2005-2014 Freetalk Core Team
 ;;; This file is part of GNU Freetalk.
-;;; 
+;;;
 ;;; Freetalk is free software; you can redistribute it and/or modify it
 ;;; under the terms of the GNU General Public License as published by
 ;;; the Free Software Foundation; either version 3 of the License, or
 ;;; (at your option) any later version.
-;;; 
+;;;
 ;;; Freetalk is distributed in the hope that it will be useful, but
 ;;; WITHOUT ANY WARRANTY; without even the implied warranty of
 ;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;;; General Public License for more details.
-;;; 
+;;;
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with this program.  If not, see
 ;;; <http://www.gnu.org/licenses/>.
@@ -47,15 +47,15 @@
 
 (add-command! /date "/date" "/date [OPTIONS]" "print current date with all date OPTIONS")
 
-(add-hook! ft-quit-hook (lambda (dummy) (display 
+(add-hook! ft-quit-hook (lambda (dummy) (display
 					 (string-append "         ...   ...                            \n"
                                                         "       ..         ..                          \n"
-                                                        "       ..          ..                         \n" 
+                                                        "       ..          ..                         \n"
                                                         "        ...~~`'~~...                          \n"
                                                         "         '(0##(0).***                         \n"
                                                         "          |##......*******......-_            \n"
                                                         "          |##......................           \n"
-                                                        "          ##./ `.....Freetalk........         \n"  
+                                                        "          ##./ `.....Freetalk........         \n"
                                                         "         (--)  `.................   ..        \n"
                                                         "          ##   `.................     **      \n"
                                                         "                .............. .       **     \n"
@@ -64,16 +64,16 @@
                                                         "                 ....      .. ..              \n"
                                                         "                 ....       .. ..             \n"
                                                         "                 WW WW      WW WW             \n"
-                                                        "   ----------------------------------------   \n"          
-				                        "         Thank you for using freetalk         \n"                   
+                                                        "   ----------------------------------------   \n"
+				                        "         Thank you for using freetalk         \n"
                                                         "   ----------------------------------------   \n"))))
-					      
+
 
 (define (message-from-reason reason)
   (cond ((= reason 0) "User Request")
 	((= reason 1) "Network error (Timeout)")
 	((= reason 2) "Protocol error (Hangup)")
-	((= reason 3) (cond ((= (ft-get-conn-status) 3) 
+	((= reason 3) (cond ((= (ft-get-conn-status) 3)
 			     "Possible login from another location")
 			    (else "Invalid authentication")))
 	(else (string-append "Unknown error: " (number->string reason)))))

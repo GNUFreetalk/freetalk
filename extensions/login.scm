@@ -1,17 +1,17 @@
 ;;; login.scm: connect and login to the server
-;;; Copyright (c) 2005, 2006, 2007 Freetalk Core Team 
+;;; Copyright (c) 2005-2014 Freetalk Core Team
 ;;; This file is part of GNU Freetalk.
-;;; 
+;;;
 ;;; Freetalk is free software; you can redistribute it and/or modify it
 ;;; under the terms of the GNU General Public License as published by
 ;;; the Free Software Foundation; either version 3 of the License, or
 ;;; (at your option) any later version.
-;;; 
+;;;
 ;;; Freetalk is distributed in the hope that it will be useful, but
 ;;; WITHOUT ANY WARRANTY; without even the implied warranty of
 ;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;;; General Public License for more details.
-;;; 
+;;;
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with this program.  If not, see
 ;;; <http://www.gnu.org/licenses/>.
@@ -21,8 +21,8 @@
 ;(activate-readline)
 
 (and (string=? (ft-get-jid) "")
-     (ft-set-jid! (sans-surrounding-whitespace 
-		   (and (display "Jabber ID: ") 
+     (ft-set-jid! (sans-surrounding-whitespace
+		   (and (display "Jabber ID: ")
 			(read-line)))))
 
 ;; check if both user and domain are present
@@ -40,8 +40,8 @@
 
 (or (string=? (ft-get-jid) "")
     (and (string=? (ft-get-server) "")
-	 (split-discarding-char #\@ (ft-get-jid) 
-				(lambda (jid domain) 
+	 (split-discarding-char #\@ (ft-get-jid)
+				(lambda (jid domain)
 				  (ft-set-server! (domain->server domain))))))
 
 (and (not (string=? (ft-get-jid) "")) (not (string=? (ft-get-server) ""))
@@ -49,7 +49,7 @@
 
 (add-hook! ft-login-hook (lambda (success)
 			   (and success
-				(ft-set-prompt! (string-append 
+				(ft-set-prompt! (string-append
 						 (ft-get-jid)
 						 "> ")))))
 

@@ -1,17 +1,17 @@
 /*
-  Copyright (c) 2005, 2006, 2007 Freetalk Core Team
+  Copyright (c) 2005-2014 Freetalk Core Team
   This file is part of Freetalk.
-  
+
   Freetalk is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published
   by the Free Software Foundation; either version 3 of the License,
   or (at your option) any later version.
-  
+
   Freetalk is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
   General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see
   <http://www.gnu.org/licenses/>.
@@ -44,7 +44,7 @@ ft_roster_retrieve (LmConnection *conn)
 {
         LmMessage *msg;
         LmMessageNode *query;
-  
+
         msg = lm_message_new_with_sub_type (NULL, LM_MESSAGE_TYPE_IQ,
                                             LM_MESSAGE_SUB_TYPE_GET);
         query = lm_message_node_add_child (msg->node, "query", NULL);
@@ -131,7 +131,7 @@ ft_roster_lookup (const char *jid)
         GSList *elem;
         gchar **pieces;
         pieces = g_strsplit (jid, "/", 2);
-      
+
         incoming.jid = pieces[0];
         /*  incoming.resource = pieces[1];*/
         elem = g_slist_find_custom (state.roster, &incoming, roster_item_compare);
@@ -147,7 +147,7 @@ roster_result_rcvd (LmMessage *msg)
         LmMessageNode *item = lm_message_node_get_child (query, "item");
 
         ft_presence_send_initial ();
-  
+
         while (item)
         {
                 FtRosterItem *r_item = g_new (FtRosterItem, 1);
@@ -159,7 +159,7 @@ roster_result_rcvd (LmMessage *msg)
                 r_item->status_msg = NULL;
                 r_item->show_msg = NULL;
                 r_item->resource = NULL;
-      
+
                 state.roster = g_slist_append (state.roster, r_item);
                 item = item->next;
         }
@@ -170,12 +170,12 @@ roster_set_rcvd (LmMessage *msg)
 {
         FtRosterItem *old, *newi;
         //  GSList *elem;
-      
+
         LmMessageNode *query = lm_message_node_get_child (msg->node, "query");
         LmMessageNode *item = lm_message_node_get_child (query, "item");
 
         old = ft_roster_lookup (lm_message_node_get_attribute (item, "jid"));
-      
+
         if (old)
         {
                 char *nickname;
@@ -230,7 +230,7 @@ void
 ft_roster_cb (LmMessage *msg)
 {
         const char *type = lm_message_node_get_attribute (msg->node, "type");
-  
+
         if (!g_ascii_strcasecmp (type, "result")) // Initial roster retrieval
                 roster_result_rcvd (msg);
         else if (!g_ascii_strcasecmp (type, "set"))
@@ -260,14 +260,14 @@ roster_add_send_iq (char *jid, char *nickname)
         LmMessageNode *query = lm_message_node_add_child (msg->node, "query", NULL);
 
         LmMessageNode *item = lm_message_node_add_child (query, "item", NULL);
-  
+
         lm_message_node_set_attribute (query, "xmlns", "jabber:iq:roster");
         lm_message_node_set_attribute (item, "jid", jid);
         if (nickname)
                 lm_message_node_set_attribute (item, "name", nickname);
 
         lm_connection_send (state.conn, msg, NULL);
-  
+
         lm_message_node_unref (query);
         lm_message_node_unref (item);
         lm_message_unref (msg);
@@ -305,13 +305,13 @@ ft_roster_remove (char *jid)
         LmMessageNode *query = lm_message_node_add_child (msg->node, "query", NULL);
 
         LmMessageNode *item = lm_message_node_add_child (query, "item", NULL);
-  
+
         lm_message_node_set_attribute (query, "xmlns", "jabber:iq:roster");
         lm_message_node_set_attribute (item, "jid", jid);
         lm_message_node_set_attribute (item, "subscription", "remove");
 
         lm_connection_send (state.conn, msg, NULL);
-  
+
         lm_message_node_unref (query);
         lm_message_node_unref (item);
         lm_message_unref (msg);
@@ -328,13 +328,13 @@ ft_roster_set_nickname (char *jid, char *nickname)
         LmMessageNode *query = lm_message_node_add_child (msg->node, "query", NULL);
 
         LmMessageNode *item = lm_message_node_add_child (query, "item", NULL);
-  
+
         lm_message_node_set_attribute (query, "xmlns", "jabber:iq:roster");
         lm_message_node_set_attribute (item, "jid", jid);
         lm_message_node_set_attribute (item, "name", nickname);
 
         lm_connection_send (state.conn, msg, NULL);
-  
+
         lm_message_node_unref (query);
         lm_message_node_unref (item);
         lm_message_unref (msg);

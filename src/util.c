@@ -1,17 +1,17 @@
 /*
-  Copyright (c) 2005, 2006, 2007 Freetalk Core Team
+  Copyright (c) 2005-2014 Freetalk Core Team
   This file is part of Freetalk.
-  
+
   Freetalk is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published
   by the Free Software Foundation; either version 3 of the License,
   or (at your option) any later version.
-  
+
   Freetalk is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
   General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see
   <http://www.gnu.org/licenses/>.
@@ -38,7 +38,7 @@ parse_jid_string (char *s, jid_t *jid)
         char *at = strchr (str, '@');
         char *domain = str;
         char *slash;
-     
+
         if (at)
         {
                 *at = '\0';
@@ -47,7 +47,7 @@ parse_jid_string (char *s, jid_t *jid)
         }
 
         slash = strchr (domain, '/');
-     
+
         if (slash)
         {
                 *slash = '\0';
@@ -88,10 +88,10 @@ second_word (char *full_line)
         if (!full_line)
                 return NULL;
 
-        while (full_line && 
-               *full_line != ' ' && 
-               *full_line != '\t' && 
-               *full_line != '\r' && 
+        while (full_line &&
+               *full_line != ' ' &&
+               *full_line != '\t' &&
+               *full_line != '\r' &&
                *full_line != '\n')
                 full_line ++;
 
@@ -109,33 +109,33 @@ second_word (char *full_line)
 }
 
 
-void 
-async_printf (const char *fmt, va_list ap)      
+void
+async_printf (const char *fmt, va_list ap)
 {
-        int tmp_rl_point = rl_point;        
+        int tmp_rl_point = rl_point;
         int n = rl_end;
         unsigned int i;
 
-        if (rl_end >= 0 ) {                 
+        if (rl_end >= 0 ) {
                 rl_kill_text (0, rl_end);
-                rl_redisplay ();                  
-        }                                   
+                rl_redisplay ();
+        }
         printf ("\r");
         for (i=0 ; i<=strlen (state.prompt) ; i++)
                 printf (" ");
         printf ("\r");
-        vprintf (fmt, ap);            
-        printf ("\n");                      
-        fflush(stdout);                     
-        if (n) {                 
-                rl_do_undo ();                  
-                rl_point = tmp_rl_point;          
-                rl_reset_line_state ();           
-        }                                   
-        rl_forced_update_display ();        
+        vprintf (fmt, ap);
+        printf ("\n");
+        fflush(stdout);
+        if (n) {
+                rl_do_undo ();
+                rl_point = tmp_rl_point;
+                rl_reset_line_state ();
+        }
+        rl_forced_update_display ();
 }
 
-void 
+void
 sync_printf (const char *fmt, va_list ap)
 {
         vprintf (fmt, ap);

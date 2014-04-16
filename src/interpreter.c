@@ -1,17 +1,17 @@
 /*
-  Copyright (c) 2005, 2006, 2007 Freetalk Core Team
+  Copyright (c) 2005-2014 Freetalk core team
   This file is part of Freetalk.
-  
+
   Freetalk is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published
   by the Free Software Foundation; either version 3 of the License,
   or (at your option) any later version.
-  
+
   Freetalk is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
   General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see
   <http://www.gnu.org/licenses/>.
@@ -26,7 +26,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <readline/readline.h>
-#include <guile/gh.h>
+#include <libguile.h>
 
 #include "interpreter.h"
 #include "extensions.h"
@@ -57,7 +57,7 @@ interpreter (char *line)
 
         to_jid = strtok (line, " ");
 
-        if (!to_jid) 
+        if (!to_jid)
                 /* absurd! */
                 return 1;
 
@@ -66,19 +66,19 @@ interpreter (char *line)
         /* Avati - dyn-commands.scm should not interpret
            its args as messages. hence created new
            hook 'ex_commands_hook' for dyn-commands
-           and moved this below check to do_send_message () 
+           and moved this below check to do_send_message ()
         */
 
         set_hook_return (0);
         state.async_printf = 0;
         if (msg_str)
-                scm_run_hook (ex_command_hook, 
-                              scm_list_n (scm_from_locale_string (to_jid), 
+                scm_run_hook (ex_command_hook,
+                              scm_list_n (scm_from_locale_string (to_jid),
                                           scm_from_locale_string (msg_str),
                                           SCM_UNDEFINED));
         else
-                scm_run_hook (ex_command_hook, 
-                              scm_list_n (scm_from_locale_string (to_jid), 
+                scm_run_hook (ex_command_hook,
+                              scm_list_n (scm_from_locale_string (to_jid),
                                           scm_from_locale_string (""),
                                           SCM_UNDEFINED));
 
@@ -97,7 +97,7 @@ interpreter (char *line)
         return 1;
 }
 
-void 
+void
 interpreter_init (void)
 {
         /* build regex for autocompletion etc */
@@ -234,7 +234,7 @@ auto_complete (const char *text, int _state)
 
         if (need_command_completion) {
                 while (cmd_idx < cmd_len) {
-                        char *cmd = 
+                        char *cmd =
                                 scm_to_locale_string (scm_list_ref (scm_list_ref (ft_commands,
                                                                                   scm_from_ulong (cmd_idx++)),
                                                                     scm_from_ulong (0)));
@@ -251,13 +251,13 @@ auto_complete (const char *text, int _state)
                 f = rl_filename_completion_function (text, _state);
                 if (f)
                         return f;
-                else 
+                else
                         need_file_completion = 0;
         }
 
         if (need_roster_completion) {
                 while (roster_idx < g_slist_length (ft_roster_get ())) {
-                        FtRosterItem *roster = (FtRosterItem *)g_slist_nth_data (ft_roster_get (), 
+                        FtRosterItem *roster = (FtRosterItem *)g_slist_nth_data (ft_roster_get (),
                                                                                  roster_idx++);
                         if (roster && !strncasecmp (roster->jid, text, len))
                                 return strdup(roster->jid);
@@ -266,9 +266,9 @@ auto_complete (const char *text, int _state)
 
         if (need_roster_domain_completion_hack) {
                 while (roster_idx < g_slist_length (ft_roster_get ())) {
-                        FtRosterItem *roster = (FtRosterItem *)g_slist_nth_data (ft_roster_get (), 
+                        FtRosterItem *roster = (FtRosterItem *)g_slist_nth_data (ft_roster_get (),
                                                                                  roster_idx++);
-                        if (roster && !strncasecmp (roster->jid, possible_jid, 
+                        if (roster && !strncasecmp (roster->jid, possible_jid,
                                                     strlen (possible_jid)))
                                 return strdup (strchr (roster->jid, '@') + 1);
                 }

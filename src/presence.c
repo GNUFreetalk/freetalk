@@ -1,17 +1,17 @@
 /*
-  Copyright (c) 2005, 2006, 2007 Freetalk Core Team
+  Copyright (c) 2005-2014 Freetalk Core Team
   This file is part of Freetalk.
-  
+
   Freetalk is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published
   by the Free Software Foundation; either version 3 of the License,
   or (at your option) any later version.
-  
+
   Freetalk is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
   General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see
   <http://www.gnu.org/licenses/>.
@@ -35,7 +35,7 @@ roster_item_extract (LmMessage *msg)
         LmMessageNode *show = lm_message_node_find_child (msg->node, "show");
         LmMessageNode *status = lm_message_node_find_child (msg->node, "status");
         LmMessageNode *name = lm_message_node_find_child (msg->node, "name");
-  
+
         const char *type = lm_message_node_get_attribute (msg->node, "type");
 
         item->jid = (char *) lm_message_node_get_attribute (msg->node, "from");
@@ -45,7 +45,7 @@ roster_item_extract (LmMessage *msg)
                 item->resource = g_strdup (resource + 1);
         else
                 item->resource = NULL;
-  
+
         if (!type || !g_ascii_strcasecmp (type, "available"))
                 item->is_online = TRUE;
         else
@@ -55,7 +55,7 @@ roster_item_extract (LmMessage *msg)
                 item->show_msg = g_strdup (lm_message_node_get_value (show));
         else
                 item->show_msg = NULL;
-          
+
         if (status)
                 item->status_msg = g_strdup (lm_message_node_get_value (status));
         else
@@ -65,10 +65,10 @@ roster_item_extract (LmMessage *msg)
                 item->nickname = g_strdup (lm_message_node_get_value (name));
         else
                 item->nickname = NULL;
-  
+
         return item;
 }
-                     
+
 /*
   Called when presence of type 'available' or 'unavailable' is recieved
 */
@@ -93,13 +93,13 @@ presence_availability_rcvd (const char *from, LmMessage *msg)
                                         g_free (old->nickname);
                                 old->nickname = newi->nickname;
                         }
-          
+
                         if (old->show_msg) g_free (old->show_msg);
                         old->show_msg = newi->show_msg;
-          
+
                         if (old->status_msg) g_free (old->status_msg);
                         old->status_msg = newi->status_msg;
-          
+
                         if (old->resource) g_free (old->resource);
                         old->resource = newi->resource;
                 }
@@ -111,7 +111,9 @@ presence_availability_rcvd (const char *from, LmMessage *msg)
 static void
 presence_subscribe_rcvd (const char *from, LmMessage *msg)
 {
-        scm_run_hook (ex_subscribe_receive_hook, gh_list (gh_str02scm (from), SCM_UNDEFINED));
+        scm_run_hook (ex_subscribe_receive_hook,
+                      scm_list_n (scm_from_locale_string (from),
+                                  SCM_UNDEFINED));
 }
 
 /* Callback for all presence messages */
@@ -146,7 +148,8 @@ ft_presence_cb (LmMessage *msg)
 void
 ft_presence_send_final (void)
 {
-        LmMessage *msg = lm_message_new_with_sub_type (NULL, LM_MESSAGE_TYPE_PRESENCE,
+        LmMessage *msg = lm_message_new_with_sub_type (NULL,
+                                                       LM_MESSAGE_TYPE_PRESENCE,
                                                        LM_MESSAGE_SUB_TYPE_UNAVAILABLE);
         lm_connection_send (state.conn, msg, NULL);
         lm_message_unref (msg);
