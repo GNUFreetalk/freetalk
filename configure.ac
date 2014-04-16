@@ -7,6 +7,21 @@ AC_INIT([freetalk], [4.0], [harsha@harshavardhana.net])
 AM_INIT_AUTOMAKE
 
 AC_PREREQ([2.57])
+
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES(yes)])
+
+if make --help 2>&1 | grep -q no-print-directory; then
+   AM_MAKEFLAGS="$AM_MAKEFLAGS --no-print-directory";
+fi
+
+if make --help 2>&1 | grep -q quiet; then
+   AM_MAKEFLAGS="$AM_MAKEFLAGS --quiet"
+fi
+
+if libtool --help 2>&1 | grep -q quiet; then
+   AM_LIBTOOLFLAGS="--quiet";
+fi
+
 AC_CONFIG_SRCDIR([src/freetalk.c])
 
 AC_CONFIG_FILES([Makefile src/Makefile extensions/Makefile extensions/init.scm extensions/first-time-run.sh doc/Makefile po/Makefile.in examples/Makefile])
