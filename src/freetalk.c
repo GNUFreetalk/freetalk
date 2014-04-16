@@ -68,10 +68,28 @@ state_init (void)
         state.last = time(NULL);
 }
 
-scm_t_catch_handler catcher ()
+SCM
+catcher_handler (void *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
 {
         PRINTF("%s",_("No such command or buddy. See /help"));
-        return NULL;
+        return SCM_BOOL_F;
+}
+
+static SCM
+scm_freetalk_eval_string (void *data)
+{
+        char *scheme_code = (char *) data;
+        return scm_c_eval_string (scheme_code);
+}
+
+static SCM
+scm_freetalk_catch (const char *str, scm_t_catch_handler handler)
+{
+        return scm_internal_catch (SCM_BOOL_T,
+                                   (scm_t_catch_body) scm_freetalk_eval_string,
+                                   (void *) str,
+                                   (scm_t_catch_handler) handler,
+                                   (void *) str);
 }
 
 static void
@@ -95,11 +113,8 @@ process_line (char *line)
 
         state.async_printf = 0;
         if (interpreter (line) != 0) {
-                scm_internal_catch (SCM_BOOL_T,
-                                    (scm_t_catch_body) scm_c_eval_string,
-                                    (void *) eval_str,
-                                    (scm_t_catch_handler) catcher,
-                                    (void *) eval_str);
+                scm_freetalk_catch (eval_str,
+                                    (scm_t_catch_handler) catcher_handler);
                 scm_force_output (scm_current_output_port ());
         }
         g_free (eval_str);
