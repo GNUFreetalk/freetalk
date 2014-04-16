@@ -44,7 +44,7 @@ static LmMessage *send_registration_query ()
 static void handle_registration_reply (LmMessage *reply)
 {
         const char *type = lm_message_node_get_attribute (reply->node, "type");
-        if (!g_strcasecmp (type, "error"))
+        if (!g_ascii_strcasecmp (type, "error"))
         {
                 LmMessageNode *err = lm_message_node_find_child (reply->node, "error");
                 printf ("Registration failed: ");
@@ -89,9 +89,9 @@ static void send_required_fields (LmMessageNode *query)
 
         for (LmMessageNode *n = query->children; n != NULL; n = n->next)
         {
-                if (g_strcasecmp (n->name, "username") &&
-                    g_strcasecmp (n->name, "password") &&
-                    g_strcasecmp (n->name, "instructions"))
+                if (g_ascii_strcasecmp (n->name, "username") &&
+                    g_ascii_strcasecmp (n->name, "password") &&
+                    g_ascii_strcasecmp (n->name, "instructions"))
                 {
                         char *val;
                         string name = string (n->name);
@@ -125,7 +125,7 @@ static void do_registration ()
         LmMessage *reply = send_registration_query ();
         const char *type = lm_message_node_get_attribute (reply->node, "type");
 
-        if (!g_strcasecmp (type, "error"))
+        if (!g_ascii_strcasecmp (type, "error"))
         {
                 printf ("In-band registration not available on this server.\n");
                 exit (1);

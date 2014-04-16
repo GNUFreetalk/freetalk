@@ -572,7 +572,7 @@ do_main_loop (void)
 void
 do_change_password (char *npass)
 {
-        if (g_strcasecmp (npass, ""))
+        if (g_ascii_strcasecmp (npass, ""))
         {
                 LmMessage *msg = lm_message_new_with_sub_type (state.server,
                                                                LM_MESSAGE_TYPE_IQ,
@@ -586,7 +586,7 @@ do_change_password (char *npass)
                                                                             msg, NULL);
 
                 const char *type = lm_message_node_get_attribute (reply->node, "type");
-                if (!g_strcasecmp (type, "error"))
+                if (!g_ascii_strcasecmp (type, "error"))
                 {
                         do_printf ("Password change failed.\n");
                 }
