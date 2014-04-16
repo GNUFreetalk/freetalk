@@ -88,7 +88,7 @@ Extension Developer Guide (Advanced)
 Miscellaneous
 
 * Authors::                     Freetalk contributors
-* URLs::                        Mailing list, Downloads, CVS
+* URLs::                        Downloads, GIT
 * Guidelines for submitting a patch::
 * Portability::                 Porting Freetalk
 * Concept Index::
@@ -263,9 +263,9 @@ Specify the Jabber ID which you want to use, or display the currently set Jabber
 @example
 ~\/~ /jid
 Current JID:
-~\/~ /jid avati@@jabber.org
+~\/~ /jid harsha@@jabber.org
 ~\/~ /jid
-Current JID: avati@@jabber.org
+Current JID: harsha@@jabber.org
 @end example
 This command is meant to be used when changing accounts and quick logins.
 @end deffn
@@ -278,7 +278,7 @@ This command is meant to be used when changing accounts and quick logins.
 This command sends a buddy add request to user@@domain into your buddy list.
 
 @example
-~\/~ /add harshavardhana@@gmail.com
+~\/~ /add harsha@@jabber.org
 ~\/~
 @end example
 
@@ -357,7 +357,7 @@ Pipe the output of @var{command} to @var{buddy}. @var{options} are
 passed to @var{command}.
 
 @example
-~\/~> /pipe harsha@@gmail.com ls -alh
+~\/~> /pipe harsha@@jabber.org ls -alh
 ~\/~>
 @end example
 @end deffn
@@ -422,11 +422,10 @@ Example:
 
 @example
 ~\/~ /who
- * abindian@@gmail.com (ab)
-   twistedlogix@@gmail.com
- * tejasvk@@gmail.com -> [Away] (on metarnity leave)
-   basavanagowda@@gmail.com
-   amarts@@gmail.com (ts3)
+ * friend_1@@jabber.org (friend)
+ * guy@@jabber.org -> [Away] (on metarnity leave)
+...
+...
 ~\/~
 @end example
 @end deffn
@@ -458,7 +457,7 @@ Example:
 @example
 ~\/~ /whoami
 ~\/~ /whoami
-Jabber ID: avati@@zresearch.com
+Jabber ID: harsha@@jabber.org
 Jabber Server: jabber.org
 Status: hacking
 ~\/~
@@ -509,9 +508,9 @@ is not specified, it displays paginated history of only the current session.
 Example:
 
 @example
-~\/~ /history ranju1111@@gmail.com
+~\/~ /history harsha@@jabber.org
 
-Prints the history of messages with ranju1111@@gmail.com paginated by @command{less}.
+Prints the history of messages with harsha@@jabber.org paginated by @command{less}.
 
 ~\/~ /history
 
@@ -573,10 +572,10 @@ Example:
 
 @example
 ~\/~ /login
-Jabber ID: harshavardhana@@gmail.com
+Jabber ID: harsha@@jabber.org
 Password:
 Enable TLS/SSL (Y/N)? [Y]: y
-Port [5223]: 2401
+Port [5223]: 443
 Connecting...
 ~\/~
 @end example
@@ -628,9 +627,9 @@ URL or URL's in the message and launches the browser to open the URL.
 Example:
 
 @example
-~\/~ /urlview ksv@@gmail.com
+~\/~ /urlview friend@@jabber.org
 
-ksv: http://freetalk.nongnu.org/
+friend: http://github.com/harshavardhana/freetalk
 
 ~\/~
 @end example
@@ -646,9 +645,9 @@ freetalk or not.
 Example:
 
 @example
-~\/~ /freetalk maxcohen@@gmail.com
+~\/~ /freetalk maxcohen@@jabber.org
 
-Yes maxcohen@@gmail.com is using freetalk.
+Yes maxcohen@@jabber.org is using freetalk.
 
 ~\/~
 
@@ -663,10 +662,10 @@ Send IRC style greeting message to your @var{BUDDY}.
 
 @example
 Example:
-ab@@jabber.org> /greet avati@@jabber.org
+friend@@jabber.org> /greet harsha@@jabber.org
 
-On the other side avati@@jabber.org gets a message
-``aaaaaavvvvvvvvvvtttttttiiiiiii''.
+On the other side harsha@@jabber.org gets a message
+``sssssssssssccccccrrrrrreeeeeeeeaaaaaaammmmmm''.
 @end example
 @end deffn
 @cmindex greet
@@ -680,10 +679,10 @@ and send it to @var{BUDDY}.
 
 @example
 Example:
-ab@@jabber.org> /burst avati@@jabber.org avati
+friend@@jabber.org> /burst harsha@@jabber.org harsha
 
-On the other side avati@@jabber.org gets a message
-``aaaaaavvvvvvvvvvtttttttiiiiiii''.
+On the other side harsha@@jabber.org gets a message
+``sssssssssssccccccrrrrrreeeeeeeeaaaaaaammmmmm''.
 @end example
 @end deffn
 @cmindex burst
@@ -697,7 +696,7 @@ hand-made kisses.
 
 @example
 Example:
-ab@@jabber.org> /burst hackergirl@@jabber.org 45 :-*
+friend@@jabber.org> /burst hackergirl@@jabber.org 45 :-*
 @end example
 @end deffn
 @cmindex burst-of-romance
@@ -709,7 +708,7 @@ Send @var{MESSAGE} to all the buddies
 
 @example
 Example:
-harshavardhana@@jabber.org> /broadcast "Hello All, I am back"
+harsha@@jabber.org> /broadcast "Hello All, I am back"
 @end example
 @end deffn
 @cmindex broadcast
@@ -780,7 +779,7 @@ in this file.
 ;; It sets connection parameters and tries to connect on
 ;; starting freetalk
 (and (strings=? (ft-get-jid) "")
-                (ft-set-jid! "avati@@jabber.org")
+                (ft-set-jid! "harsha@@jabber.org")
                 (ft-set-password! "f00b4r")
                 (ft-set-sslconn! 1)
                 (ft-set-server! "jabber.org")
@@ -918,7 +917,7 @@ Adds @var{buddy} into your contact list.
 
 Example:
 @lisp
-(ft-add-buddy! "vikasgp386@@gmail.com")
+(ft-add-buddy! "friend@@jabber.org")
 @end lisp
 @end deffn
 @prindex ft-add-buddy!
@@ -938,7 +937,7 @@ Set @var{defaultid} as the Jabber ID to be used on the next connect.
 
 Example:
 @lisp
-(ft-set-jid! "anand.avati@@gmail.com")
+(ft-set-jid! "harsha@@jabber.org")
 @end lisp
 @end deffn
 @prindex ft-set-jid!
@@ -986,12 +985,22 @@ Example:
 @end deffn
 @prindex ft-set-sslconn!
 
+@deffn primitive ft-set-tlsconn! boolean
+Set the @var{value} such that login is in TLS mode or not.
+
+Example:
+@lisp
+(ft-set-tlsconn! #t)
+@end lisp
+@end deffn
+@prindex ft-set-tlsconn!
+
 @deffn primitive ft-send-message buddy message
 Sends @var{message} to the @var{buddy}.
 
 Example:
 @lisp
-(ft-send-message "abindian@@gmail.com" "had breakfast? or was it lunch?")
+(ft-send-message "harsha@@jabber.org" "had breakfast? or was it lunch?")
 @end lisp
 @end deffn
 @prindex ft-send-message
@@ -1151,35 +1160,19 @@ We believe in Software Freedom and Ethics, the GNU's way.
 @include authors.texi
 @cindex AUTHORS
 
-
 @node URLs, Guidelines for submitting a patch, Authors, Top
 @chapter URLs
 @deffn URL Homepage
-@url{http://www.gnu.org/software/freetalk/}
+@url{http://github.com/harshavardhana/freetalk/}
 @end deffn
 
 @deffn URL Download
-@url{http://savannah.gnu.org/download/freetalk/}
-@end deffn
-
-@deffn URL CVS
-To know project information like Bugs, Updates, Support, Patches,
-Tasks, News, Development Status, Activity Percentile, Project Activity
-visit @url{http://www.gnu.org/software/freetalk/}
-@end deffn
-
-@deffn URL Mailing list
-Freetalk has its own mailing list. The mailing list is for support,
-reporting bugs, mailing announcements. You are welcome to
-subscribe.
-
-To Subscribe/Unsubscribe visit,
-@url{https://savannah.gnu.org/mail/?group=freetalk}.
+@url{http://github.com/Harshavardhana/freetalk/releases}
 @end deffn
 
 @deffn URL Bugs
 You are welcome to send bug reports about freetalk to
-@url{https://savannah.gnu.org/bugs/?group=freetalk}.
+@url{http://github.com/Harshavardhana/freetalk/issues}.
 The bugs that you think are of the interest to the public
 (i.e.  more people should be informed about them) can be
 Cc-ed to the above mailing lists.
@@ -1204,7 +1197,7 @@ Find where the bug is, fix it and send the patches. :)
 @end enumerate
 @end deffn
 
-Send your specific queries to  Vikas Gorur @email{vikas@@zresearch.com}
+Send your specific queries to Harshavardhana @email{harsha@@harshavardhana.net}
 @cindex freetalk URLs
 
 

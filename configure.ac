@@ -3,7 +3,7 @@ dnl GNU General Publicense v3 or later
 
 dnl Process this file with autoconf to produce a configure script
 
-AC_INIT([freetalk], [4.0], [freetalk-dev@gnu.org])
+AC_INIT([freetalk], [4.0], [harsha@harshavardhana.net])
 AM_INIT_AUTOMAKE
 
 AC_PREREQ([2.57])

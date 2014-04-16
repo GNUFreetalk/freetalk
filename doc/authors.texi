@@ -1,24 +1,24 @@
-@section FreeTalk Contributors (sorted alphabetically)
+@section Contributors
 
-@subsection Core team
+@subsection Active
 @multitable @columnfractions 0.03 0.25 0.35
-@item 1. @tab Anand Avati @tab @email{avati@@zresearch.com}
-@item 2. @tab Anand Babu @tab @email{ab@@zresearch.com}
-@item 3. @tab Harshavardhana @tab @email{harsha@@zresearch.com}
-@item 4. @tab Vikas Gorur @tab @email{vikas@@zresearch.com}
+@item 1. @tab Anand Babu @tab @email{aperiasamy@@gmail.com}
+@item 2. @tab Harshavardhana @tab @email{harsha@@harshavardhana.net}
+@item 3. @tab Anis Elleuch @tab @email{anis.elleuch@@gmail.com}
+@end multitable
+
+@subsection InActive
+@multitable @columnfractions 0.03 0.25 0.35
+@item 1. @tab Anand Avati @tab @email{avati@@gluster.org}
+@item 2. @tab Vikas Gorur @tab @email{vikas@@twitter.com}
 @end multitable
 
 @subsection Documentation
 @multitable @columnfractions 0.03 0.25 0.35
-@item 1. @tab Harshavardhana @tab @email{harsha@@zresearch.com}
+@item 1. @tab Harshavardhana @tab @email{harsha@@harshavardhana.net}
 @end multitable
 
-@subsection Packaging
-@multitable @columnfractions 0.03 0.25 0.40 0.35
-@c @item 1. @tab First Last @tab @email{user@domain.dom} @tab Debian GNU/Linux
-@end multitable
-
-@subsection contact point
+@subsection Contact/Queries
 @multitable @columnfractions 0.03 0.25 0.35
-@item 1. @tab FreeTalk @tab @email{freetalk-dev@@gnu.org}
+@item 1. @tab FreeTalk @tab @email{harsha@@harshavardhana.net}
 @end multitable

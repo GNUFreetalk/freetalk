@@ -42,3 +42,6 @@ po/freetalk.pot
 po/stamp-po
 m4/
 src/freetalk
+po/en@boldquot.insert-header
+po/en@quot.insert-header
+po/remove-potcdate.sed

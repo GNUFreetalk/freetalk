@@ -43,16 +43,18 @@
   (split-discarding-char #\@ jid (lambda (jid domain) domain)))
 
 (define (domain->server domain)
-  (cond ((string=? domain "gmail.com") "talk.google.com")
-	((string=? domain "google.com") "talk.google.com")
-	(else domain)))
+  (cond ((string=? domain "jabber.org") "jabber.org")
+        ((string=? domain "facebook.com") "chat.facebook.com")
+        ((string=? domain "fb.com") "chat.facebook.com")
+        ((string=? domain "chat.facebook.com") "chat.facebook.com")
+        (else domain)))
 
 (define (read-jid)
   (display (string-append "Jabber ID"
-			     (if (not (string=? "" (ft-get-jid)))
-				  (string-append "[" (ft-get-jid) "]")
-				  "")
-			     ": "))
+                          (if (not (string=? "" (ft-get-jid)))
+                              (string-append "[" (ft-get-jid) "]")
+                              "")
+                          ": "))
   (set-if-not-empty! ft-set-jid! (read-line-clean) (ft-get-jid)))
 
 (define (read-password)
@@ -64,36 +66,44 @@
     (set-if-not-empty! ft-set-server! (read-line-clean) server)))
 
 (define (read-sslconn)
-  (display (string-append (_ "Enable TLS/SSL (Y/N)? [Y]: ")))
+  (display (string-append (_ "Enable SSL (Y/N)? [Y]: ")))
   (let ((ans (read-line-clean)))
     (ft-set-sslconn! (if (or (string=? ans "n")
-			     (string=? ans "N"))
-			 #f
-			 #t))))
+                             (string=? ans "N"))
+                         #f
+                         #t))))
+
+(define (read-tlsconn)
+  (display (string-append (_ "Enable TLS (Y/N)? [Y]: ")))
+  (let ((ans (read-line-clean)))
+    (ft-set-tlsconn! (if (or (string=? ans "n")
+                             (string=? ans "N"))
+                         #f
+                         #t))))
 
 (define (read-num-clean)
   (let ((port-str (read-line-clean)))
     (if (string->number port-str)
-	port-str
-	"")))
+        port-str
+        "")))
 
 (define (read-port)
   (let ((port (if (ft-get-sslconn?)
-		  5223
-		  5222)))
+                  5223
+                  5222)))
     (display (string-append (_ "Port [") (number->string port) "]: "))
     (set-if-not-empty! (lambda (str-num)
-			 (ft-set-port! (string->number str-num)))
-		       (read-num-clean)
-		       "0")))
+                         (ft-set-port! (string->number str-num)))
+                       (read-num-clean)
+                       "0")))
 
 (define (read-proxy)
   (display (string-append (_ "Enable Proxy (Y/N)? [Y]: ")))
   (let ((ans (read-line-clean)))
     (ft-set-proxy! (if (or (string=? ans "n")
-			   (string=? ans "N"))
-		       #f
-		       #t))))
+                           (string=? ans "N"))
+                       #f
+                       #t))))
 
 (define (read-proxyserver)
   (display (string-append (_ "ProxyServer: ")))
@@ -103,9 +113,9 @@
   (let ((proxyport 8080))
     (display (string-append (_ "ProxyPort [") (number->string proxyport) "]: "))
     (set-if-not-empty! (lambda (str-num)
-			 (ft-set-proxyport! (string->number str-num)))
-		       (read-num-clean)
-		       "8080")))
+                         (ft-set-proxyport! (string->number str-num)))
+                       (read-num-clean)
+                       "8080")))
 
 (define (read-proxyuname)
   (display (string-append (_ "ProxyUsername: ")))
@@ -128,6 +138,7 @@
     (read-password)
     (read-server)
     (read-sslconn)
+    (read-tlsconn)
     (read-port)
     (read-proxy)
     (if (ft-get-proxy?)

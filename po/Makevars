@@ -9,5 +9,4 @@ top_builddir = ..
 
 # These options get passed to xgettext.
 XGETTEXT_OPTIONS = --keyword=_ --keyword=N_
-MSGID_BUGS_ADDRESS = freetalk-dev@gnu.org
-
+MSGID_BUGS_ADDRESS = harsha@harshavardhana.net

@@ -38,10 +38,11 @@ normal ()
 	return 1;
     }
     cat >> "${CONFIG_BASE}/freetalk.scm" <<EOF
-; (ft-set-jid! "anand.avati@gmail.com")
-; (ft-set-server! "talk.google.com")
+; (ft-set-jid! "yourid@jabber.org")
+; (ft-set-server! "talk.jabber.org")
 ; (ft-set-password! "p455w0rd")
 ; (ft-set-sslconn! #t)
+; (ft-set-tlsconn! #t)
 ; (ft-set-proxy! #f)
 ; (ft-set-port! 5223)
 ; (add-hook! ft-login-hook

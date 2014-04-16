@@ -34,8 +34,8 @@
       (exit 1)))
 
 (define (domain->server domain)
-  (cond ((string=? domain "gmail.com") "talk.google.com")
-	((string=? domain "google.com") "talk.google.com")
+  (cond ((string=? domain "facebook.com") "chat.facebook.com")
+	((string=? domain "fb.com") "chat.facebook.com")
 	(else domain)))
 
 (or (string=? (ft-get-jid) "")
