@@ -1,11 +1,9 @@
-SUBDIRS = src extensions doc po examples
+SUBDIRS = $(ARGP_STANDALONE_DIR) src extensions doc examples
 
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 
-ACLOCAL_AMFLAGS = -I m4
-
-EXTRA_DIST = autogen.sh
+EXTRA_DIST = autogen.sh contrib/argp-standalone
 
 CLEANFILES = *~
 
@@ -16,3 +14,10 @@ gitclean: distclean
 	rm -f missing aclocal.m4 config.h.in config.guess
 	rm -f config.sub ltmain.sh install-sh configure depcomp
 	rm -f config.rpath INSTALL
+	-rm -fr $(CONTRIBDIR)/argp-standalone/autom4te.cache
+	-rm -f $(CONTRIBDIR)/argp-standalone/aclocal.m4
+	-rm -f $(CONTRIBDIR)/argp-standalone/config.h.in
+	-rm -f $(CONTRIBDIR)/argp-standalone/configure
+	-rm -f $(CONTRIBDIR)/argp-standalone/depcomp
+	-rm -f $(CONTRIBDIR)/argp-standalone/install-sh
+	-rm -f $(CONTRIBDIR)/argp-standalone/missing

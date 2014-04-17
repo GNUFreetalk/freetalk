@@ -21,6 +21,11 @@
   This file is the interface between readline and commands.c (do_*)
 */
 
+#ifndef _CONFIG_H
+#define _CONFIG_H
+#include "config.h"
+#endif
+
 #include <stdio.h>
 #include <regex.h>
 #include <string.h>
@@ -33,7 +38,7 @@
 #include "freetalk.h"
 #include "commands.h"
 #include "roster.h"
-#include "compat.h"
+#include "common.h"
 
 GSList *dict_words = NULL;
 

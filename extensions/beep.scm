@@ -18,8 +18,8 @@
 
 (if (= (system "beep -f 1 -l 0 >> /dev/null 2>&1") 0)
     (add-hook! ft-message-receive-hook
-	       (lambda (time from nickname message)
-		 (system "beep -f 600 -l 10; beep -f 800 -l 10; beep -f 200 -l 10&")))
+               (lambda (time from nickname message)
+                 (system "beep -f 600 -l 10; beep -f 800 -l 10; beep -f 200 -l 10&")))
     (add-hook! ft-message-receive-hook
-	       (lambda (time from nickname message)
-		 (ft-beep 200 20))))
+               (lambda (time from nickname message)
+                 (ft-beep 200 20))))

@@ -17,6 +17,11 @@
   <http://www.gnu.org/licenses/>.
 */
 
+#ifndef _CONFIG_H
+#define _CONFIG_H
+#include "config.h"
+#endif
+
 #include <stdlib.h>
 #include <libguile.h>
 #include <sys/types.h>
@@ -26,7 +31,7 @@
 #include "freetalk.h"
 #include "roster.h"
 #include "primitives.h"
-#include "compat.h"
+#include "common.h"
 
 SCM ex_message_receive_hook;
 SCM ex_message_send_hook;

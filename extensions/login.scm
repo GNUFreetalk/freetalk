@@ -22,36 +22,36 @@
 
 (and (string=? (ft-get-jid) "")
      (ft-set-jid! (sans-surrounding-whitespace
-		   (and (display "Jabber ID: ")
-			(read-line)))))
+                   (and (display "Jabber ID: ")
+                        (read-line)))))
 
 ;; check if both user and domain are present
 (if (not (string-rindex (ft-get-jid) #\@))
     (begin
       (display (string-append "freetalk: Jabber ID ["
-			      (ft-get-jid)
-			      "] should contain full user@domain\n"))
+                              (ft-get-jid)
+                              "] should contain full user@domain\n"))
       (exit 1)))
 
 (define (domain->server domain)
   (cond ((string=? domain "facebook.com") "chat.facebook.com")
-	((string=? domain "fb.com") "chat.facebook.com")
-	(else domain)))
+        ((string=? domain "chat.facebook.com") "chat.facebook.com")
+        (else domain)))
 
 (or (string=? (ft-get-jid) "")
     (and (string=? (ft-get-server) "")
-	 (split-discarding-char #\@ (ft-get-jid)
-				(lambda (jid domain)
-				  (ft-set-server! (domain->server domain))))))
+         (split-discarding-char #\@ (ft-get-jid)
+                                (lambda (jid domain)
+                                  (ft-set-server! (domain->server domain))))))
 
 (and (not (string=? (ft-get-jid) "")) (not (string=? (ft-get-server) ""))
      (ft-connect))
 
 (add-hook! ft-login-hook (lambda (success)
-			   (and success
-				(ft-set-prompt! (string-append
-						 (ft-get-jid)
-						 "> ")))))
+                           (and success
+                                (ft-set-prompt! (string-append
+                                                 (ft-get-jid)
+                                                 "> ")))))
 
 (add-hook! ft-disconnect-hook (lambda (reason)
-				(ft-set-prompt! "~\\/~ ")))
+                                (ft-set-prompt! "~\\/~ ")))

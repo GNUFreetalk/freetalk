@@ -17,6 +17,11 @@
   <http://www.gnu.org/licenses/>.
 */
 
+#ifndef _CONFIG_H
+#define _CONFIG_H
+#include "config.h"
+#endif
+
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -28,8 +33,7 @@
 #include "extensions.h"
 #include "roster.h"
 #include "presence.h"
-#include "file_transfer.h"
-#include "compat.h"
+#include "common.h"
 
 SCM ex_load (SCM scm_file)
 {

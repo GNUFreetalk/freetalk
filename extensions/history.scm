@@ -44,38 +44,38 @@
 (define (history filename buddy message)
   "log the message to history file"
   (history-raw filename
-	       (string-append
-		(local-date-time) " [" buddy "] " message "\n")))
+               (string-append
+                (local-date-time) " [" buddy "] " message "\n")))
 
 (define (history-create-dirs)
   "create history folders"
   ;;; if we are running for the first time, then create
   ;;; ~/.freetalk/history
   (catch 'system-error
-	 (lambda ()
-	   (mkdir (string-append (ft-get-config-dir)
-				 "/history")))
-	 (lambda args #f))
+         (lambda ()
+           (mkdir (string-append (ft-get-config-dir)
+                                 "/history")))
+         (lambda args #f))
   ;;; if we are logging in for first time, then create
   ;;; ~/.freetalk/history/<yahoo-id>
   (catch 'system-error
-	 (lambda ()
-	   (mkdir history-path))
-	 (lambda args #f)))
+         (lambda ()
+           (mkdir history-path))
+         (lambda args #f)))
 
 ;;; hook procedure for logging all sent messages
 (define (log-sent-message to message)
   "hook procedure for logging all sent messages"
   (history (string-append history-path "/" to)
-	   (ft-get-jid)
-	   message))
+           (ft-get-jid)
+           message))
 
 ;;; hook procedure for logging all revceived messages
 (define (log-received-message time from nickname message)
   "hook procedure for logging all revceived messages"
   (history (string-append history-path "/" from)
-	   from
-	   message))
+           from
+           message))
 
 ;;; hook procedure for logging all revceived offline messages
 ;(define (log-received-offline-message from message time)
@@ -91,9 +91,9 @@
   (if success
     (begin
     (set! history-path (string-append
-		      (ft-get-config-dir)
-		      "/history/"
-		      (ft-get-jid)))
+                        (ft-get-config-dir)
+                        "/history/"
+                        (ft-get-jid)))
     (set! session-file (string-append history-path "/SESSION"))
     (history-create-dirs))))
 
@@ -114,6 +114,6 @@
   (if (= (string-length args) 0)
       (system (string-append history-page-cmd session-file))
 ;      (if (= (string-length args) 1)
-	  (system (string-append history-page-cmd history-path "/" args))))
+      (system (string-append history-page-cmd history-path "/" args))))
 
 (add-command! /history "/history" "/history [BUDDY]" "Display history page by page")

@@ -23,8 +23,9 @@
 (define (/version args)
   "display version info"
   (display (string-append (_ "freetalk (FreeTalk) ") (ft-version) "\n"
-			  (_ "Copyright (C) 2005-2014 FreeTalk Core Team.\n")
-			  (_ "This is free software; see the source for copying conditions.  There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"))))
+                          (_ "Copyright (C) 2005-2014 FreeTalk Core Team.\n")
+                          (_ "This is free software; see the source for copying conditions.\n")
+                          (_ "There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"))))
 
 (add-command! /version "/version" "/version" "display freetalk version information")
 
@@ -45,8 +46,8 @@
   (if (number? item)
       (string->symbol (number->string item))
       (if (string? item)
-	  (string->symbol item)
-	  item)))
+          (string->symbol item)
+          item)))
 
 (define (list->asv li any)
   "convert list to any separated vector"
@@ -69,27 +70,26 @@
   (if (= (length li) 0)
       '()
       (if (= (length li) 1)
-	  (list
-	   (symbol->string
-	    (any->symbol (car li))))
-	  (append (list
-		   (symbol->string
-		    (any->symbol (car li))))
-		  (list->strlist (cdr li))))))
+          (list
+           (symbol->string
+            (any->symbol (car li))))
+          (append (list
+                   (symbol->string
+                    (any->symbol (car li))))
+                  (list->strlist (cdr li))))))
 
 (define (send-messages-to-all roster-list message)
   "Send messages to all"
   (for-each (lambda (buddy)
-	      (ft-send-message-no-hook buddy message))
-	    roster-list))
+              (ft-send-message-no-hook buddy message))
+            roster-list))
 
 (define (local-date-time)
   (string-append
                  (strftime "%F" (localtime (current-time)))
-		 " "
+                 " "
                  (strftime "%T" (localtime (current-time)))))
 
-
 (define (skip-comment port)
   (let ((char (peek-char port)))
     (if (or (eof-object? char)
@@ -102,44 +102,44 @@
 (define (skip-whitespace port)
   (let ((char (peek-char port)))
     (cond ((or (eof-object? char)
-	       (char=? #\newline char))
-	   char)
-	  ((char-whitespace? char)
-	   (read-char port)
-	   (skip-whitespace port))
-;;  	  ((char=? #\# char)
-;;  	   (read-char port)
-;;  	   (skip-comment port))
-	  (else char))))
+               (char=? #\newline char))
+           char)
+          ((char-whitespace? char)
+           (read-char port)
+           (skip-whitespace port))
+;;        ((char=? #\# char)
+;;         (read-char port)
+;;         (skip-comment port))
+          (else char))))
 
 (define (read-token port delim)
   (letrec
       ((loop
-	(lambda (chars)
-	  (let ((char (peek-char port)))
-	    (cond ((eof-object? char)
-		   (do-eof char chars))
-		  ((char=? #\newline char)
-		   (do-eot chars))
-		  ((char-whitespace? char)
-		   (do-eot chars))
-;;  		   (let ((terminator (skip-comment port)))
-;;  		     (if (eof-object? char)
-;;  			 (do-eof char chars)
-;;  			 (do-eot chars))))
-		  (else
-		   (read-char port)
-		   (loop (cons char chars)))))))
+        (lambda (chars)
+          (let ((char (peek-char port)))
+            (cond ((eof-object? char)
+                   (do-eof char chars))
+                  ((char=? #\newline char)
+                   (do-eot chars))
+                  ((char-whitespace? char)
+                   (do-eot chars))
+;                  (let ((terminator (skip-comment port)))
+;;                   (if (eof-object? char)
+;;                       (do-eof char chars)
+;;                       (do-eot chars))))
+                  (else
+                   (read-char port)
+                   (loop (cons char chars)))))))
        (do-eof
-	(lambda (eof chars)
-	  (if (null? chars)
-	      eof
-	      (do-eot chars))))
+        (lambda (eof chars)
+          (if (null? chars)
+              eof
+              (do-eot chars))))
        (do-eot
-	(lambda (chars)
-	  (if (null? chars)
-	      #f
-	      (list->string (reverse! chars))))))
+        (lambda (chars)
+          (if (null? chars)
+              #f
+              (list->string (reverse! chars))))))
     (skip-whitespace port)
     (loop '())))
 
@@ -148,25 +148,24 @@
   (with-input-from-string sentence
     (lambda ()
       (letrec
-	  ((next-token
-	    (lambda ()
-	      (read-token (current-input-port) #\#)))
-	   (append-word
-	    (lambda (word-list)
-	      (let
-		  ((word (next-token)))
-		(if (eof-object? word)
-		    word-list
-		    (begin
-		      (append-word
-		       (append word-list (list word)))))))))
-	(append-word '())))))
+          ((next-token
+            (lambda ()
+              (read-token (current-input-port) #\#)))
+           (append-word
+            (lambda (word-list)
+              (let
+                  ((word (next-token)))
+                (if (eof-object? word)
+                    word-list
+                    (begin
+                      (append-word
+                       (append word-list (list word)))))))))
+        (append-word '())))))
 
 
 (define (blank-line? line)
   "return true if line is blank"
   (null? (sentence->words line)))
-
 
 ;;; string utils
 ;; for string-match procedure
@@ -179,39 +178,38 @@
   (with-input-from-string sentence
     (lambda ()
       (letrec
-	  ((next-token (lambda ()
-			 (read (current-input-port))))
-	   (append-word (lambda (word-list)
-			  (let
-			      ((word (next-token)))
-			    (if (eof-object? word)
-				word-list
-				(begin
-				  (append-word (append word-list
-						       (list word)))))))))
-	(append-word '())))))
+          ((next-token (lambda ()
+                         (read (current-input-port))))
+           (append-word (lambda (word-list)
+                          (let
+                              ((word (next-token)))
+                            (if (eof-object? word)
+                                word-list
+                                (begin
+                                  (append-word (append word-list
+                                                       (list word)))))))))
+        (append-word '())))))
 
 
 (define (list->sentence li)
   "convert list to space separated sentence"
   (let
       ((word (if (symbol? (car li))
-		 (symbol->string (car li))
-		 (number->string (car li)))))
+                 (symbol->string (car li))
+                 (number->string (car li)))))
     (if (= (length li) 1)
-	word
-	(string-append word " " (list->sentence (cdr li))))))
-
+        word
+        (string-append word " " (list->sentence (cdr li))))))
 
 (define (string-separate str ch)
   (let ((index (string-index str ch)))
     (if index
-	(cons (substring str 0 index)
-	      (string-separate (substring str
-				       (+ index 1)
-				       (string-length str))
-			    ch))
-	(list str))))
+        (cons (substring str 0 index)
+              (string-separate (substring str
+                                          (+ index 1)
+                                          (string-length str))
+                               ch))
+        (list str))))
 
 
 (define (blank-line? line)
@@ -230,10 +228,10 @@
   "skip blank lines and read the next line"
   (let ((line (read-line fport)))
     (if (eof-object? line)
-	""
-	(if (not (blank-line? line))
-	    line
-	    (read-next-line fport)))))
+        ""
+        (if (not (blank-line? line))
+            line
+            (read-next-line fport)))))
 
 
 (define (string-string? str find-string)
@@ -245,9 +243,9 @@
   "convert flat yymmdd num to (yy mm dd) list"
   (let*
       ((date-str (list->string
-		  (map (lambda (c)
-			 (if (eq? c #\space) #\0 c))
-		       (string->list (format #f "~6d" date)))))
+                  (map (lambda (c)
+                         (if (eq? c #\space) #\0 c))
+                       (string->list (format #f "~6d" date)))))
        (yy (substring date-str 0 2))
        (mm (substring date-str 2 4))
        (dd (substring date-str 4 6)))

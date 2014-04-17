@@ -25,9 +25,9 @@
   "dynamic command interface to shell facility"
   (if (= (string-length args) 0)
       (begin
-	(display (_ "Press \"C-d\" to get back to freetalk"))
-	(newline)
-	(system "sh"))
+        (display (_ "Press \"C-d\" to get back to freetalk"))
+        (newline)
+        (system "sh"))
       (system args)))
 
 (add-command! /shell "/shell" "/shell [COMMAND] [ARGS]" "shell mode")
@@ -48,7 +48,7 @@
 (add-command! /date "/date" "/date [OPTIONS]" "print current date with all date OPTIONS")
 
 (add-hook! ft-quit-hook (lambda (dummy) (display
-					 (string-append "         ...   ...                            \n"
+                                         (string-append "         ...   ...                            \n"
                                                         "       ..         ..                          \n"
                                                         "       ..          ..                         \n"
                                                         "        ...~~`'~~...                          \n"
@@ -65,22 +65,22 @@
                                                         "                 ....       .. ..             \n"
                                                         "                 WW WW      WW WW             \n"
                                                         "   ----------------------------------------   \n"
-				                        "         Thank you for using freetalk         \n"
+                                                        "         Thank you for using freetalk         \n"
                                                         "   ----------------------------------------   \n"))))
 
 
 (define (message-from-reason reason)
   (cond ((= reason 0) "User Request")
-	((= reason 1) "Network error (Timeout)")
-	((= reason 2) "Protocol error (Hangup)")
-	((= reason 3) (cond ((= (ft-get-conn-status) 3)
-			     "Possible login from another location")
-			    (else "Invalid authentication")))
-	(else (string-append "Unknown error: " (number->string reason)))))
+        ((= reason 1) "Network error (Timeout)")
+        ((= reason 2) "Protocol error (Hangup)")
+        ((= reason 3) (cond ((= (ft-get-conn-status) 3)
+                             "Possible login from another location")
+                            (else "Invalid authentication")))
+        (else (string-append "Unknown error: " (number->string reason)))))
 
 (add-hook! ft-disconnect-hook (lambda (reason)
-				(ft-display (string-append
-					  "Disconnected from "
-					  (ft-get-server)
-					  ": "
-					  (message-from-reason reason)))))
+                                (ft-display (string-append
+                                             "Disconnected from "
+                                             (ft-get-server)
+                                             ": "
+                                             (message-from-reason reason)))))

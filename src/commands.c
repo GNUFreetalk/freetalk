@@ -17,6 +17,11 @@
   <http://www.gnu.org/licenses/>.
 */
 
+#ifndef _CONFIG_H
+#define _CONFIG_H
+#include "config.h"
+#endif
+
 #include <stdio.h>
 #include <regex.h>
 #include <loudmouth/loudmouth.h>
@@ -32,6 +37,17 @@
 #include "extensions.h"
 #include "roster.h"
 #include "presence.h"
+#include "common.h"
+
+void
+do_ssl ()
+{
+        LmSSL *ssl;
+        ssl = lm_ssl_new (NULL, ft_ssl_response_cb, NULL, NULL);
+        lm_ssl_use_starttls(ssl, ! state.need_ssl, state.need_tls);
+        lm_connection_set_ssl (state.conn, ssl);
+        lm_connection_set_port (state.conn, do_get_port () ? do_get_port () : LM_CONNECTION_DEFAULT_PORT_SSL);
+}
 
 int
 do_connect_common ()
@@ -48,9 +64,8 @@ do_connect_common ()
 
         //  PRINTF ("Server: %s \nJID: %s", state.server, state.jid_str); fflush(stdout);
 
-        if (!state.password) {
+        if (!state.password)
                 state.password =  getpass ("Password: ");
-        }
 
         state.conn = lm_connection_new (state.server);
         lm_connection_ref (state.conn);
@@ -66,8 +81,10 @@ do_connect_common ()
                 state.proxy = lm_proxy_new_with_server (LM_PROXY_TYPE_HTTP,
                                                         state.proxyserver,
                                                         state.proxyport);
-                if (!state.proxyuname) state.proxyuname = NULL;
-                if (!state.proxypasswd) state.proxypasswd = NULL;
+                if (!state.proxyuname)
+                        state.proxyuname = NULL;
+                if (!state.proxypasswd)
+                        state.proxypasswd = NULL;
 
                 lm_proxy_set_username (state.proxy, state.proxyuname);
                 lm_proxy_set_password (state.proxy, state.proxypasswd);
@@ -77,21 +94,15 @@ do_connect_common ()
         }
 
 
-        lm_connection_set_jid (state.conn, state.jid_str);
-
         if (state.need_ssl || state.need_tls) {
-                LmSSL *ssl;
-
-                if (!lm_ssl_is_supported ()) {
+                if (!lm_ssl_is_supported ())
                         return -3;
-                }
-                ssl = lm_ssl_new (NULL, ft_ssl_response_cb, NULL, NULL);
-                lm_ssl_use_starttls(ssl, ! state.need_ssl, state.need_tls);
-                lm_connection_set_ssl (state.conn, ssl);
-                lm_connection_set_port (state.conn, do_get_port () ? do_get_port () : LM_CONNECTION_DEFAULT_PORT_SSL);
+                do_ssl ();
         } else {
                 lm_connection_set_port (state.conn, do_get_port () ? do_get_port () : LM_CONNECTION_DEFAULT_PORT);
         }
+
+        lm_connection_set_jid (state.conn, state.jid_str);
 
         ft_register_msg_handlers (state.conn);
 

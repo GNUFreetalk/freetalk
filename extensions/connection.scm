@@ -20,12 +20,12 @@
 
 (define (connect-handle ret)
   (cond ((= ret 0) #t)
-	((= ret -6) (ft-display (_ "Already connected")))
-	((= ret -1) (ft-display (_ "Server not set")))
-	((= ret -2) (ft-display (_ "JID not set")))
-	((= ret -3) (ft-display (_ "SSL support not available")))
-	((= ret -5) (ft-display (_ "Proxy Server not set")))
-	(else (ft-display (string-append (_ "Error, could not connect : ")
+        ((= ret -6) (ft-display (_ "Already connected")))
+        ((= ret -1) (ft-display (_ "Server not set")))
+        ((= ret -2) (ft-display (_ "JID not set")))
+        ((= ret -3) (ft-display (_ "SSL support not available")))
+        ((= ret -5) (ft-display (_ "Proxy Server not set")))
+        (else (ft-display (string-append (_ "Error, could not connect : ")
                                      (number->string ret))))))
 
 (define (set-if-not-empty! set-fn! var default-var)
@@ -34,7 +34,7 @@
   (if (string=? var "")
       #f
       (and (set-fn! var)
-	   #t)))
+           #t)))
 
 (define (read-line-clean)
   (sans-surrounding-whitespace (read-line)))
@@ -45,7 +45,6 @@
 (define (domain->server domain)
   (cond ((string=? domain "jabber.org") "jabber.org")
         ((string=? domain "facebook.com") "chat.facebook.com")
-        ((string=? domain "fb.com") "chat.facebook.com")
         ((string=? domain "chat.facebook.com") "chat.facebook.com")
         (else domain)))
 
@@ -132,8 +131,8 @@
   (and
    (if (> (ft-get-conn-status) 0)
        (begin
-	 (ft-display (_ "Already Logged in. /disconnect first"))
-	 #f))
+         (ft-display (_ "Already Logged in. /disconnect first"))
+         #f))
     (read-jid)
     (read-password)
     (read-server)
@@ -142,12 +141,12 @@
     (read-port)
     (read-proxy)
     (if (ft-get-proxy?)
-	(begin
-	  (read-proxyserver)
-	  (read-proxyport)
-	  (read-proxyuname)
-	  (read-proxypasswd)
-	""))
+        (begin
+          (read-proxyserver)
+          (read-proxyport)
+          (read-proxyuname)
+          (read-proxypasswd)
+          ""))
     (connect-handle (ft-connect))))
 (add-command! /login "/login" "/login" "Interactive login to jabber server - blocking")
 

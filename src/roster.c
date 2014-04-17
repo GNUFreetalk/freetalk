@@ -17,6 +17,11 @@
   <http://www.gnu.org/licenses/>.
 */
 
+#ifndef _CONFIG_H
+#define _CONFIG_H
+#include "config.h"
+#endif
+
 #include <stdio.h>
 
 #include <glib.h>
@@ -28,6 +33,7 @@
 #include "commands.h"
 #include "roster.h"
 #include "presence.h"
+#include "common.h"
 
 GSList *
 ft_roster_get (void)

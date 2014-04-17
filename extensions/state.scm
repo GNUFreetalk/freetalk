@@ -71,9 +71,9 @@
 
 
 (add-command! (lambda (str)
-		(if (> (string-length str) 0)
-		     (ft-load (sans-surrounding-whitespace str))
-		     (ft-display (_ "usage: /load [FILE]"))))
-	      "/load" "/load [FILE]" "load an extension file")
+                (if (> (string-length str) 0)
+                    (ft-load (sans-surrounding-whitespace str))
+                    (ft-display (_ "usage: /load [FILE]"))))
+              "/load" "/load [FILE]" "load an extension file")
 
 (add-command! (lambda (args) (ft-reset-fs-state!)) "/setup" "/setup" "Write fresh ~/.freetalk")

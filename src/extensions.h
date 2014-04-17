@@ -20,6 +20,11 @@
 #ifndef __EXTENSIONS_H__
 #define __EXTENSIONS_H__
 
+#ifndef _CONFIG_H
+#define _CONFIG_H
+#include "config.h"
+#endif
+
 #include <libguile.h>
 
 extern SCM ex_message_receive_hook;

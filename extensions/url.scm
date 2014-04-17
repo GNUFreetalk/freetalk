@@ -27,9 +27,9 @@
   (if success
     (begin
     (set! url-history-path (string-append
-		      (ft-get-config-dir)
-		      "/history/"
-		      (ft-get-jid)))
+                            (ft-get-config-dir)
+                            "/history/"
+                            (ft-get-jid)))
     (set! url-session-file (string-append history-path "/SESSION")))))
 
 (add-hook! ft-login-hook url-post-startup)
@@ -40,6 +40,6 @@
   (if (= (string-length args) 0)
       (system (string-append urlview-cmd url-session-file))
 ;      (if (= (string-length args) 1)
-	  (system (string-append urlview-cmd url-history-path "/" args))))
+      (system (string-append urlview-cmd url-history-path "/" args))))
 
 (add-command! /urlview "/urlview" "/urlview [BUDDY]" "handle URLs")

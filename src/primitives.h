@@ -20,6 +20,11 @@
 #ifndef __PRIMITIVES_H__
 #define __PRIMITIVES_H__
 
+#ifndef _CONFIG_H
+#define _CONFIG_H
+#include "config.h"
+#endif
+
 #include <libguile.h>
 
 SCM ex_load (SCM scm_file);

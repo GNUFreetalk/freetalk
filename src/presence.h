@@ -20,6 +20,10 @@
 #ifndef __PRESENCE_H__
 #define __PRESENCE_H__
 
+#ifndef _CONFIG_H
+#define _CONFIG_H
+#include "config.h"
+#endif
 
 void ft_presence_cb (LmMessage *msg);
 void ft_presence_send_final (void);

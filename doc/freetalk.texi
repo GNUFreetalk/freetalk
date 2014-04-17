@@ -1163,16 +1163,16 @@ We believe in Software Freedom and Ethics, the GNU's way.
 @node URLs, Guidelines for submitting a patch, Authors, Top
 @chapter URLs
 @deffn URL Homepage
-@url{http://github.com/harshavardhana/freetalk/}
+@url{http://github.com/GNUFreetalk/freetalk/}
 @end deffn
 
 @deffn URL Download
-@url{http://github.com/Harshavardhana/freetalk/releases}
+@url{http://github.com/GNUFreetalk/freetalk/releases}
 @end deffn
 
 @deffn URL Bugs
 You are welcome to send bug reports about freetalk to
-@url{http://github.com/Harshavardhana/freetalk/issues}.
+@url{http://github.com/GNUFreetalk/freetalk/issues}.
 The bugs that you think are of the interest to the public
 (i.e.  more people should be informed about them) can be
 Cc-ed to the above mailing lists.
@@ -1205,7 +1205,7 @@ Send your specific queries to Harshavardhana @email{harsha@@harshavardhana.net}
 @chapter Guidelines for submitting a patch
 @enumerate 1
 @item
-Copy the latest CVS version of @code{freetalk} directory as
+Copy the latest GIT version of @code{freetalk} directory as
 @code{freetalk-hack}.
 
 @item
