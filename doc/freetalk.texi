@@ -824,13 +824,13 @@ You are free to use complete Readline keys inside freetalk.
 Frequently used Readline keys inside freetalk are,
 
 @multitable @columnfractions 0.33 0.33 0.33
-@item @subsection Cursor motion
+@item @b{Cursor motion}
 @item character @tab C-b @tab C-f
 @item word @tab M-b @tab M-f
 @item line up/down @tab C-p  @tab C-n
 @item line start/end @tab C-a @tab C-e
 @item
-@item @subsection Editing
+@item @b{Editing}
 @item delete char @tab C-d
 @item delete char backwards @tab C-h
 @item delete word @tab M-d
@@ -843,7 +843,7 @@ Frequently used Readline keys inside freetalk are,
 @item undo @tab C-_
 @item repeat prefix @tab M-number
 @item
-@item @subsection Case change
+@item @b{Case change}
 @item uppercase word @tab M-u
 @item lowercase word @tab M-l
 @item capitalize word @tab M-c
