@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo
-echo ... GlusterFS autogen ...
+echo ... Freetalk autogen ...
 echo
 
 ## Check all dependencies are present
