@@ -140,14 +140,12 @@ auto_complete (const char *text, int _state)
                 "^ */allow +[^ ]*$",
                 "^ */remove +[^ ]*$",
                 "^ */urlview +[^ ]*$",
-                "^ */send-file +[^ ]*$",
                 "^ */alias +[^ ]*$",
                 NULL
         };
 
         const char *file_completion_regex [] = {
                 "^ */load +[^ ]*$",
-                "^ */send-file +[^ ]+ +[^ ]*$",
                 NULL
         };
 

@@ -16,7 +16,6 @@ EXTENSIONS = \
 	history.scm \
 	url.scm \
 	proud-of-freetalk.scm \
-	file-transfer.scm \
 	broadcast.scm \
 	hacker-romance.scm \
 	first-time-run.sh

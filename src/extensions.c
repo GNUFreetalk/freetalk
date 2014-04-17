@@ -232,11 +232,6 @@ register_primitives ()
 
         scm_c_define_gsubr ("ft-give-repl", 0, 0, 0, ex_give_repl);
 
-        /* TOD: file transfer procedure
-           scm_c_define_gsubr ("ft-send-file", 2, 0, 0, ex_send_file);
-           scm_c_define_gsubr ("ft-set-allow-file", 2, 0, 0, ex_set_allow_file);
-        */
-
         scm_c_define_gsubr ("ft-change-password", 1, 0, 0, ex_change_password);
         scm_c_define_gsubr ("ft-bind-to-ctrl-key", 2, 0, 0,
                             ex_bind_to_ctrl_key);

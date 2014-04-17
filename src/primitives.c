@@ -563,35 +563,6 @@ ex_quit (SCM scm_exit_code)
         return SCM_UNSPECIFIED;
 }
 
-/* TODO: File transfer
-SCM
-ex_send_file (SCM scm_reciever_jid, SCM scm_file_name)
-{
-        char *receiver = scm_to_locale_string (scm_reciever_jid);
-        char *file_name = scm_to_locale_string (scm_file_name);
-        int ret = 0;
-
-        ret  = ft_send_file (state.jid_str, receiver, file_name);
-        free (receiver);
-        free (file_name);
-
-        return scm_from_int (ret);
-}
-
-SCM
-ex_set_allow_file (SCM scm_cookie, SCM scm_file_name)
-{
-        int ret = -1;
-        char *file_name = scm_to_locale_string (scm_file_name);
-
-        ret = ft_set_allow_file (scm_to_int (scm_cookie), file_name);
-        free (file_name);
-
-        return scm_from_int (ret);
-}
-
-*/
-
 SCM
 ex_change_password (SCM newpass)
 {

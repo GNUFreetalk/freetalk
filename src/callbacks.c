@@ -128,8 +128,6 @@ ft_msg_msg_handler (LmMessageHandler *handler, LmConnection *conn,
 
         from = lm_message_node_get_attribute (msg->node, "from");
 
-        /* since the file-transfer happens in-band with messages, we can no longer
-         * ignore messages with no 'body' */
         if (body){
                 msg_str = lm_message_node_get_value (body);
 
@@ -176,11 +174,8 @@ ft_msg_msg_handler (LmMessageHandler *handler, LmConnection *conn,
                         return LM_HANDLER_RESULT_REMOVE_MESSAGE;
 
                 PRINTF ("%s: %s", from, msg_str);
-        } /* TODO : file transfer
-             else {
-                ft_send_file_message_data (msg);
+        }
 
-        } */
         return LM_HANDLER_RESULT_REMOVE_MESSAGE;
 }
 

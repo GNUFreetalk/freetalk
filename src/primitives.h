@@ -124,9 +124,6 @@ SCM ex_give_repl (void);
 
 SCM ex_quit (SCM exit_code);
 
-SCM ex_send_file (SCM reciever, SCM file_name);
-SCM ex_set_allow_file (SCM cookie, SCM file_name);
-
 SCM ex_change_password (SCM newpass);
 
 SCM ex_roster_set_nickname (SCM jid, SCM nickname);

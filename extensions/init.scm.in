@@ -52,7 +52,6 @@
          (ft-load "color.scm")
          (ft-load "history.scm")
          (ft-load "proud-of-freetalk.scm")
-         (ft-load "file-transfer.scm")
          (ft-load "broadcast.scm")
          (ft-load "hacker-romance.scm")
 
