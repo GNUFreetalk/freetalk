@@ -21,6 +21,7 @@
 #define __COMMANDS_H__
 #include <glib.h>
 
+void do_ssl (void);
 int do_connect (void);
 int do_disconnect (void);
 int do_quit (int status);
