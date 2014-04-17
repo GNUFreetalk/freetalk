@@ -19,6 +19,11 @@
   <http://www.gnu.org/licenses/>.
 */
 
+#ifndef _CONFIG_H
+#define _CONFIG_H
+#include "config.h"
+#endif
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -33,8 +38,7 @@
 #include "roster.h"
 #include "presence.h"
 #include "extensions.h"
-#include "file_transfer.h"
-#include "compat.h"
+#include "common.h"
 
 /*
   Callback for SSL verification

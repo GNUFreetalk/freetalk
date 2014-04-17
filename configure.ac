@@ -22,12 +22,35 @@ if libtool --help 2>&1 | grep -q quiet; then
    AM_LIBTOOLFLAGS="--quiet";
 fi
 
-AC_CONFIG_SRCDIR([src/freetalk.c])
+AC_CONFIG_HEADERS([config.h])
 
-AC_CONFIG_FILES([Makefile src/Makefile extensions/Makefile extensions/init.scm extensions/first-time-run.sh doc/Makefile po/Makefile.in examples/Makefile])
+AC_CONFIG_FILES([Makefile
+                src/Makefile
+                extensions/Makefile
+                extensions/init.scm
+                extensions/first-time-run.sh
+                doc/Makefile
+                examples/Makefile])
 
 AC_PROG_MAKE_SET
 AC_PROG_CXX
+
+CONTRIBDIR='$(top_srcdir)/contrib'
+
+dnl Check for argp
+AC_CHECK_HEADER([argp.h], AC_DEFINE(HAVE_ARGP, 1, [have argp]))
+AC_CONFIG_SUBDIRS(contrib/argp-standalone)
+
+BUILD_ARGP_STANDALONE=no
+if test "x${ac_cv_header_argp_h}" = "xno"; then
+   BUILD_ARGP_STANDALONE=yes
+   ARGP_STANDALONE_CFLAGS='-I${top_srcdir}/contrib/argp-standalone'
+   ARGP_STANDALONE_LDADD='${top_builddir}/contrib/argp-standalone/libargp.a'
+   ARGP_STANDALONE_DIR='${top_builddir}/contrib/argp-standalone'
+fi
+
+AC_SUBST(ARGP_STANDALONE_CFLAGS)
+AC_SUBST(ARGP_STANDALONE_LDADD)
 
 AC_CHECK_LIB([readline -lcurses],[readline],[RLLIBS="-lreadline -lcurses"])
 AC_CHECK_LIB([readline -ltermcap],[readline],[RLLIBS="-lreadline -ltermcap"])
@@ -58,22 +81,6 @@ if test "x$HAVE_LOUDMOUTH" == "xno"; then
    AC_MSG_ERROR([ERROR! loudmouth-1.0 not found...])
 fi
 
-AC_CHECK_HEADER([argp.h],AC_DEFINE(HAVE_ARGP,[1]))
-
-AC_CHECK_HEADERS([errno.h])
-AC_CHECK_TYPES([error_t],
-	[],
-	[AC_DEFINE([error_t], [int])],
-	[#ifdef HAVE_ERRNO_H
-#define __need_error_t
-#include <errno.h>
-#endif])
-
-dnl Gettext Support
-AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION([0.16.1])
-
-dnl AM_PO_SUBDIRS
-AM_ICONV
+AC_CHECK_HEADERS([libintl.h])
 
 AC_OUTPUT

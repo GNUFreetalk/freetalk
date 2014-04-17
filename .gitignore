@@ -11,6 +11,9 @@ config.guess
 config.sub
 config.status
 configure
+config.h.in
+config.h
+stamp-h1
 depcomp
 extensions/init.scm
 extensions/first-time-run.sh
@@ -45,3 +48,4 @@ src/freetalk
 po/en@boldquot.insert-header
 po/en@quot.insert-header
 po/remove-potcdate.sed
+contrib/argp-standalone/libargp.a

@@ -17,6 +17,11 @@
   <http://www.gnu.org/licenses/>.
 */
 
+#ifndef _CONFIG_H
+#define _CONFIG_H
+#include "config.h"
+#endif
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -29,9 +34,7 @@
 #include <libguile.h>
 #include <getopt.h>
 
-#ifdef HAVE_ARGP
 #include <argp.h>
-#endif /* HAVE_ARGP */
 
 #include "freetalk.h"
 #include "callbacks.h"
@@ -41,7 +44,7 @@
 #include "commands.h"
 #include "extensions.h"
 #include "register.h"
-#include "compat.h"
+#include "common.h"
 
 ft_state state;
 
@@ -72,7 +75,7 @@ state_init (void)
 SCM
 catcher_handler (void *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
 {
-        PRINTF("%s",_("No such command or buddy. See /help"));
+        PRINTF("%s", _("No such command or buddy. See /help"));
         return SCM_BOOL_F;
 }
 
@@ -171,7 +174,7 @@ parse_opts (int key, char *arg, struct argp_state *_state)
         case 's':
                 state.script = arg;
                 break;
-        case 'r':
+                //case 'r':
                 // TODO - C++ code fix it later
                 //ft_register ();
                 break; /* not reached */
@@ -209,7 +212,7 @@ args_init (void)
         static struct argp_option options [] = {
                 {"jid", 'j', "JABBERID", 0, "user@domain Jabber ID" },
                 {"script", 's', "SCRIPTFILE", 0, "Freetalk script" },
-                {"register", 'r', 0, 0, "Register an account with a server"},
+                //{"register", 'r', 0, 0, "Register an account with a server"},
                 { 0, }
         };
         static struct argp argp = { options, parse_opts, argp_doc, doc };
@@ -226,7 +229,6 @@ inner_main (void *closure, int argc, char **argv)
         mode_init ();
 
         extensions_init ();
-        //loudscream_init ();
 
         if (!state.script) {
                 load_default_config (); /* ~/.freetalk/freetalk.scm */

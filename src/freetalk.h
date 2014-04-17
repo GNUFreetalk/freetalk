@@ -20,19 +20,18 @@
 #ifndef __FREETALK_H__
 #define __FREETALK_H__
 
-#include <libintl.h>
+#ifndef _CONFIG_H
+#define _CONFIG_H
+#include "config.h"
+#endif
+
 #include <loudmouth/loudmouth.h>
 #include <time.h>
 #include "util.h"
-#include "file_transfer.h"
 
 #define FT_GLOBAL_EXT_DIR   DATADIR "/" PACKAGE_NAME "/extensions"
 #define FT_LOCAL_EXT_DIR    "." PACKAGE_NAME "/extensions" /* relative to $HOME */
 #define FT_CONFIG_SCM        "." PACKAGE_NAME "/" PACKAGE_NAME ".scm"
-
-#define _(String) gettext (String)
-#define gettext_noop(String) String
-#define N_(String) gettext_noop (String)
 
 enum ft_conn_state {
         FT_DEAD = 0,

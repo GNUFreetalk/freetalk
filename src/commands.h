@@ -19,6 +19,12 @@
 
 #ifndef __COMMANDS_H__
 #define __COMMANDS_H__
+
+#ifndef _CONFIG_H
+#define _CONFIG_H
+#include "config.h"
+#endif
+
 #include <glib.h>
 
 void do_ssl (void);

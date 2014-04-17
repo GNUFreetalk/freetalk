@@ -17,6 +17,11 @@
   <http://www.gnu.org/licenses/>.
 */
 
+#ifndef _CONFIG_H
+#define _CONFIG_H
+#include "config.h"
+#endif
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>

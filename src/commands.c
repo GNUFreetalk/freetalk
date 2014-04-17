@@ -17,6 +17,11 @@
   <http://www.gnu.org/licenses/>.
 */
 
+#ifndef _CONFIG_H
+#define _CONFIG_H
+#include "config.h"
+#endif
+
 #include <stdio.h>
 #include <regex.h>
 #include <loudmouth/loudmouth.h>
@@ -32,6 +37,7 @@
 #include "extensions.h"
 #include "roster.h"
 #include "presence.h"
+#include "common.h"
 
 void
 do_ssl ()

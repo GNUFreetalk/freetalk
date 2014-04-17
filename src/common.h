@@ -17,22 +17,24 @@
   <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __CALLBACKS_H__
-#define __CALLBACKS_H__
+#ifndef __COMPAT_H__
+#define __COMPAT_H__
 
 #ifndef _CONFIG_H
 #define _CONFIG_H
 #include "config.h"
 #endif
 
-void ft_authenticate_cb (LmConnection *conn, gboolean success,
-                         gpointer user_data);
+#ifdef HAVE_LIBINTL_H
+#include <libintl.h>
 
-void ft_connection_open_cb (LmConnection *conn, gboolean success,
-                            gpointer user_data);
+#define _(String) gettext (String)
+#define gettext_noop(String) String
+#define N_(String) gettext_noop (String)
+#endif
 
-void ft_register_msg_handlers (LmConnection *conn);
-
-LmSSLResponse ft_ssl_response_cb (LmSSL *ssl, LmSSLStatus st, gpointer data);
-
-#endif /* __CALLBACKS_H__ */
+#include <libguile.h>
+#if SCM_MAJOR_VERSION != 2
+#error "wrong guile version unsupported"
+#endif
+#endif /* __COMPAT_H__ */

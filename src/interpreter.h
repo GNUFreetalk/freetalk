@@ -20,6 +20,11 @@
 #ifndef __INTERPRETER_H__
 #define __INTERPRETER_H__
 
+#ifndef _CONFIG_H
+#define _CONFIG_H
+#include "config.h"
+#endif
+
 #include <regex.h>
 
 void interpreter_init (void);
