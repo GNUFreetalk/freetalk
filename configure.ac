@@ -51,6 +51,9 @@ fi
 
 AC_SUBST(ARGP_STANDALONE_CFLAGS)
 AC_SUBST(ARGP_STANDALONE_LDADD)
+AC_SUBST(ARGP_STANDALONE_DIR)
+
+AC_SUBST(CONTRIBDIR)
 
 AC_CHECK_LIB([readline -lcurses],[readline],[RLLIBS="-lreadline -lcurses"])
 AC_CHECK_LIB([readline -ltermcap],[readline],[RLLIBS="-lreadline -ltermcap"])

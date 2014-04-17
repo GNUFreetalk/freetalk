@@ -1,4 +1,4 @@
-SUBDIRS = src extensions doc examples $(ARGP_STANDALONE_DIR)
+SUBDIRS = $(ARGP_STANDALONE_DIR) src extensions doc examples
 
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@

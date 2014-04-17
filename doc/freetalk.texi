@@ -1205,7 +1205,7 @@ Send your specific queries to Harshavardhana @email{harsha@@harshavardhana.net}
 @chapter Guidelines for submitting a patch
 @enumerate 1
 @item
-Copy the latest CVS version of @code{freetalk} directory as
+Copy the latest GIT version of @code{freetalk} directory as
 @code{freetalk-hack}.
 
 @item
