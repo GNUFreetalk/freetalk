@@ -29,15 +29,15 @@
   " Broadcast messages to all the roster "
   (let ((online-buddies (list)))
     (for-each (lambda (roster-item)
-		(and (cadr roster-item)
-		     (set! online-buddies
-			   (append online-buddies
-				   (list (car roster-item))))))
-	      (ft-get-roster-list))
+                (and (cadr roster-item)
+                     (set! online-buddies
+                           (append online-buddies
+                                   (list (car roster-item))))))
+              (ft-get-roster-list))
     (if (> (string-length message) 0)
-	(send-messages-to-all online-buddies
-			      message)
-	(ft-display (_ "usage: /broadcast [MESSAGE]")))))
+        (send-messages-to-all online-buddies
+                              message)
+        (ft-display (_ "usage: /broadcast [MESSAGE]")))))
 
 (add-command! /broadcast "/broadcast" "/broadcast [MESSAGE]" "Send messages to all buddies")
 (add-command! /broadcast "*" "* [MESSAGE]" "Send messages to all the buddies")

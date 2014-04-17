@@ -24,21 +24,21 @@
       ((port (open-input-pipe cmd))
        (line (read-line port)))
     (while (not (eof-object? line))
-	   (ft-send-message buddy line)
-	   (display line)(newline)
-;	   (usleep 100000) ; for proper message sequencing
-	   (set! line (read-line port)))
+           (ft-send-message buddy line)
+           (display line)(newline)
+;   (usleep 100000) ; for proper message sequencing
+           (set! line (read-line port)))
     (close-pipe port)))
 
 (define (/pipe args)
   "dynamic command interface to pipe facility"
   (let* ((args-list (split-discarding-char #\space args (lambda (x y) (list x y))))
-	 (buddy     (car args-list))
-	 (cmd       (cadr args-list)))
+         (buddy     (car args-list))
+         (cmd       (cadr args-list)))
     (if (> (string-length cmd) 0)
-	(send-message-pipe buddy cmd)
-	(ft-display (_ "usage: /pipe BUDDY COMMAND [OPTIONS]")))))
+        (send-message-pipe buddy cmd)
+        (ft-display (_ "usage: /pipe BUDDY COMMAND [OPTIONS]")))))
 
 (add-command! /pipe "/pipe"
-	      "/pipe BUDDY COMMAND [OPTIONS]"
-	      "send the output of COMMAND to BUDDY")
+              "/pipe BUDDY COMMAND [OPTIONS]"
+              "send the output of COMMAND to BUDDY")

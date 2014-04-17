@@ -27,34 +27,34 @@
   (if (= count 1)
       '()
       (begin
-	(sleep (+ 1 (random 3 (seed->random-state (current-time)))))
-	(burst-of-romance buddy (- count 1) message)
-	)))
+        (sleep (+ 1 (random 3 (seed->random-state (current-time)))))
+        (burst-of-romance buddy (- count 1) message)
+        )))
 
 
 (define (/burst-of-romance args)
   (let ((args-list (string-split args #\ )))
     (if (>= (length (string-split args #\ )) 3)
-	(let
-	    ((buddy (car args-list))
-	     (count (string->number (cadr args-list)))
-	     (message (string-join (cddr args-list))))
-	  (if (and (> (string-length message) 0)
-		   (> count 0))
-	      (burst-of-romance buddy count message)))
-	(ft-display (_ "usage: /burst-of-romance BUDDY COUNT MESSAGE")))))
+        (let
+            ((buddy (car args-list))
+             (count (string->number (cadr args-list)))
+             (message (string-join (cddr args-list))))
+          (if (and (> (string-length message) 0)
+                   (> count 0))
+              (burst-of-romance buddy count message)))
+        (ft-display (_ "usage: /burst-of-romance BUDDY COUNT MESSAGE")))))
 
 (add-command! /burst-of-romance "/burst-of-romance"
-	      "/burst-of-romance BUDDY COUNT MESSAGE"
-	      "send COUNT number of MESSAGEs to BUDDY as though you typed by hand")
+              "/burst-of-romance BUDDY COUNT MESSAGE"
+              "send COUNT number of MESSAGEs to BUDDY as though you typed by hand")
 
 (define (nstr str count)
   "return COUNT number of CHARs"
   (if (string=? str " ")
       " "
       (if (> count 0)
-	  (string-append (nstr str (- count 1)) str)
-	  "")))
+          (string-append (nstr str (- count 1)) str)
+          "")))
 
 (define (burst str min max)
   "explode the STR string with MIN and MAX character count"
@@ -62,31 +62,31 @@
       ""
       (begin
         (string-append
-	  (nstr (list->string (list (car (string->list str))))
-	        (+ min (random max rand-state)))
-	  (burst (list->string (cdr (string->list str))) min max)))))
+         (nstr (list->string (list (car (string->list str))))
+               (+ min (random max rand-state)))
+         (burst (list->string (cdr (string->list str))) min max)))))
 
 (define (/burst args)
   "dynamic command interface to burst procedure"
   (let* ((args-list (split-discarding-char #\space args (lambda (x y) (list x y))))
-	 (buddy     (car args-list))
-	 (message   (cadr args-list)))
+         (buddy     (car args-list))
+         (message   (cadr args-list)))
     (if (> (string-length message) 0)
-	(ft-send-message buddy (burst message min-chars max-chars))
-	(ft-display (_ "usage: /burst BUDDY MESSAGE")))))
+        (ft-send-message buddy (burst message min-chars max-chars))
+        (ft-display (_ "usage: /burst BUDDY MESSAGE")))))
 
 (add-command! /burst "/burst"
-	      "/burst BUDDY MESSAGE"
-	      "Send IRC greeting style MESSAGE")
+              "/burst BUDDY MESSAGE"
+              "Send IRC greeting style MESSAGE")
 
 (define (/greet args)
   "IRC style greeting command"
   (if (> (string-length args) 0)
       (ft-send-message args
-		       (burst (car (string-split args #\@))
-			      min-chars max-chars))
+                       (burst (car (string-split args #\@))
+                              min-chars max-chars))
       (ft-display (_ "usage: /greet BUDDY"))))
 
 (add-command! /greet "/greet"
-	      "/greet BUDDY"
-	      "greet like in IRC")
+              "/greet BUDDY"
+              "greet like in IRC")

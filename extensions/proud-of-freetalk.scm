@@ -31,8 +31,8 @@
   (and (string=? "?messenger" msg)
        (ft-send-message-no-hook from "?messenger->freetalk")
        (begin (ft-display (string-append (_ "Told [")
-			       from
-			       (_ "] that I'm proud of using Freetalk"))))
+                                         from
+                                         (_ "] that I'm proud of using Freetalk"))))
        (ft-hook-return)))
 
 (define (freetalk? buddy)
@@ -42,21 +42,21 @@
 (define (proud-of-ft-handler timestamp from nickname msg)
   "handle the freetalk? reply"
   (if (string=? "?messenger-"
-		      (car (string-separate msg #\>)))
+                (car (string-separate msg #\>)))
       ;; ?messenger->MESSENGER-NAME reply message
       (if (string=? "?messenger->freetalk" msg)
-	  (begin
-	    (ft-display
-	     (string-append (_ "Yes [") from (_ "] is using [")
-			    (cadr (string-separate msg #\>))
-			    "]"))
-	    (ft-hook-return))
-	  (begin
-	    (ft-display
-	     (string-append (_ "No, but [") from (_ "] is using [")
-			    (cadr (string-separate msg #\>))
-			    "]"))
-	     (ft-hook-return)))))
+          (begin
+            (ft-display
+             (string-append (_ "Yes [") from (_ "] is using [")
+                            (cadr (string-separate msg #\>))
+                            "]"))
+            (ft-hook-return))
+          (begin
+            (ft-display
+             (string-append (_ "No, but [") from (_ "] is using [")
+                            (cadr (string-separate msg #\>))
+                            "]"))
+            (ft-hook-return)))))
 
 
 (add-hook! ft-message-receive-hook proud-of-freetalk)

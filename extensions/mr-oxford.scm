@@ -23,16 +23,16 @@
 (display "Loading dictionary [/usr/share/dict/words]... ")
 (let ((word-count 0))
   (catch 'system-error
-	 (lambda ()
-	   (for-each-line (lambda (word)
-			    (ft-dict-prepend! word)
-			    (set! word-count (1+ word-count)))
-			  "/usr/share/dict/words"))
-	 (lambda args #f))
+         (lambda ()
+           (for-each-line (lambda (word)
+                            (ft-dict-prepend! word)
+                            (set! word-count (1+ word-count)))
+                          "/usr/share/dict/words"))
+         (lambda args #f))
   (display (string-append "[" (number->string word-count) "] words\n")))
 
 ;; Add sent-words to readline context"
 
 (add-hook! ft-message-send-hook
-	   (lambda (to msg)
-	     (map ft-dict-insert! (sentence->words msg))))
+           (lambda (to msg)
+             (map ft-dict-insert! (sentence->words msg))))

@@ -45,23 +45,23 @@
 (define (ignore-message! pattern)
   "ignore messages matching the pattern"
   (set! ignored-msg-pattern-list
-	(cons pattern ignored-msg-pattern-list)))
+        (cons pattern ignored-msg-pattern-list)))
 
 (define (ignored-message? message)
   "tell if this message has to be ignored"
   (letrec
       ((local-ignored-message?
-	(lambda (pattern-list message)
-	  (if (= (length pattern-list) 0)
-	      #f
-	      (if (= (length pattern-list) 1)
-		  (regexp-match? (string-match
-				  (car pattern-list) message))
-		  (if (regexp-match? (string-match
-				      (car pattern-list) message))
-		  #t
-		  (local-ignored-message?
-		   (cdr pattern-list) message)))))))
+        (lambda (pattern-list message)
+          (if (= (length pattern-list) 0)
+              #f
+              (if (= (length pattern-list) 1)
+                  (regexp-match? (string-match
+                                  (car pattern-list) message))
+                  (if (regexp-match? (string-match
+                                      (car pattern-list) message))
+                      #t
+                      (local-ignored-message?
+                       (cdr pattern-list) message)))))))
        (local-ignored-message? ignored-msg-pattern-list message)))
 
 
@@ -71,27 +71,27 @@
   "specify color for buddies"
   (if (assoc buddy auto-color-list)
       (set! auto-color-list
-	    (delete (cons
-		     buddy
-		     (cdr (assoc buddy auto-color-list)))
-		    auto-color-list)))
+            (delete (cons
+                     buddy
+                     (cdr (assoc buddy auto-color-list)))
+                    auto-color-list)))
   (set! auto-color-list
-	(append auto-color-list
-		(list (cons buddy color)))))
+        (append auto-color-list
+                (list (cons buddy color)))))
 
 (define (get-buddy-color buddy)
   (if (assoc buddy auto-color-list)
       '()
       (begin
-	(set! auto-color-list
-	      (append
-	       auto-color-list
-	       (list (cons
-		      buddy
-		      (car (list-ref color-list
-				     (modulo
-				      (length auto-color-list)
-				      (length color-list))))))))))
+        (set! auto-color-list
+              (append
+               auto-color-list
+               (list (cons
+                      buddy
+                      (car (list-ref color-list
+                                     (modulo
+                                      (length auto-color-list)
+                                      (length color-list))))))))))
   (cdr (assoc buddy auto-color-list)))
 
 (define (color-message msg color)
@@ -106,25 +106,25 @@
   (if (ignored-message? msg)
       (ft-hook-return)
       (if (equal? enable-colors-flag "yes")
-	  (begin
-	    (if (get-buddy-color from)
-		(begin
-		  (ft-display
-		   (string-append
-		    (if (> (string-length timestamp) 0)
-			(color-message (string-append "[" timestamp "] ")
-				       (get-buddy-color from))
-			(color-message (strftime "%I:%M%p " (localtime (current-time)))
-				       (get-buddy-color from)))
-		    (color-message (if (> (string-length nickname) 0)
-				       nickname
-				       from)
-				   (get-buddy-color from))
-		    (if (string-prefix? "/me " msg)
-			(color-message (substring msg 3) (get-buddy-color from))
-			(color-message (string-append " -> " msg) (get-buddy-color from))
-			)))
-		  (ft-hook-return)))))))
+          (begin
+            (if (get-buddy-color from)
+                (begin
+                  (ft-display
+                   (string-append
+                    (if (> (string-length timestamp) 0)
+                        (color-message (string-append "[" timestamp "] ")
+                                       (get-buddy-color from))
+                        (color-message (strftime "%I:%M%p " (localtime (current-time)))
+                                       (get-buddy-color from)))
+                    (color-message (if (> (string-length nickname) 0)
+                                       nickname
+                                       from)
+                                   (get-buddy-color from))
+                    (if (string-prefix? "/me " msg)
+                        (color-message (substring msg 3) (get-buddy-color from))
+                        (color-message (string-append " -> " msg) (get-buddy-color from))
+                        )))
+                  (ft-hook-return)))))))
 
 (add-hook! ft-message-receive-hook append-color)
 

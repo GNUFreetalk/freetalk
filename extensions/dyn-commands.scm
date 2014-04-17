@@ -24,18 +24,18 @@
   "Adds a dynamic command"
   (if (procedure? func)
       (set! dynamic-command-registry
-	    (assoc-set! dynamic-command-registry
-			command
-			(list func syntax description)))
+            (assoc-set! dynamic-command-registry
+                        command
+                        (list func syntax description)))
       (display (string-append (_ "freetalk: error: command [")
-			      command
-			      (_ "] not bound to any procedure\n")))))
+                              command
+                              (_ "] not bound to any procedure\n")))))
 
 (define (remove-command! command)
   "Removes a dynamic command"
   (set! dynamic-command-registry
-	(assoc-remove! dynamic-command-registry
-		       command)))
+        (assoc-remove! dynamic-command-registry
+                       command)))
 
 (define (dynamic-command-proc command args)
   ((lambda (cmd-entry)
@@ -48,28 +48,28 @@
 (define (help args)
   "display help message"
   (let ((command-name (sans-surrounding-whitespace args))
-	(command-doc (assoc-ref dynamic-command-registry (sans-surrounding-whitespace args))))
+        (command-doc (assoc-ref dynamic-command-registry (sans-surrounding-whitespace args))))
     (if (not (string-null? args))
-	(if (not (list? command-doc))
-	    (display (_ "no such command\n"))
-	    (display (string-append command-name
-				    " - "
-				    (cadr command-doc)
-				    "\n\t"
-				    (caddr command-doc)
-				    "\n"
-				    )))
-	(for-each (lambda (command-entry)
-		    (display (string-append (car command-entry)
-					    " - "
-					    (caddr command-entry)
-					    "\n\t"
-					    (cadddr command-entry)
-					    "\n"
-					    )))
-		  (sort dynamic-command-registry
-			(lambda (a b)
-			  (string<? (car a) (car b))))))))
+        (if (not (list? command-doc))
+            (display (_ "no such command\n"))
+            (display (string-append command-name
+                                    " - "
+                                    (cadr command-doc)
+                                    "\n\t"
+                                    (caddr command-doc)
+                                    "\n"
+                                    )))
+        (for-each (lambda (command-entry)
+                    (display (string-append (car command-entry)
+                                            " - "
+                                            (caddr command-entry)
+                                            "\n\t"
+                                            (cadddr command-entry)
+                                            "\n"
+                                            )))
+                  (sort dynamic-command-registry
+                        (lambda (a b)
+                          (string<? (car a) (car b))))))))
 
 (add-command! help "help" "help [COMMAND]" "show help")
 (add-command! help "/help" "/help [COMMAND]" "show help")
