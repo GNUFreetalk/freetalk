@@ -72,7 +72,6 @@
                              (_ "Status: ") (ft-get-status-msg))))
 
 (add-command! /whoami "/whoami" "/whoami" "display who is this")
-(add-command! /whoami "/whomomlikes" "/whomomlikes" "same as /whoami")
 
 (define (/allow args)
   (if (= (string-length args) 0)
