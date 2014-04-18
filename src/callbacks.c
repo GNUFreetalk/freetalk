@@ -230,15 +230,7 @@ ft_msg_iq_handler (LmMessageHandler *handler, LmConnection *conn,
                 } else
                         PRINTF (_("[iq received: %s (unhandled yet)]"), ns);
 
-        } else {
-                /* TODO: file transfer
-                if ((LM_MESSAGE_SUB_TYPE_SET == lm_message_get_sub_type (msg)))
-                        ft_msg_sub_type_set_cb (msg);
-                else
-                */
-                PRINTF (_("[iq received: (unhandled yet)]"));
         }
-
         return LM_HANDLER_RESULT_REMOVE_MESSAGE;
 }
 
