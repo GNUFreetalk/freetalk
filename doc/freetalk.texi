@@ -629,7 +629,7 @@ Example:
 @example
 ~\/~ /urlview friend@@jabber.org
 
-friend: http://github.com/harshavardhana/freetalk
+friend: https://github.com/GNUFreetalk/freetalk/
 
 ~\/~
 @end example
@@ -1197,7 +1197,7 @@ Find where the bug is, fix it and send the patches. :)
 @end enumerate
 @end deffn
 
-Send your specific queries to Harshavardhana @email{harsha@@harshavardhana.net}
+Send your specific queries to @url{https://github.com/GNUFreetalk/freetalk/issues}
 @cindex freetalk URLs
 
 
