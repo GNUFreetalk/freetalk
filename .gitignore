@@ -15,6 +15,7 @@ config.h.in
 config.h
 stamp-h1
 depcomp
+compile
 extensions/init.scm
 extensions/first-time-run.sh
 *~
