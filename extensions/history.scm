@@ -70,16 +70,16 @@
            (ft-get-jid)
            message))
 
-;;; hook procedure for logging all revceived messages
+;;; hook procedure for logging all received messages
 (define (log-received-message time from nickname message)
-  "hook procedure for logging all revceived messages"
+  "hook procedure for logging all received messages"
   (history (string-append history-path "/" from)
            from
            message))
 
-;;; hook procedure for logging all revceived offline messages
+;;; hook procedure for logging all received offline messages
 ;(define (log-received-offline-message from message time)
-;  "hook procedure for logging all revceived messages"
+;  "hook procedure for logging all received messages"
 ;  (define history-filename
 ;    (string-append history-path "/" from))
 ;  (define history-message
