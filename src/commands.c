@@ -510,7 +510,7 @@ do_set_status_msg (char *status)
 
         LmMessage *msg = lm_message_new (NULL, LM_MESSAGE_TYPE_PRESENCE);
         if( show != 0 ) { // online status is implicit
-                if (!strcmp (valid[show], "invisible")) {
+                if (!g_strcmp0 (valid[show], "invisible")) {
                         lm_message_node_set_attribute (msg->node, "type",
                                                        "unavailable");
                 } else {
@@ -541,7 +541,7 @@ do_reset_fs_state (void)
 extern GSList *dict_words;
 static int strcmp_rev (gpointer a, gpointer b)
 {
-        return -strcmp ((const char *)a, (const char *)b);
+        return -g_strcmp0 ((const char *)a, (const char *)b);
 }
 
 void

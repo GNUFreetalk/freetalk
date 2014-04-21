@@ -192,9 +192,11 @@ roster_set_rcvd (LmMessage *msg)
                 nickname = g_strdup (lm_message_node_get_attribute (item, "name"));
                 subscription = subscription_state (item);
 
-                if (strcmp (old->nickname ? old->nickname : "", nickname ? nickname : ""))
+                if (g_strcmp0 (old->nickname ? old->nickname : "",
+                               nickname ? nickname : ""))
                 {
-                        PRINTF (_("[%s nickname: %s -> %s]"), old->jid, old->nickname, nickname);
+                        PRINTF (_("[%s nickname: %s -> %s]"), old->jid,
+                                old->nickname, nickname);
                         g_free (old->nickname);
                         old->nickname = nickname;
                 }
@@ -208,7 +210,9 @@ roster_set_rcvd (LmMessage *msg)
                         old->subscription = subscription;
                 }
 
-                if (!g_ascii_strcasecmp (lm_message_node_get_attribute (item, "subscription"), "remove"))
+                if (!g_ascii_strcasecmp
+                    (lm_message_node_get_attribute (item,
+                                                    "subscription"), "remove"))
                 {
                         PRINTF (_("[%s removed from buddy list]"), jid);
                         state.roster = g_slist_remove (state.roster, old);
@@ -222,8 +226,10 @@ roster_set_rcvd (LmMessage *msg)
                 newi->status_msg = NULL;
                 newi->show_msg = NULL;
                 newi->resource = NULL;
-                newi->jid = g_strdup (lm_message_node_get_attribute (item, "jid"));
-                newi->nickname = g_strdup (lm_message_node_get_attribute (item, "name"));
+                newi->jid = g_strdup (lm_message_node_get_attribute (item,
+                                                                     "jid"));
+                newi->nickname = g_strdup (lm_message_node_get_attribute (item,
+                                                                          "name"));
                 newi->subscription = subscription_state (item);
         }
 }
@@ -263,7 +269,8 @@ roster_add_send_iq (char *jid, char *nickname)
 {
         LmMessage *msg = lm_message_new_with_sub_type (NULL, LM_MESSAGE_TYPE_IQ,
                                                        LM_MESSAGE_SUB_TYPE_SET);
-        LmMessageNode *query = lm_message_node_add_child (msg->node, "query", NULL);
+        LmMessageNode *query = lm_message_node_add_child (msg->node, "query",
+                                                          NULL);
 
         LmMessageNode *item = lm_message_node_add_child (query, "item", NULL);
 
@@ -282,8 +289,9 @@ roster_add_send_iq (char *jid, char *nickname)
 static void
 roster_add_send_subscribe (char *jid)
 {
-        LmMessage *msg = lm_message_new_with_sub_type (jid, LM_MESSAGE_TYPE_PRESENCE,
-                                                       LM_MESSAGE_SUB_TYPE_SUBSCRIBE);
+        LmMessage *msg =
+                lm_message_new_with_sub_type (jid, LM_MESSAGE_TYPE_PRESENCE,
+                                              LM_MESSAGE_SUB_TYPE_SUBSCRIBE);
         lm_connection_send (state.conn, msg, NULL);
         lm_message_unref (msg);
 }
@@ -308,7 +316,8 @@ ft_roster_remove (char *jid)
 {
         LmMessage *msg = lm_message_new_with_sub_type (NULL, LM_MESSAGE_TYPE_IQ,
                                                        LM_MESSAGE_SUB_TYPE_SET);
-        LmMessageNode *query = lm_message_node_add_child (msg->node, "query", NULL);
+        LmMessageNode *query = lm_message_node_add_child (msg->node, "query",
+                                                          NULL);
 
         LmMessageNode *item = lm_message_node_add_child (query, "item", NULL);
 
@@ -331,7 +340,8 @@ ft_roster_set_nickname (char *jid, char *nickname)
 {
         LmMessage *msg = lm_message_new_with_sub_type (NULL, LM_MESSAGE_TYPE_IQ,
                                                        LM_MESSAGE_SUB_TYPE_SET);
-        LmMessageNode *query = lm_message_node_add_child (msg->node, "query", NULL);
+        LmMessageNode *query = lm_message_node_add_child (msg->node, "query",
+                                                          NULL);
 
         LmMessageNode *item = lm_message_node_add_child (query, "item", NULL);
 

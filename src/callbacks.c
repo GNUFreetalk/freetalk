@@ -107,7 +107,8 @@ parse_timestamp (const char *ts)
         const char *format = "YYYY-MM-DD hh:mm:ss";
         int format_len = strlen (format);
         char *time = g_new (char, format_len);
-        strftime (time, format_len, "%Y-%m-%d %I:%M%p", lm_utils_get_localtime (ts));
+        strftime (time, format_len, "%Y-%m-%d %I:%M%p",
+                  lm_utils_get_localtime (ts));
         return time;
 }
 

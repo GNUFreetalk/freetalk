@@ -193,7 +193,7 @@ mode_init (void)
         int i = 1;
 
         while (i < state.argc) {
-                if (!strcmp (state.argv[i], "-s")) {
+                if (!g_strcmp0 (state.argv[i], "-s")) {
                         if (state.argv[i+1])
                                 state.script = state.argv[i+1];
                 }
