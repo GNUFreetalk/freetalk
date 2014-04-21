@@ -73,7 +73,8 @@
 ;;; hook procedure for logging all received messages
 (define (log-received-message time from nickname message)
   "hook procedure for logging all received messages"
-  (history (string-append history-path "/" from)
+  (history (string-append history-path "/"
+                  (regexp-substitute #f (string-match "/.*$" from) 'pre "" 'post))
            from
            message))
 
