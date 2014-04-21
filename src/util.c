@@ -39,7 +39,7 @@
 void
 parse_jid_string (char *s, jid_t *jid)
 {
-        char *str = strdup (s);
+        char *str = g_strdup (s);
         char *at = strchr (str, '@');
         char *domain = str;
         char *slash;
@@ -47,7 +47,7 @@ parse_jid_string (char *s, jid_t *jid)
         if (at)
         {
                 *at = '\0';
-                jid->node = strdup (str);
+                jid->node = g_strdup (str);
                 domain = at+1;
         }
 
@@ -56,16 +56,16 @@ parse_jid_string (char *s, jid_t *jid)
         if (slash)
         {
                 *slash = '\0';
-                jid->domain = strdup (domain);
-                jid->resource = strdup (slash+1);
+                jid->domain = g_strdup (domain);
+                jid->resource = g_strdup (slash+1);
         }
         else
         {
-                jid->domain = strdup (domain);
-                jid->resource = strdup ("GNU Freetalk");   /* Loudmouth complains if this is NULL */
+                jid->domain = g_strdup (domain);
+                jid->resource = g_strdup ("GNU Freetalk");   /* Loudmouth complains if this is NULL */
         }
 
-        free (str);
+        g_free (str);
 }
 
 char *

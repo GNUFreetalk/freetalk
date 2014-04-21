@@ -40,7 +40,7 @@ SCM ex_load (SCM scm_file)
         char *file=scm_to_locale_string (scm_file);
 
         ft_load (file);
-        free (file);
+        g_free (file);
 
         return SCM_UNSPECIFIED;
 }
@@ -55,7 +55,7 @@ SCM ex_set_jid (SCM scm_jid)
         char *jid = scm_to_locale_string (scm_jid);
 
         do_set_jid (jid);
-        free (jid);
+        g_free (jid);
 
         return SCM_UNSPECIFIED;
 }
@@ -70,7 +70,7 @@ SCM ex_set_server (SCM scm_server)
         char *server = scm_to_locale_string (scm_server);
 
         do_set_server (server);
-        free (server);
+        g_free (server);
 
         return SCM_UNSPECIFIED;
 }
@@ -87,7 +87,7 @@ ex_set_proxyserver (SCM scm_proxyserver)
         char *proxyserver = scm_to_locale_string (scm_proxyserver);
 
         do_set_proxyserver (proxyserver);
-        free (proxyserver);
+        g_free (proxyserver);
 
         return SCM_UNSPECIFIED;
 }
@@ -111,7 +111,7 @@ ex_set_proxyuname (SCM scm_proxyuname)
         char *proxyuname = scm_to_locale_string (scm_proxyuname);
 
         do_set_proxyuname (proxyuname);
-        free (proxyuname);
+        g_free (proxyuname);
 
         return SCM_UNSPECIFIED;
 }
@@ -128,7 +128,7 @@ ex_set_proxypasswd (SCM scm_proxypasswd)
         char *proxypasswd = scm_to_locale_string (scm_proxypasswd);
 
         do_set_proxypasswd (proxypasswd);
-        free (proxypasswd);
+        g_free (proxypasswd);
 
         return SCM_UNSPECIFIED;
 }
@@ -151,7 +151,7 @@ ex_set_password (SCM scm_password)
         char *password = scm_to_locale_string (scm_password);
 
         do_set_password (password);
-        free (password);
+        g_free (password);
 
         return SCM_UNSPECIFIED;
 }
@@ -220,8 +220,8 @@ ex_send_message (SCM scm_to, SCM scm_msg)
 
         do_send_message (to, msg);
 
-        free (to);
-        free (msg);
+        g_free (to);
+        g_free (msg);
 
         return SCM_UNSPECIFIED;
 }
@@ -234,8 +234,8 @@ ex_send_message_no_hook (SCM scm_to, SCM scm_msg)
 
         do_send_message_no_hook (to, msg);
 
-        free (to);
-        free (msg);
+        g_free (to);
+        g_free (msg);
 
         return SCM_UNSPECIFIED;
 }
@@ -280,7 +280,7 @@ ex_set_prompt (SCM scm_prompt)
         prompt = scm_to_locale_string (scm_prompt);
 
         do_set_prompt (prompt);
-        free (prompt);
+        g_free (prompt);
 
         return SCM_UNSPECIFIED;
 }
@@ -291,7 +291,7 @@ ex_display (SCM scm_line)
         char *line = scm_to_locale_string (scm_line);
 
         PRINTF ("%s",_(line));
-        free (line);
+        g_free (line);
 
         return SCM_UNSPECIFIED;
 }
@@ -320,7 +320,7 @@ ex_remove_buddy (SCM scm_jid)
                 return scm_from_bool (FALSE);
         }
         ft_roster_remove (jid);
-        free (jid);
+        g_free (jid);
 
         return scm_from_bool (TRUE);
 }
@@ -411,7 +411,7 @@ ex_roster_lookup (SCM scm_jid)
         char *jid = scm_to_locale_string (scm_jid);
         FtRosterItem *item = ft_roster_lookup (jid);
 
-        free (jid);
+        g_free (jid);
 
         if (item)
                 return roster_item_to_list (item);
@@ -442,7 +442,7 @@ ex_dict_append (SCM scm_word)
         char *word = scm_to_locale_string (scm_word);
 
         do_dict_append (word);
-        free (word);
+        g_free (word);
 
         return SCM_UNSPECIFIED;
 }
@@ -525,7 +525,7 @@ ex_subscription_allow (SCM scm_jid)
 {
         char *jid = scm_to_locale_string (scm_jid);
         ft_presence_subscription_allow (jid);
-        free (jid);
+        g_free (jid);
         return SCM_UNSPECIFIED;
 }
 
@@ -534,7 +534,7 @@ ex_subscription_deny (SCM scm_jid)
 {
         char *jid = scm_to_locale_string (scm_jid);
         ft_presence_subscription_deny (jid);
-        free (jid);
+        g_free (jid);
         return SCM_UNSPECIFIED;
 }
 

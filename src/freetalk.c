@@ -113,7 +113,7 @@ process_line (char *line)
                 do_set_current_buddy (NULL);
         }
 
-        eval_str = strdup (line);
+        eval_str = g_strdup (line);
 
         state.async_printf = 0;
         if (interpreter (line) != 0) {
@@ -343,14 +343,14 @@ void ft_bind_key (char key, char *command)
                 key_binding *b = (key_binding*) list->data;
                 if (b->key == key) {
                         char *old = b->command;
-                        b->command = strdup (command);
-                        free (old);
+                        b->command = g_strdup (command);
+                        g_free (old);
                         return;
                 }
         }
-        key_binding *b = (key_binding*) malloc (sizeof (key_binding));
+        key_binding *b = (key_binding*) g_malloc (sizeof (key_binding));
         b->key = key;
-        b->command = strdup (command);
+        b->command = g_strdup (command);
         rl_bind_key (key, &ft_key_bound);
         key_bindings = g_slist_append (key_bindings, b);
 }

@@ -225,8 +225,8 @@ do_set_jid (const char *jidstr)
                 return -1;
 
         if (state.jid_str)
-                free (state.jid_str);
-        state.jid_str = strdup (jidstr);
+                g_free (state.jid_str);
+        state.jid_str = g_strdup (jidstr);
 
         return 0;
 }
@@ -244,8 +244,8 @@ do_set_password (const char *password)
                 return -1;
 
         if (state.password)
-                free (state.password);
-        state.password = strdup (password);
+                g_free (state.password);
+        state.password = g_strdup (password);
 
         return 0;
 }
@@ -263,8 +263,8 @@ do_set_server (const char *server)
                 return -1;
 
         if (state.server)
-                free (state.server);
-        state.server = strdup (server);
+                g_free (state.server);
+        state.server = g_strdup (server);
 
         return 0;
 }
@@ -295,9 +295,9 @@ do_set_prompt (const char *prompt)
                 return -1;
 
         if (state.prompt)
-                free (state.prompt);
-        state.prompt = strdup (prompt);
+                g_free (state.prompt);
 
+        state.prompt = g_strdup (prompt);
         rl_set_prompt (state.prompt);
 
         return 0;
@@ -394,7 +394,7 @@ do_set_current_buddy (char *bud)
         if (state.current_buddy)
                 g_free (state.current_buddy);
         if (bud)
-                state.current_buddy = strdup (bud);
+                state.current_buddy = g_strdup (bud);
         else
                 state.current_buddy = NULL;
         return 0;
@@ -500,19 +500,22 @@ do_set_status_msg (char *status)
                 }
         }
         if( !valid[show] ) {
-                PRINTF ("Status must be one of [online|away|chat|xa|dnd|invisible]");
+                PRINTF ("Status must be one of"
+                        "[online|away|chat|xa|dnd|invisible]");
                 return -1;
         }
         if (state.status_msg)
                 g_free (state.status_msg);
-        state.status_msg = strdup (status);
+        state.status_msg = g_strdup (status);
 
         LmMessage *msg = lm_message_new (NULL, LM_MESSAGE_TYPE_PRESENCE);
         if( show != 0 ) { // online status is implicit
                 if (!strcmp (valid[show], "invisible")) {
-                        lm_message_node_set_attribute (msg->node, "type", "unavailable");
+                        lm_message_node_set_attribute (msg->node, "type",
+                                                       "unavailable");
                 } else {
-                        lm_message_node_add_child (msg->node, "show", valid[show]);
+                        lm_message_node_add_child (msg->node, "show",
+                                                   valid[show]);
                 }
         }
         if( text != NULL ) {
@@ -607,7 +610,7 @@ do_change_password (char *npass)
                 }
                 lm_message_unref (msg);
         }
-        free (npass);
+        g_free (npass);
 }
 
 int
@@ -642,8 +645,8 @@ do_set_proxyserver (const char *proxyserver)
                 return -1;
 
         if (state.proxyserver)
-                free (state.proxyserver);
-        state.proxyserver = strdup (proxyserver);
+                g_free (state.proxyserver);
+        state.proxyserver = g_strdup (proxyserver);
         return 0;
 }
 
@@ -674,9 +677,9 @@ do_set_proxyuname (const char *proxyuname)
                 return -1;
 
         if (state.proxyuname)
-                free (state.proxyuname);
+                g_free (state.proxyuname);
 
-        state.proxyuname = strdup (proxyuname);
+        state.proxyuname = g_strdup (proxyuname);
 
         return 0;
 }
@@ -688,9 +691,9 @@ do_set_proxypasswd (const char *proxypasswd)
                 return -1;
 
         if (state.proxypasswd)
-                free (state.proxypasswd);
+                g_free (state.proxypasswd);
 
-        state.proxypasswd = strdup (proxypasswd);
+        state.proxypasswd = g_strdup (proxypasswd);
 
         return 0;
 }

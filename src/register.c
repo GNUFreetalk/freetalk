@@ -73,7 +73,7 @@ static void send_required_fields (LmMessageNode *query)
         {
                 char *val = readline ("username: ");
                 fields[string ("username")] = string (val);
-                free (val);
+                g_free (val);
         }
         if (lm_message_node_find_child (query, "password"))
         {
@@ -98,7 +98,7 @@ static void send_required_fields (LmMessageNode *query)
                         string prompt = name + string (": ");
                         val = readline (prompt.c_str ());
                         fields[name] = string (val);
-                        free (val);
+                        g_free (val);
                 }
         }
 

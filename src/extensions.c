@@ -69,25 +69,26 @@ void ft_load (const char *file)
                 return;
         }
 
-        len = strlen (getenv ("HOME")) + 1 + strlen (FT_LOCAL_EXT_DIR) + 1 + strlen (file) + 1;
-        path = (char *)calloc (len, 1);
+        len = strlen (getenv ("HOME")) +
+                1 + strlen (FT_LOCAL_EXT_DIR) + 1 + strlen (file) + 1;
+        path = (char *) calloc (len, 1);
         sprintf (path, "%s/%s/%s", getenv ("HOME"), FT_LOCAL_EXT_DIR, file);
         if (stat (path, &foo) == 0) {
                 scm_c_primitive_load (path);
-                free (path);
+                g_free (path);
                 return;
         }
-        free (path);
+        g_free (path);
 
         len = strlen (FT_GLOBAL_EXT_DIR) + 1 + strlen (file) + 1;
         path = (char *)calloc (len, 1);
         sprintf (path, "%s/%s", FT_GLOBAL_EXT_DIR, file);
         if (stat (path, &foo) == 0) {
                 scm_c_primitive_load (path);
-                free (path);
+                g_free (path);
                 return;
         }
-        free (path);
+        g_free (path);
 
         fprintf (stderr, "%s: not found\n", file);
 }
@@ -260,5 +261,5 @@ load_default_config (void)
                 scm_c_primitive_load (file);
         }
 
-        free (file);
+        g_free (file);
 }

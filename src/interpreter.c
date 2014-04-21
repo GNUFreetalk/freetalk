@@ -228,19 +228,24 @@ auto_complete (const char *text, int _state)
                     ! need_file_completion) {
                         need_dict_completion = 1;
                         word = dict_words;
-                        while (word && strncasecmp ((const char *)word->data, text, len))
+                        while (word && strncasecmp ((const char *)word->data,
+                                                    text, len))
                                 word = g_slist_next (word);
                 }
 
-                rl_line_buffer[rl_point] = save; /* the 'context sensitive' completion is made transparent */
+                /* the 'context sensitive' completion is made transparent */
+                rl_line_buffer[rl_point] = save;
         }
 
         if (need_command_completion) {
                 while (cmd_idx < cmd_len) {
                         char *cmd =
-                                scm_to_locale_string (scm_list_ref (scm_list_ref (ft_commands,
-                                                                                  scm_from_ulong (cmd_idx++)),
-                                                                    scm_from_ulong (0)));
+                                scm_to_locale_string (scm_list_ref
+                                                      (scm_list_ref
+                                                       (ft_commands,
+                                                        scm_from_ulong
+                                                        (cmd_idx++)),
+                                                       scm_from_ulong (0)));
 
                         if (cmd && !strncasecmp (cmd, text, len))
                                 return cmd;
@@ -260,10 +265,11 @@ auto_complete (const char *text, int _state)
 
         if (need_roster_completion) {
                 while (roster_idx < g_slist_length (ft_roster_get ())) {
-                        FtRosterItem *roster = (FtRosterItem *)g_slist_nth_data (ft_roster_get (),
-                                                                                 roster_idx++);
+                        FtRosterItem *roster =
+                                (FtRosterItem *) g_slist_nth_data (ft_roster_get (),
+                                                                   roster_idx++);
                         if (roster && !strncasecmp (roster->jid, text, len))
-                                return strdup(roster->jid);
+                                return g_strdup (roster->jid);
                 }
         }
 
@@ -273,7 +279,7 @@ auto_complete (const char *text, int _state)
                                                                                  roster_idx++);
                         if (roster && !strncasecmp (roster->jid, possible_jid,
                                                     strlen (possible_jid)))
-                                return strdup (strchr (roster->jid, '@') + 1);
+                                return g_strdup (strchr (roster->jid, '@') + 1);
                 }
         }
         if (need_dict_completion) {
