@@ -130,4 +130,6 @@ SCM ex_roster_set_nickname (SCM jid, SCM nickname);
 
 SCM ex_bind_to_ctrl_key (SCM key, SCM command);
 
+SCM ex_run_command(SCM command);
+
 #endif /* __PRIMITIVES_H__ */

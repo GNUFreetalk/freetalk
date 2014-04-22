@@ -30,6 +30,7 @@
 
 #include "freetalk.h"
 #include "commands.h"
+#include "interpreter.h"
 #include "extensions.h"
 #include "roster.h"
 #include "presence.h"
@@ -575,5 +576,12 @@ SCM
 ex_bind_to_ctrl_key (SCM key, SCM command)
 {
         ft_bind_to_ctrl_key (SCM_CHAR (key), scm_to_locale_string (command));
+        return SCM_UNSPECIFIED;
+}
+
+SCM
+ex_run_command(SCM command)
+{
+        interpreter(scm_to_locale_string(command));
         return SCM_UNSPECIFIED;
 }
