@@ -231,9 +231,9 @@ inner_main (void *closure, int argc, char **argv)
         extensions_init ();
 
         if (!state.script) {
-                load_default_config (); /* ~/.freetalk/freetalk.scm */
                 args_init ();
                 ft_load ("init.scm");
+                load_default_config (); /* ~/.freetalk/freetalk.scm */
                 ft_load ("login.scm");
 
                 interface_init ();
