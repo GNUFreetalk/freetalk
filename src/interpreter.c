@@ -58,15 +58,15 @@ int is_buddy (char *jid) {
 int
 interpreter (char *line)
 {
-        char *to_jid, *msg_str;
+        char *head, *tail;
 
-        to_jid = strtok (line, " ");
+        head = strtok (line, " ");
 
-        if (!to_jid)
+        if (!head)
                 /* absurd! */
                 return 1;
 
-        msg_str = strtok (NULL, "\0");
+        tail = strtok (NULL, "\0");
 
         /* Avati - dyn-commands.scm should not interpret
            its args as messages. hence created new
@@ -76,16 +76,11 @@ interpreter (char *line)
 
         set_hook_return (0);
         state.async_printf = 0;
-        if (msg_str)
-                scm_run_hook (ex_command_hook,
-                              scm_list_n (scm_from_locale_string (to_jid),
-                                          scm_from_locale_string (msg_str),
-                                          SCM_UNDEFINED));
-        else
-                scm_run_hook (ex_command_hook,
-                              scm_list_n (scm_from_locale_string (to_jid),
-                                          scm_from_locale_string (""),
-                                          SCM_UNDEFINED));
+
+        scm_run_hook (ex_command_hook,
+                scm_list_n (scm_from_locale_string (head),
+                    scm_from_locale_string (tail ? tail : ""),
+                    SCM_UNDEFINED));
 
         if (get_hook_return () == 1)
 
@@ -94,8 +89,8 @@ interpreter (char *line)
                         return 0;
                 }
 
-        if (is_buddy (to_jid)) {
-                do_send_message (to_jid, msg_str);
+        if (is_buddy (head)) {
+                do_send_message (head, tail);
                 return 0;
         }
 

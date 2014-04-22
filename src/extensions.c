@@ -236,6 +236,8 @@ register_primitives ()
         scm_c_define_gsubr ("ft-change-password", 1, 0, 0, ex_change_password);
         scm_c_define_gsubr ("ft-bind-to-ctrl-key", 2, 0, 0,
                             ex_bind_to_ctrl_key);
+
+        scm_c_define_gsubr ("ft-run-command", 1, 0, 0, ex_run_command);
 }
 
 void
