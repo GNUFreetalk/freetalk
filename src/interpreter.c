@@ -76,16 +76,11 @@ interpreter (char *line)
 
         set_hook_return (0);
         state.async_printf = 0;
-        if (tail)
-                scm_run_hook (ex_command_hook,
-                              scm_list_n (scm_from_locale_string (head),
-                                          scm_from_locale_string (tail),
-                                          SCM_UNDEFINED));
-        else
-                scm_run_hook (ex_command_hook,
-                              scm_list_n (scm_from_locale_string (head),
-                                          scm_from_locale_string (""),
-                                          SCM_UNDEFINED));
+
+        scm_run_hook (ex_command_hook,
+                scm_list_n (scm_from_locale_string (head),
+                    scm_from_locale_string (tail ? tail : ""),
+                    SCM_UNDEFINED));
 
         if (get_hook_return () == 1)
 
