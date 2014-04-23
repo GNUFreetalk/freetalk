@@ -54,6 +54,7 @@
          (ft-load "proud-of-freetalk.scm")
          (ft-load "broadcast.scm")
          (ft-load "hacker-romance.scm")
+         (ft-load "smart-prompt.scm")
 
          ;; FIXME: login.scm should not be loaded when run in script mode.
          ; (ft-load "login.scm")

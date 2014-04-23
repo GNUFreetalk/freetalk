@@ -18,6 +18,7 @@ EXTENSIONS = \
 	proud-of-freetalk.scm \
 	broadcast.scm \
 	hacker-romance.scm \
+	smart-prompt.scm \
 	first-time-run.sh
 
 EXTRA_DIST = $(EXTENSIONS)
