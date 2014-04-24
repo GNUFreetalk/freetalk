@@ -58,13 +58,16 @@ int is_buddy (char *jid) {
 int
 interpreter (char *line)
 {
-        char *head, *tail;
+        char *head, *tail, *line_cpy;
+        int ret = 1;
 
-        head = strtok (line, " ");
+        /* strtok, you are is evil, work on backup instead */
+        line_cpy = g_strdup(line);
 
+        head = strtok (line_cpy, " ");
         if (!head)
                 /* absurd! */
-                return 1;
+                goto out;
 
         tail = strtok (NULL, "\0");
 
@@ -86,15 +89,25 @@ interpreter (char *line)
 
                 if (get_hook_return () == 1) {
                         state.async_printf = 1;
-                        return 0;
+                        ret = 0;
+                        goto out;
                 }
 
         if (is_buddy (head)) {
                 do_send_message (head, tail);
-                return 0;
+                ret = 0;
+                goto out;
+        } else {
+            if (state.current_buddy) {
+                do_send_message(g_strdup(state.current_buddy), line);
+                ret = 0;
+                goto out;
+            }
         }
 
-        return 1;
+out:
+        g_free(line_cpy);
+        return ret;
 }
 
 void

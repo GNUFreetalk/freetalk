@@ -132,17 +132,6 @@ stdin_input_cb (GIOChannel *chan, GIOCondition *cond, gpointer conn)
         return TRUE;
 }
 
-static int
-insert_current_buddy (void)
-{
-        if (state.current_buddy) {
-                rl_insert_text (state.current_buddy);
-                rl_insert_text (" ");
-                rl_redisplay ();
-        }
-        return 0;
-}
-
 void
 interface_init (void)
 {
@@ -151,7 +140,6 @@ interface_init (void)
         interpreter_init ();
 
         rl_callback_handler_install (state.prompt, process_line);
-        rl_pre_input_hook = insert_current_buddy;
         rl_attempted_completion_function = ft_auto_complete;
         rl_completion_entry_function = complete_none;
 
