@@ -46,6 +46,7 @@
   (cond ((string=? domain "jabber.org") "jabber.org")
         ((string=? domain "facebook.com") "chat.facebook.com")
         ((string=? domain "chat.facebook.com") "chat.facebook.com")
+        ((string=? domain "gmail.com") "talk.google.com")
         (else domain)))
 
 (define (read-jid)
