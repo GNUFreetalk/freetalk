@@ -42,14 +42,16 @@
 
 GSList *dict_words = NULL;
 
-int is_buddy (char *jid) {
+int is_buddy (char *input, char** jid) {
         GSList *list = ft_roster_get ();
         int size = g_slist_length (list);
         int i = 0;
         while (i < size) {
                 FtRosterItem *item = (FtRosterItem *)g_slist_nth_data (list, i);
-                if (!strcasecmp (jid, item->jid))
+                if (!strcasecmp (input, item->jid) || (item->nickname && !strcasecmp(input, item->nickname))) {
+                        *jid = item->jid;
                         return 1;
+                }
                 i++;
         }
         return 0;
@@ -58,13 +60,14 @@ int is_buddy (char *jid) {
 int
 interpreter (char *line)
 {
-        char *head, *tail, *line_cpy;
+        char *head, *tail, *line_cpy, *jid;
         int ret = 1;
 
         /* strtok, you are is evil, work on backup instead */
         line_cpy = g_strdup(line);
 
-        head = strtok (line_cpy, " ");
+        head = strtok (line_cpy, line_cpy[0] == '/' ? " " : ":" );
+
         if (!head)
                 /* absurd! */
                 goto out;
@@ -93,8 +96,8 @@ interpreter (char *line)
                         goto out;
                 }
 
-        if (is_buddy (head)) {
-                do_send_message (head, tail);
+        if (is_buddy (head, &jid)) {
+                do_send_message (jid, tail);
                 ret = 0;
                 goto out;
         } else {
@@ -277,7 +280,9 @@ auto_complete (const char *text, int _state)
                                 (FtRosterItem *) g_slist_nth_data (ft_roster_get (),
                                                                    roster_idx++);
                         if (roster && !strncasecmp (roster->jid, text, len))
-                                return g_strdup (roster->jid);
+                                return g_strdup_printf ("%s:", roster->jid);
+                        if (roster && roster->nickname && !strncasecmp(roster->nickname, text, len))
+                                return g_strdup_printf ("%s:", roster->nickname);
                 }
         }
 
@@ -287,7 +292,7 @@ auto_complete (const char *text, int _state)
                                                                                  roster_idx++);
                         if (roster && !strncasecmp (roster->jid, possible_jid,
                                                     strlen (possible_jid)))
-                                return g_strdup (strchr (roster->jid, '@') + 1);
+                                return g_strdup_printf ("%s:", strchr (roster->jid, '@') + 1);
                 }
         }
         if (need_dict_completion) {
