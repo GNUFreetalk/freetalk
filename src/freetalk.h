@@ -28,6 +28,7 @@
 #include <loudmouth/loudmouth.h>
 #include <time.h>
 #include "util.h"
+#include "roster.h"
 
 #define FT_GLOBAL_EXT_DIR   DATADIR "/" PACKAGE_NAME "/extensions"
 #define FT_LOCAL_EXT_DIR    "." PACKAGE_NAME "/extensions" /* relative to $HOME */
@@ -46,7 +47,7 @@ typedef struct {
         char *jid_str;
         jid_t jid;
         char *password;
-        char *current_buddy; /* autoinsertion */
+        FtRosterItem *current_buddy;
         LmConnection *conn; /* = (LmConnection *) conn */
         char *prompt; /* "freetalk> " */
         GError *error;

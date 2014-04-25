@@ -102,7 +102,7 @@ interpreter (char *line)
                 goto out;
         } else {
             if (state.current_buddy) {
-                do_send_message(g_strdup(state.current_buddy), line);
+                do_send_message(state.current_buddy->jid, line);
                 ret = 0;
                 goto out;
             }

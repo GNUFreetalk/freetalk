@@ -391,10 +391,8 @@ do_send_message (char *jid, char *msg_str)
 int
 do_set_current_buddy (char *bud)
 {
-        if (state.current_buddy)
-                g_free (state.current_buddy);
         if (bud)
-                state.current_buddy = g_strdup (bud);
+                state.current_buddy = ft_roster_lookup (bud);
         else
                 state.current_buddy = NULL;
         return 0;
@@ -403,7 +401,7 @@ do_set_current_buddy (char *bud)
 const char *
 do_get_current_buddy (void)
 {
-        return state.current_buddy ? state.current_buddy : "";
+        return state.current_buddy ? state.current_buddy->jid : "";
 }
 
 static void
