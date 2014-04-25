@@ -59,38 +59,43 @@ set_hook_return (int hook_return_value)
 
 void ft_load (const char *file)
 {
-        char *path;
+        char *path_local = NULL;
+        char *path_global = NULL;
+
         struct stat foo;
         int len;
 
         /* ladies first */
         if (stat (file, &foo) == 0) {
                 scm_c_primitive_load (file);
-                return;
+                goto out;
         }
 
         len = strlen (getenv ("HOME")) +
                 1 + strlen (FT_LOCAL_EXT_DIR) + 1 + strlen (file) + 1;
-        path = (char *) calloc (len, 1);
-        sprintf (path, "%s/%s/%s", getenv ("HOME"), FT_LOCAL_EXT_DIR, file);
-        if (stat (path, &foo) == 0) {
-                scm_c_primitive_load (path);
-                g_free (path);
-                return;
+        path_local = g_malloc_n (1, len);
+        sprintf (path_local, "%s/%s/%s", getenv ("HOME"), FT_LOCAL_EXT_DIR,
+                 file);
+        if (stat (path_local, &foo) == 0) {
+                scm_c_primitive_load (path_local);
+                goto out;
         }
-        g_free (path);
 
         len = strlen (FT_GLOBAL_EXT_DIR) + 1 + strlen (file) + 1;
-        path = (char *)calloc (len, 1);
-        sprintf (path, "%s/%s", FT_GLOBAL_EXT_DIR, file);
-        if (stat (path, &foo) == 0) {
-                scm_c_primitive_load (path);
-                g_free (path);
-                return;
+        path_global = g_malloc_n (1, len);
+        sprintf (path_global, "%s/%s", FT_GLOBAL_EXT_DIR, file);
+        if (stat (path_global, &foo) == 0) {
+                scm_c_primitive_load (path_global);
+                goto out;
         }
-        g_free (path);
 
         fprintf (stderr, "%s: not found\n", file);
+out:
+        if (path_local)
+                g_free (path_local);
+        if (path_global)
+                g_free (path_global);
+        return;
 }
 
 static void
@@ -251,17 +256,18 @@ void
 load_default_config (void)
 {
         int len;
-        char *file;
+        char *file = NULL;
         struct stat foo;
 
         len = strlen (getenv ("HOME")) + 1 + strlen (FT_CONFIG_SCM) + 1;
-        file = (char *)calloc (len, 1);
+
+        file = g_malloc_n (1, len);
 
         sprintf (file, "%s/%s", getenv ("HOME"), FT_CONFIG_SCM);
 
-        if (stat (file, &foo) == 0) {
+        if (stat (file, &foo) == 0)
                 scm_c_primitive_load (file);
-        }
 
-        g_free (file);
+        if (file)
+                g_free (file);
 }
