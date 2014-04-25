@@ -41,9 +41,9 @@ typedef enum {FT_SUBSCRIPTION_NONE,
               FT_SUBSCRIPTION_TO_PENDING_IN,
               FT_SUBSCRIPTION_BOTH} FtSubscriptionState;
 
-typedef struct
-{
+typedef struct {
         char *jid;
+        char *uid;
         FtSubscriptionState subscription;
         gboolean is_online;
         char *nickname;

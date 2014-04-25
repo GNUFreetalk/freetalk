@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2014 Freetalk Core Team
+  Copyright (c) 2014 Freetalk core team
   This file is part of Freetalk.
 
   Freetalk is free software; you can redistribute it and/or modify
@@ -15,31 +15,22 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see
   <http://www.gnu.org/licenses/>.
+
+  NOTE - routines for Facebook graph API
 */
 
-#ifndef __UTIL_H__
-#define __UTIL_H__
+#ifndef __FACEBOOK_H__
+#define __FACEBOOK_H__
 
 #ifndef _CONFIG_H
 #define _CONFIG_H
 #include "config.h"
 #endif
 
-#include <stdio.h>
-#include <readline/readline.h>
+#include <stdint.h>
 
-typedef struct jid
-{
-        char *node;
-        char *domain;
-        char *resource;
-} jid_t;
+#ifdef FACEBOOK
+char *get_username (uint32_t uid);
+#endif
 
-void parse_jid_string (char *jid_str, jid_t *jid);
-char *second_word (char *full_line);
-char *first_word (char *full_line);
-void async_printf (const char *fmt, va_list ap);
-void sync_printf (const char *fmt, va_list ap);
-void check_first_run (void);
-
-#endif /* __UTIL_H__ */
+#endif /* __FACEBOOK_H__ */

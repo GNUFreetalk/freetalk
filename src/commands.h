@@ -27,6 +27,7 @@
 
 #include <glib.h>
 
+#define PRINTF do_printf
 void do_ssl (void);
 int do_connect (void);
 int do_disconnect (void);

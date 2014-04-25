@@ -84,6 +84,23 @@ if test "x$HAVE_LOUDMOUTH" == "xno"; then
    AC_MSG_ERROR([ERROR! loudmouth-1.0 not found...])
 fi
 
+
+PKG_CHECK_MODULES([CURL], [libcurl], [HAVE_CURL="yes"], [HAVE_CURL="no"])
+if test "x$HAVE_CURL" == "xno"; then
+   AC_MSG_WARN([WARNING! jansson not found...])
+fi
+
+PKG_CHECK_MODULES([JANSSON], [jansson], [HAVE_JANSSON="yes"], [HAVE_JANSSON="no"])
+if test "x$HAVE_JANSSON" == "xno"; then
+   AC_MSG_WARN([WARNING! jansson not found...])
+fi
+
+if test "x$HAVE_CURL" == "xyes" -a "x$HAVE_JANSSON" == "xyes"; then
+   AC_DEFINE(FACEBOOK, 1, [enable facebook jid translation support])
+   FACEBOOK_LIBS="${CURL_LIBS} ${JANSSON_LIBS}"
+   AC_SUBST(FACEBOOK_LIBS)
+fi
+
 AC_CHECK_HEADERS([libintl.h])
 
 AC_OUTPUT
