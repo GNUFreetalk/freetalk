@@ -17,6 +17,8 @@
 ;;; along with this program.  If not, see
 ;;; <http://www.gnu.org/licenses/>.
 
+(define enable-history-flag "yes")
+
 ;;; shell command for pagination
 (define history-page-cmd "less --quit-at-eof ")
 
@@ -66,17 +68,21 @@
 ;;; hook procedure for logging all sent messages
 (define (log-sent-message to message)
   "hook procedure for logging all sent messages"
-  (history (string-append history-path "/" to)
-           (ft-get-jid)
-           message))
+  (if (equal? enable-history-flag "yes")
+    (begin
+        (history (string-append history-path "/" to)
+                 (ft-get-jid)
+                 message))))
 
 ;;; hook procedure for logging all received messages
 (define (log-received-message time from nickname message)
   "hook procedure for logging all received messages"
-  (history (string-append history-path "/"
-                          (regexp-substitute/global #f "/.*$" from 'pre "" 'post))
-           from
-           message))
+  (if (equal? enable-history-flag "yes")
+    (begin
+        (history (string-append history-path "/"
+                                (regexp-substitute/global #f "/.*$" from 'pre "" 'post))
+                 from
+                 message))))
 
 ;;; hook procedure for logging all received offline messages
 ;(define (log-received-offline-message from message time)
@@ -118,3 +124,17 @@
       (system (string-append history-page-cmd history-path "/" args))))
 
 (add-command! /history "/history" "/history [BUDDY]" "Display history page by page")
+
+(define (/history-enable args)
+  " enable's history "
+  (set! enable-history-flag "yes")
+  (ft-display (_ " BUDDY history enabled ")))
+
+(add-command! /history-enable "/history-enable" "history-enable" "Enables buddy logging")
+
+(define (/history-disable args)
+  " disable's history "
+  (set! enable-history-flag "no")
+  (ft-display (_ " BUDDY history disabled ")))
+
+(add-command! /history-disable "/history-disable" "history-disable" "Disables buddy logging")
