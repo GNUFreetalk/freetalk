@@ -58,7 +58,6 @@ normal ()
 ; (ft-bind-to-ctrl-key #\h "(/who \"\")")
 EOF
     mkdir -p "${CONFIG_BASE}/extensions";
-    mkdir -p "${CONFIG_BASE}/downloads";
     mkdir -p "${CONFIG_BASE}/history";
 }
 

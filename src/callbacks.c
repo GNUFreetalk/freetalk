@@ -220,14 +220,6 @@ ft_msg_iq_handler (LmMessageHandler *handler, LmConnection *conn,
                         if( type == LM_MESSAGE_SUB_TYPE_GET ) {
                                 ft_msg_iq_last_cb (msg);
                         }
-                /* TODO: file transfer
-                } else if (ns && !g_ascii_strcasecmp (ns, "http://jabber.org/protocol/disco#info")) {
-                        if( type == LM_MESSAGE_SUB_TYPE_GET ) {
-                                ft_msg_sub_type_get_cb (msg);
-                        } else if( type == LM_MESSAGE_SUB_TYPE_RESULT ) {
-                                ft_msg_sub_type_result_cb (msg);
-                        }
-                */
                 } else
                         PRINTF (_("[iq received: %s (unhandled yet)]"), ns);
 

@@ -66,9 +66,6 @@ state_init (void)
         state.need_ssl = 0; /* turn off ssl by default */
         state.need_tls = 0; /* turn off tls by default */
         state.need_proxy = 0; /* turn off proxy by default */
-        state.f_state = NULL;
-        state.download_dirname = (char *)calloc (1, strlen (getenv ("HOME")) + 1 + strlen (".freetalk/downloads") + 1);
-        sprintf (state.download_dirname, "%s/.freetalk/downloads", getenv ("HOME"));
         state.last = time(NULL);
 }
 
