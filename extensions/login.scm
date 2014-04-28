@@ -20,33 +20,9 @@
 ;(use-modules (ice-9 readline))
 ;(activate-readline)
 
-(and (string=? (ft-get-jid) "")
-     (ft-set-jid! (sans-surrounding-whitespace
-                   (and (display "Jabber ID: ")
-                        (read-line)))))
-
-;; check if both user and domain are present
-(if (not (string-rindex (ft-get-jid) #\@))
-    (begin
-      (display (string-append "freetalk: Jabber ID ["
-                              (ft-get-jid)
-                              "] should contain full user@domain\n"))
-      (exit 1)))
-
-(define (domain->server domain)
-  (cond ((string=? domain "facebook.com") "chat.facebook.com")
-        ((string=? domain "chat.facebook.com") "chat.facebook.com")
-        ((string=? domain "gmail.com") "talk.google.com")
-        (else domain)))
-
-(or (string=? (ft-get-jid) "")
-    (and (string=? (ft-get-server) "")
-         (split-discarding-char #\@ (ft-get-jid)
-                                (lambda (jid domain)
-                                  (ft-set-server! (domain->server domain))))))
-
-(and (not (string=? (ft-get-jid) "")) (not (string=? (ft-get-server) ""))
-     (ft-connect))
+(if (and (not (string=? (ft-get-jid) "")) (not (string=? (ft-get-server) "")))
+     (ft-connect)
+     (/login ""))
 
 (add-hook! ft-login-hook (lambda (success)
                            (and success
