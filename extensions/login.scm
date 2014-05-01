@@ -68,9 +68,7 @@
 
 (add-hook! ft-login-hook (lambda (success)
                            (and success
-                                (ft-set-prompt! (string-append
-                                                 (ft-get-jid)
-                                                 "> ")))))
+				(update-prompt))))
 
 (add-hook! ft-disconnect-hook (lambda (reason)
                                 (ft-set-prompt! "~\\/~ ")))
