@@ -101,7 +101,7 @@
        (set! col-no (cdr (assoc color color-list  ))))
   (string-append "\x1b[1;" col-no ";40m" msg "\x1b[0m"))
 
-(define (append-color timestamp from nickname msg)
+(define (print-chat-msg timestamp from nickname msg)
   "append color"
   (if (ignored-message? msg)
       (ft-hook-return)
@@ -126,7 +126,7 @@
                         )))
                   (ft-hook-return)))))))
 
-(add-hook! ft-message-receive-hook append-color)
+(add-hook! ft-message-receive-hook print-chat-msg)
 
 (define (/color-enable args)
   " enable's color "
