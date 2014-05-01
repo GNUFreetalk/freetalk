@@ -99,7 +99,7 @@
   (define col-no (cdr (assoc default-color color-list)))
   (and (assoc color color-list)
        (set! col-no (cdr (assoc color color-list  ))))
-  (string-append "[1;" col-no ";40m" msg "[0m"))
+  (string-append "\x1b[1;" col-no ";40m" msg "\x1b[0m"))
 
 (define (append-color timestamp from nickname msg)
   "append color"
