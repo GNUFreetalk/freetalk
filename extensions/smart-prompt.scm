@@ -20,4 +20,12 @@
            (lambda (to message)
                (ft-set-prompt! (string-append to "> "))))
 
+(define mute-flag "no")
+
+(define (process-msg timestamp from nickname msg)
+  (if (equal? mute-flag "no")
+    (print-chat-msg timestamp from nickname msg)
+    ))
+
+(add-hook! ft-message-receive-hook process-msg)
 
