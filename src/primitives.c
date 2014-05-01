@@ -585,3 +585,10 @@ ex_run_command(SCM command)
         interpreter(scm_to_locale_string(command));
         return SCM_UNSPECIFIED;
 }
+
+SCM
+ex_rl_redisplay()
+{
+	rl_redisplay();
+	return SCM_UNSPECIFIED;
+}

@@ -132,4 +132,6 @@ SCM ex_bind_to_ctrl_key (SCM key, SCM command);
 
 SCM ex_run_command(SCM command);
 
+SCM ex_rl_redisplay();
+
 #endif /* __PRIMITIVES_H__ */

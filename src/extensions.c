@@ -243,6 +243,7 @@ register_primitives ()
                             ex_bind_to_ctrl_key);
 
         scm_c_define_gsubr ("ft-run-command", 1, 0, 0, ex_run_command);
+        scm_c_define_gsubr ("ft-rl-redisplay", 0, 0, 0, ex_rl_redisplay);
 }
 
 void
