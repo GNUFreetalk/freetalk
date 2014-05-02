@@ -68,7 +68,8 @@
 
 (define (/burst args)
   "dynamic command interface to burst procedure"
-  (let* ((args-list (split-discarding-char #\space args (lambda (x y) (list x y))))
+  (let* ((args-list (split-discarding-char #\space args (lambda (x y)
+                                                          (list x y))))
          (buddy     (car args-list))
          (message   (cadr args-list)))
     (if (> (string-length message) 0)

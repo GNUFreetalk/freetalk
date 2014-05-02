@@ -114,7 +114,8 @@
                     (if (> (string-length timestamp) 0)
                         (color-message (string-append "[" timestamp "] ")
                                        (get-buddy-color from))
-                        (color-message (strftime "%I:%M%p " (localtime (current-time)))
+                        (color-message (strftime "%I:%M%p " (localtime
+                                                             (current-time)))
                                        (get-buddy-color from)))
                     (color-message (if (> (string-length nickname) 0)
                                        nickname
@@ -122,7 +123,8 @@
                                    (get-buddy-color from))
                     (if (string-prefix? "/me " msg)
                         (color-message (substring msg 3) (get-buddy-color from))
-                        (color-message (string-append " -> " msg) (get-buddy-color from))
+                        (color-message (string-append " -> " msg)
+                                       (get-buddy-color from))
                         )))
                   (ft-hook-return)))))))
 
@@ -131,11 +133,13 @@
   (set! enable-colors-flag "yes")
   (ft-display (_ " BUDDY coloring enabled ")))
 
-(add-command! /color-enable "/color-enable" "color-enable" "Enables buddy coloring")
+(add-command! /color-enable "/color-enable" "color-enable"
+              "Enables buddy coloring")
 
 (define (/color-disable args)
   " disable's color "
   (set! enable-colors-flag "no")
   (ft-display (_ " BUDDY coloring disabled ")))
 
-(add-command! /color-disable "/color-disable" "color-disable" "Disables buddy coloring")
+(add-command! /color-disable "/color-disable" "color-disable"
+              "Disables buddy coloring")

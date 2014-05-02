@@ -80,7 +80,8 @@
   (if (equal? enable-history-flag "yes")
     (begin
         (history (string-append history-path "/"
-                                (regexp-substitute/global #f "/.*$" from 'pre "" 'post))
+                                (regexp-substitute/global #f "/.*$" from
+                                                          'pre "" 'post))
                  from
                  message))))
 
@@ -123,18 +124,21 @@
 ;      (if (= (string-length args) 1)
       (system (string-append history-page-cmd history-path "/" args))))
 
-(add-command! /history "/history" "/history [BUDDY]" "Display history page by page")
+(add-command! /history "/history" "/history [BUDDY]"
+              "Display history page by page")
 
 (define (/history-enable args)
   " enable's history "
   (set! enable-history-flag "yes")
   (ft-display (_ " BUDDY history enabled ")))
 
-(add-command! /history-enable "/history-enable" "history-enable" "Enables buddy logging")
+(add-command! /history-enable "/history-enable" "history-enable"
+              "Enables buddy logging")
 
 (define (/history-disable args)
   " disable's history "
   (set! enable-history-flag "no")
   (ft-display (_ " BUDDY history disabled ")))
 
-(add-command! /history-disable "/history-disable" "history-disable" "Disables buddy logging")
+(add-command! /history-disable "/history-disable" "history-disable"
+              "Disables buddy logging")

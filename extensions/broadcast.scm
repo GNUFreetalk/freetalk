@@ -39,5 +39,6 @@
                               message)
         (ft-display (_ "usage: /broadcast [MESSAGE]")))))
 
-(add-command! /broadcast "/broadcast" "/broadcast [MESSAGE]" "Send messages to all buddies")
+(add-command! /broadcast "/broadcast" "/broadcast [MESSAGE]"
+              "Send messages to all buddies")
 (add-command! /broadcast "*" "* [MESSAGE]" "Send messages to all the buddies")

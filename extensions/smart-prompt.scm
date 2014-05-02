@@ -19,27 +19,35 @@
 (use-modules (ice-9 q))
 
 (define msgs-htable (make-hash-table))
-(define waiting-users-count '0  )
+(define waiting-users-count '0)
 (define mute-flag "no")
 
+;;; guile < 2.0.9 doesn't implement `hash-count`
+(define (hash-count-wrap table)
+  (if (hash-table? table)
+      ;; check for guile version
+      (if (< (string->number (micro-version)) 9)
+          (hash-fold (lambda (key value seed) (+ 1 seed)) 0 table)
+          (hash-count (const #f) table))
+      '0))
 
 (define (update-prompt)
   "update and redisplay the prompt according to the selected chat mode"
   (if (> (ft-get-conn-status) 0)
     (let ((prompt-jid (if (< 0 (string-length (ft-get-current-buddy)))
-			(ft-get-current-buddy)
-			(ft-get-jid))))
+                          (ft-get-current-buddy)
+                          (ft-get-jid))))
       (if (equal? mute-flag "yes")
-	(begin
-	  (set! waiting-users-count (hash-count (const #t) msgs-htable))
-	  (ft-set-prompt!
-	    (string-append "(new:" ; "\x01\x1b[33;1m\x02"
-			   (number->string waiting-users-count)
-			   ; "\x01\x1b[0m\x02"
-			   ") "
-			   prompt-jid "> "))
-	  (ft-rl-redisplay))
-	(ft-set-prompt! (string-append prompt-jid "> "))))))
+          (begin
+            (set! waiting-users-count (hash-count-wrap msgs-htable))
+            (ft-set-prompt!
+             (string-append "(new:" ; "\x01\x1b[33;1m\x02"
+                            (number->string waiting-users-count)
+                                        ; "\x01\x1b[0m\x02"
+                            ") "
+                            prompt-jid "> "))
+            (ft-rl-redisplay))
+          (ft-set-prompt! (string-append prompt-jid "> "))))))
 
 (define (store-msg from msg)
   "store the msg in the hash table"
@@ -77,15 +85,17 @@
             (while (not (q-empty? msgs))
                    (let ((msg '()))
                      (set! msg (deq! msgs ))
-                     (print-chat-msg (cadr msg) (caddr msg) (cadddr msg) (car (cddddr msg)))))
+                     (print-chat-msg (cadr msg)
+                                     (caddr msg)
+                                     (cadddr msg)
+                                     (car (cddddr msg)))))
             (hash-remove! msgs-htable next-buddy)
-            (ft-set-current-buddy! (regexp-substitute/global #f "/.*$" next-buddy 'pre "" 'post))
-            ))))
+            (ft-set-current-buddy! (regexp-substitute/global
+                                    #f "/.*$" next-buddy
+                                    'pre "" 'post))))))
     (update-prompt)))
 
 (add-command! /next "/next" "/next" "display next message")
-
-;
 
 (define (/quiet-mode args)
   " quiet chat mode "
@@ -103,7 +113,6 @@
 
 (add-command! /normal-mode "/normal-mode" "normal-mode" "Select normal chat mode")
 
-;
 
 (add-hook! ft-message-send-hook
            (lambda (to message)

@@ -48,7 +48,8 @@
 (define (help args)
   "display help message"
   (let ((command-name (sans-surrounding-whitespace args))
-        (command-doc (assoc-ref dynamic-command-registry (sans-surrounding-whitespace args))))
+        (command-doc (assoc-ref dynamic-command-registry
+                                (sans-surrounding-whitespace args))))
     (if (not (string-null? args))
         (if (not (list? command-doc))
             (display (_ "no such command\n"))

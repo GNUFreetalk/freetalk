@@ -68,7 +68,7 @@
 
 (add-hook! ft-login-hook (lambda (success)
                            (and success
-				(update-prompt))))
+                                (update-prompt))))
 
 (add-hook! ft-disconnect-hook (lambda (reason)
                                 (ft-set-prompt! "~\\/~ ")))

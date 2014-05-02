@@ -32,7 +32,8 @@
         (ft-remove-buddy! (sans-surrounding-whitespace args))
         (ft-subscription-deny (sans-surrounding-whitespace args)))))
 
-(add-command! /remove "/remove" "/remove [USER@SERVER]" "remove buddy from list")
+(add-command! /remove "/remove" "/remove [USER@SERVER]"
+              "remove buddy from list")
 
 (define (pretty-print-show-msg msg)
   (cond
@@ -50,11 +51,14 @@
                     (show-msg (list-ref item 3))
                     (status-msg (list-ref item 4)))
                 (if online
-                    (ft-display (string-append " * " jid (if (> (string-length nickname) 0)
-                                                             (string-append " (" nickname ") ")
+                    (ft-display (string-append " * " jid (if (> (string-length
+                                                                 nickname) 0)
+                                                             (string-append
+                                                              " (" nickname ") ")
                                                              " ")
                                          (if (> (string-length show-msg) 0)
-                                             (string-append "-> [" (pretty-print-show-msg show-msg) "]")
+                                             (string-append "-> ["
+                                                            (pretty-print-show-msg show-msg) "]")
                                              "")
                                          (if (> (string-length status-msg) 0)
                                              (string-append " (" status-msg ")")
@@ -114,7 +118,8 @@
                                              (_ " Online")
                                              (_ " Offline"))
                                          (if (> (string-length show-msg) 0)
-                                             (string-append " [" (pretty-print-show-msg show-msg) "]")
+                                             (string-append " ["
+                                                            (pretty-print-show-msg show-msg) "]")
                                              "")
                                          (if (> (string-length status-msg) 0)
                                              (string-append " (" status-msg ")")
