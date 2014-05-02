@@ -126,8 +126,6 @@
                         )))
                   (ft-hook-return)))))))
 
-(add-hook! ft-message-receive-hook print-chat-msg)
-
 (define (/color-enable args)
   " enable's color "
   (set! enable-colors-flag "yes")
