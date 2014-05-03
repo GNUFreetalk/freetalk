@@ -120,3 +120,35 @@
              (update-prompt)))
 
 (add-hook! ft-message-receive-hook process-msg)
+
+(define (presence-recv jid online nickname show-msg status-msg)
+  (if (equal? mute-flag "no")
+    (let ((item (ft-roster-lookup jid)))
+      (if (not (null? item))
+        (let ((old-jid (list-ref item 0))
+              (old-online (list-ref item 1))
+              (old-nickname (list-ref item 2))
+              (old-show-msg (list-ref item 3))
+              (old-status-msg (list-ref item 4)))
+          (if (or (not (eq? old-online online))
+                  (not (string=? old-show-msg show-msg))
+                  (not (string=? old-status-msg status-msg)))
+            ; using old-jid is a simple way to strip away the resource part ;)
+            (ft-display (string-append old-jid
+                                       (if (> (string-length old-nickname) 0)
+                                         (string-append " (" old-nickname ")")
+                                         "")
+                                       (_ " is now")
+                                       (if online
+                                         (_ " Online")
+                                         (_ " Offline"))
+                                       (if (> (string-length show-msg) 0)
+                                         (string-append " ["
+                                                        (pretty-print-show-msg show-msg) "]")
+                                         "")
+                                       (if (> (string-length status-msg) 0)
+                                         (string-append " (" status-msg ")")
+                                         "")))))))))
+
+(add-hook! ft-presence-receive-hook presence-recv)
+
