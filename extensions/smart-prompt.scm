@@ -28,7 +28,7 @@
       ;; check for guile version
       (if (< (string->number (micro-version)) 9)
           (hash-fold (lambda (key value seed) (+ 1 seed)) 0 table)
-          (hash-count (const #f) table))
+          (hash-count (const #t) table))
       '0))
 
 (define (update-prompt)
