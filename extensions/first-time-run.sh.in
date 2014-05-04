@@ -56,6 +56,7 @@ normal ()
 ; (ft-bind-to-ctrl-key #\a "(/who \"all\")")
 ; (ft-bind-to-ctrl-key #\e "(/whoami \"\")")
 ; (ft-bind-to-ctrl-key #\h "(/who \"\")")
+; (ft-bind-to-ctrl-key #\x "(/next \"\")")
 EOF
     mkdir -p "${CONFIG_BASE}/extensions";
     mkdir -p "${CONFIG_BASE}/history";
