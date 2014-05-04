@@ -31,12 +31,27 @@
           (hash-count (const #t) table))
       '0))
 
+(define (jid-to-nick jid)
+  (let ((item '()) (nick "") (ret ""))
+    (if (not (string-null? jid))
+      (begin
+	(set! item (ft-roster-lookup jid))
+	(if (not (null? item))
+	  (begin
+	    (set! nick (list-ref item 2))
+	    (if (not (null? nick))
+	      (set! ret nick))))))
+    ret))
+
 (define (update-prompt)
   "update and redisplay the prompt according to the selected chat mode"
   (if (> (ft-get-conn-status) 0)
-    (let ((prompt-jid (if (< 0 (string-length (ft-get-current-buddy)))
-                          (ft-get-current-buddy)
-                          (ft-get-jid))))
+    (let ((current-buddy "") (nickname "") (prompt-jid ""))
+      (set! current-buddy (ft-get-current-buddy))
+      (set! nickname (jid-to-nick current-buddy))
+      (set! prompt-jid (cond ((not (string-null? nickname)) nickname)
+			     ((not (string-null? current-buddy)) current-buddy)
+			     (else (ft-get-jid))))
       (if (equal? mute-flag "yes")
           (begin
             (set! waiting-users-count (hash-count-wrap msgs-htable))
