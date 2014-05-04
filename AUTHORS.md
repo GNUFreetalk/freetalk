@@ -5,9 +5,6 @@ Active
 ---------
 * Anand Babu
 * Harshavardhana
-
-TLS-Support/Facebook Chat Support
----------
 * Anis Elleuch
 
 Documentation
