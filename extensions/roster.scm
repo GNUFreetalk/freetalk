@@ -16,12 +16,14 @@
 ;;; along with this program.  If not, see
 ;;; <http://www.gnu.org/licenses/>.
 
-(define (/add  args)
+(define (/add args)
   (if (= (string-length args) 0)
       (ft-display (_ "Incomplete syntax"))
       (begin
-        (ft-add-buddy! (sans-surrounding-whitespace args))
-        (ft-subscription-allow (sans-surrounding-whitespace args)))))
+        (ft-add-buddy! (string-trim-right (sans-surrounding-whitespace
+                                           args) #\:))
+        (ft-subscription-allow (string-trim-right (sans-surrounding-whitespace
+                                                   args) #\:)))))
 
 (add-command! /add "/add" "/add [USER@SERVER]" "add new buddy to list")
 
@@ -29,8 +31,10 @@
   (if (= (string-length args) 0)
       (ft-display (_ "Incomplete syntax"))
       (begin
-        (ft-remove-buddy! (sans-surrounding-whitespace args))
-        (ft-subscription-deny (sans-surrounding-whitespace args)))))
+        (ft-remove-buddy! (string-trim-right (sans-surrounding-whitespace
+                                              args) #\:))
+        (ft-subscription-deny (string-trim-right (sans-surrounding-whitespace
+                                                  args) #\:)))))
 
 (add-command! /remove "/remove" "/remove [USER@SERVER]"
               "remove buddy from list")
@@ -80,21 +84,23 @@
 (define (/allow args)
   (if (= (string-length args) 0)
       (ft-display (_ "Incomplete syntax"))
-      (ft-subscription-allow (sans-surrounding-whitespace args))))
+      (ft-subscription-allow (string-trim-right (sans-surrounding-whitespace
+                                                 args) #\:))))
 
 (add-command! /allow "/allow" "/allow [USER@SERVER]" "Allow buddy to see your status")
 
 (define (/deny args)
   (if (= (string-length args) 0)
       (ft-display (_ "Incomplete syntax"))
-      (ft-subscription-deny (sans-surrounding-whitespace args))))
+      (ft-subscription-deny (string-trim-right (sans-surrounding-whitespace
+                                                args) #\:))))
 (add-command! /deny "/deny" "/deny [USER@SERVER]" "Deny buddy permission to see your status")
 
 (define (/alias args)
   (if (= (string-length args) 0)
       (ft-display (_ "Incomplete syntax"))
       (apply ft-roster-set-nickname (map sans-surrounding-whitespace
-                                         (string-separate args #\Space)))))
+                                         (string-separate args #\space)))))
 (add-command! /alias "/alias" "/alias buddy nickname" "Set the nickname of a buddy")
 
 (define (subscribe-recv jid)

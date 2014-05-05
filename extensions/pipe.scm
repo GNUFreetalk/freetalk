@@ -36,7 +36,7 @@
          (buddy     (car args-list))
          (cmd       (cadr args-list)))
     (if (> (string-length cmd) 0)
-        (send-message-pipe buddy cmd)
+        (send-message-pipe (string-trim-right buddy #\:) cmd)
         (ft-display (_ "usage: /pipe BUDDY COMMAND [OPTIONS]")))))
 
 (add-command! /pipe "/pipe"

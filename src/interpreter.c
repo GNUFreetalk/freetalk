@@ -152,6 +152,10 @@ auto_complete (const char *text, int _state)
                 "^ */remove +[^ ]*$",
                 "^ */urlview +[^ ]*$",
                 "^ */alias +[^ ]*$",
+                "^ */greet +[^ ]*$",
+                "^ */deny +[^ ]*$",
+                "^ */burst +[^ ]*$",
+                "^ */burst-of-romance +[^ ]*$",
                 NULL
         };
 

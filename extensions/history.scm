@@ -123,7 +123,8 @@
       (system (string-append history-page-cmd session-file))
 ;      (if (= (string-length args) 1)
       (system (string-append history-page-cmd history-path "/"
-                             (string-trim-right args #\:)))))
+                             (string-trim-right (string-trim-right
+                                                 args #\space) #\:)))))
 
 (add-command! /history "/history" "/history [BUDDY]"
               "Display history page by page")

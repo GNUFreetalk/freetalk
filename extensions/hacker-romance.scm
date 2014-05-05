@@ -41,7 +41,7 @@
              (message (string-join (cddr args-list))))
           (if (and (> (string-length message) 0)
                    (> count 0))
-              (burst-of-romance buddy count message)))
+              (burst-of-romance (string-trim-right buddy #\:) count message)))
         (ft-display (_ "usage: /burst-of-romance BUDDY COUNT MESSAGE")))))
 
 (add-command! /burst-of-romance "/burst-of-romance"
@@ -73,7 +73,9 @@
          (buddy     (car args-list))
          (message   (cadr args-list)))
     (if (> (string-length message) 0)
-        (ft-send-message buddy (burst message min-chars max-chars))
+        (ft-send-message (string-trim-right buddy #\:) (burst message
+                                                              min-chars
+                                                              max-chars))
         (ft-display (_ "usage: /burst BUDDY MESSAGE")))))
 
 (add-command! /burst "/burst"
@@ -83,7 +85,9 @@
 (define (/greet args)
   "IRC style greeting command"
   (if (> (string-length args) 0)
-      (ft-send-message args
+      (ft-send-message (string-trim-right
+                        (string-trim-right args #\space)
+                        #\:)
                        (burst (car (string-split args #\@))
                               min-chars max-chars))
       (ft-display (_ "usage: /greet BUDDY"))))

@@ -40,6 +40,8 @@
   (if (= (string-length args) 0)
       (system (string-append urlview-cmd url-session-file))
 ;      (if (= (string-length args) 1)
-      (system (string-append urlview-cmd url-history-path "/" args))))
+      (system (string-append urlview-cmd url-history-path "/"
+                             (string-trim-right (string-trim-right
+                                                 args #\space) #\:)))))
 
 (add-command! /urlview "/urlview" "/urlview [BUDDY]" "handle URLs")
