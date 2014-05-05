@@ -128,6 +128,7 @@ auto_complete (const char *text, int _state)
         static char need_command_completion = 0;
         static char need_dict_completion = 0;
         static char need_file_completion = 0;
+        static char need_separator = 0;
 
         static SCM ft_commands;
         static unsigned long cmd_len, cmd_idx;
@@ -175,6 +176,7 @@ auto_complete (const char *text, int _state)
                 need_command_completion = 0;
                 need_dict_completion = 0;
                 need_file_completion = 0;
+                need_separator = 0;
 
                 /* for making the autocompletion context sensitive*/
                 save = rl_line_buffer [rl_point];
@@ -202,6 +204,8 @@ auto_complete (const char *text, int _state)
                         regfree (&preg);
                         if (need_roster_completion) {
                                 roster_idx = 0;
+                                if (i - 1 == 0) /* 1st roster regexp is selected */
+                                    need_separator = 1;
                                 if (!ft_roster_get ())
                                         need_roster_completion = 0;
                                 /* check if we are autocompleting the 'domain' part */
@@ -284,9 +288,11 @@ auto_complete (const char *text, int _state)
                                 (FtRosterItem *) g_slist_nth_data (ft_roster_get (),
                                                                    roster_idx++);
                         if (roster && !strncasecmp (roster->jid, text, len))
-                                return g_strdup_printf ("%s:", roster->jid);
+                                return g_strdup_printf ("%s%s", roster->jid,
+                                    need_separator ? ":" : "");
                         if (roster && roster->nickname && !strncasecmp(roster->nickname, text, len))
-                                return g_strdup_printf ("%s:", roster->nickname);
+                                return g_strdup_printf ("%s%s", roster->nickname,
+                                    need_separator ? ":" : "");
                 }
         }
 
@@ -296,7 +302,8 @@ auto_complete (const char *text, int _state)
                                                                                  roster_idx++);
                         if (roster && !strncasecmp (roster->jid, possible_jid,
                                                     strlen (possible_jid)))
-                                return g_strdup_printf ("%s:", strchr (roster->jid, '@') + 1);
+                                return g_strdup_printf ("%s%s", strchr (roster->jid, '@') + 1,
+                                    need_separator ? ":" : "");
                 }
         }
         if (need_dict_completion) {
