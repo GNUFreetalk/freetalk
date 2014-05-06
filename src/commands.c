@@ -584,30 +584,33 @@ do_main_loop (void)
 void
 do_change_password (char *npass)
 {
-        if (g_ascii_strcasecmp (npass, ""))
-        {
-                LmMessage *msg = lm_message_new_with_sub_type (state.server,
-                                                               LM_MESSAGE_TYPE_IQ,
-                                                               LM_MESSAGE_SUB_TYPE_SET);
-                LmMessageNode *query = lm_message_node_add_child (msg->node, "query", "");
-                lm_message_node_set_attribute (query, "xmlns", "jabber:iq:register");
-                lm_message_node_add_child (query, "username", state.jid.node);
-                lm_message_node_add_child (query, "password", npass);
-
-                LmMessage *reply = lm_connection_send_with_reply_and_block (state.conn,
-                                                                            msg, NULL);
-
-                const char *type = lm_message_node_get_attribute (reply->node, "type");
-                if (!g_ascii_strcasecmp (type, "error"))
-                {
-                        do_printf ("Password change failed.\n");
-                }
-                else
-                {
-                        do_printf ("Password changed.\n");
-                }
-                lm_message_unref (msg);
+        if (!g_ascii_strcasecmp (npass, "")) {
+                PRINTF ("Invalid password\n");
+                goto out;
         }
+
+        LmMessage *msg = lm_message_new_with_sub_type (state.server,
+                                                       LM_MESSAGE_TYPE_IQ,
+                                                       LM_MESSAGE_SUB_TYPE_SET);
+        LmMessageNode *query = lm_message_node_add_child (msg->node,
+                                                          "query", "");
+        lm_message_node_set_attribute (query, "xmlns",
+                                       "jabber:iq:register");
+        lm_message_node_add_child (query, "username", state.jid.node);
+        lm_message_node_add_child (query, "password", npass);
+
+        LmMessage *reply = lm_connection_send_with_reply_and_block (state.conn,
+                                                                    msg, NULL);
+
+        const char *type = lm_message_node_get_attribute (reply->node,
+                                                          "type");
+        if (!g_ascii_strcasecmp (type, "error"))
+                PRINTF ("Password change failed.\n");
+        else
+                PRINTF ("Password changed.\n");
+
+        lm_message_unref (msg);
+out:
         g_free (npass);
 }
 

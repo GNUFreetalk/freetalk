@@ -160,9 +160,10 @@
 (add-command! /disconnect "/logout" "/logout"
               "logout from jabber server (same as disconnect)")
 
-(define (/passwd args)
+(define (/change-password args)
   (ft-change-password (sans-surrounding-whitespace args)))
-(add-command! /passwd "/passwd" "/passwd" "change password")
+(add-command! /change-password "/change-password" "/change-password"
+              "change password for current JID")
 
 (define (login-cb success?)
   (if (not success?)
