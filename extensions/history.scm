@@ -59,7 +59,7 @@
                                  "/history")))
          (lambda args #f))
   ;;; if we are logging in for first time, then create
-  ;;; ~/.freetalk/history/<yahoo-id>
+  ;;; ~/.freetalk/history/<google-id>
   (catch 'system-error
          (lambda ()
            (mkdir history-path))
