@@ -4,11 +4,11 @@ bin_PROGRAMS = freetalk
 
 freetalk_SOURCES = freetalk.c util.c commands.c callbacks.c roster.c \
 	interpreter.c extensions.c primitives.c presence.c \
-	facebook.c # register.c
+	# register.c
 
 noinst_HEADERS = freetalk.h util.h commands.h callbacks.h \
 	roster.h interpreter.h extensions.h primitives.h presence.h \
-	common.h facebook.h # register.h
+	common.h # register.h
 
 freetalk_LDADD = $(ARGP_STANDALONE_LDADD)
 

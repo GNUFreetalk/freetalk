@@ -412,15 +412,16 @@ ex_get_roster_is_online (SCM scm_jid)
 SCM
 ex_roster_lookup (SCM scm_jid)
 {
-        char *jid = scm_to_locale_string (scm_jid);
-        FtRosterItem *item = ft_roster_lookup (jid);
+        char *jid = NULL;
+        FtRosterItem *item = NULL;
 
-        g_free (jid);
+        jid = scm_to_locale_string (scm_jid);
+        item = ft_roster_lookup (jid);
 
-        if (item)
-                return roster_item_to_list (item);
-        else
-                return SCM_EOL;
+        if (jid)
+                g_free (jid);
+
+        return item ? roster_item_to_list (item) : SCM_EOL;
 }
 
 SCM

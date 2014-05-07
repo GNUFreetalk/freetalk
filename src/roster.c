@@ -23,6 +23,14 @@
 #endif
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdint.h>
+#include <inttypes.h>
+#include <errno.h>
+#include <sys/stat.h>
 
 #include <glib.h>
 #include <loudmouth/loudmouth.h>
@@ -34,6 +42,111 @@
 #include "roster.h"
 #include "presence.h"
 #include "common.h"
+
+#ifdef FACEBOOK
+#include <curl/curl.h>
+#include <jansson.h>
+
+/* Practical limit */
+#define JSON_SIZE 512
+
+struct json_result {
+        char *data;
+        int pos;
+};
+
+static size_t
+json_response (void *ptr, size_t size, size_t nmemb, void *stream)
+{
+        struct json_result *json = (struct json_result *)stream;
+        size_t jsonlen = 0;
+        size_t new_pos = 0;
+
+        jsonlen = size * nmemb;
+        new_pos = json->pos + jsonlen;
+
+        if (new_pos >= (JSON_SIZE - 1)) {
+                PRINTF ("too large buffer");
+                return 0;
+        }
+
+        memcpy (json->data + json->pos, ptr, jsonlen);
+        json->pos += jsonlen;
+
+        return jsonlen;
+}
+
+static char *
+graph_request (const char *url)
+{
+        CURL *curl;
+        CURLcode status;
+        char *json_data = NULL;
+        struct json_result json = {NULL, 0};
+
+        /* Thread un-safe but needed for initialization */
+        curl_global_init (CURL_GLOBAL_ALL);
+
+        curl = curl_easy_init ();
+        json_data = g_malloc_n (1, JSON_SIZE);
+        if(!curl || !json_data)
+                goto out;
+
+        json.data = json_data;
+        json.pos = 0;
+
+        curl_easy_setopt (curl, CURLOPT_URL, url);
+        curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, json_response);
+        curl_easy_setopt (curl, CURLOPT_WRITEDATA, &json);
+
+        status = curl_easy_perform (curl);
+        if (status != 0) {
+                PRINTF ("%s", curl_easy_strerror (status));
+                goto out;
+        }
+
+        /* zero-terminate the result */
+        json.data [json.pos] = '\0';
+
+out:
+        curl_easy_cleanup (curl);
+        curl_global_cleanup ();
+        return json.data;
+
+}
+
+static inline char *
+get_username (uint64_t id)
+{
+        char url [256];
+        char *username = NULL;
+        char *text = NULL;
+
+        json_error_t error;
+        json_t *root = NULL;
+
+        snprintf (url, sizeof(url), "http://graph.facebook.com/%"SCNu64, id);
+        text = graph_request (url);
+
+        if (!text)
+                goto out;
+
+        root = json_loads (text, 0, &error);
+        if (!root) {
+                PRINTF ("error: on line %d: %s",
+                        error.line,
+                        error.text);
+                goto out;
+        }
+
+        json_unpack (root, "{s:s}", "username", &username);
+out:
+        if (text)
+                g_free (text);
+        return username;
+}
+
+#endif /* FACEBOOK */
 
 GSList *
 ft_roster_get (void)
@@ -69,7 +182,8 @@ ft_roster_retrieve (LmConnection *conn)
 static FtSubscriptionState
 subscription_state (LmMessageNode *item)
 {
-        const char *subscription = lm_message_node_get_attribute (item, "subscription");
+        const char *subscription = lm_message_node_get_attribute (item,
+                                                                  "subscription");
         if (subscription)
         {
                 const char *ask = lm_message_node_get_attribute (item, "ask");
@@ -89,10 +203,6 @@ subscription_state (LmMessageNode *item)
                         return FT_SUBSCRIPTION_TO;
                 else if (!g_ascii_strcasecmp (subscription, "both"))
                         return FT_SUBSCRIPTION_BOTH;
-        }
-        else
-        {
-                /* shouldn't happen */
         }
         return FT_SUBSCRIPTION_NONE;
 }
@@ -148,6 +258,21 @@ ft_roster_lookup (const char *jid)
         return elem ? (FtRosterItem *)elem->data : NULL;
 }
 
+static int64_t
+jid_to_integer (const gchar *jid)
+{
+        char *ptr = NULL;
+        char *token = NULL;
+        const char delimiter[] = "@";
+
+        ptr = g_strdup (jid);
+        if (!ptr)
+                return 0;
+
+        token = strsep (&ptr, delimiter);
+        return strtoll (token, (char **) NULL, 10);
+}
+
 static void
 roster_result_rcvd (LmMessage *msg)
 {
@@ -157,12 +282,40 @@ roster_result_rcvd (LmMessage *msg)
         ft_presence_send_initial ();
 
         while (item) {
-                FtRosterItem *r_item = g_new (FtRosterItem, 1);
-                r_item->jid = g_strdup (lm_message_node_get_attribute (item,
-                                                                       "jid"));
+                FtRosterItem *r_item = NULL;
+
+                r_item = g_try_new0 (FtRosterItem, 1);
+                if (!r_item) {
+                        PRINTF (_("error\n"));
+                        return;
+                }
+
+                r_item->id = jid_to_integer (lm_message_node_get_attribute
+                                             (item, "jid"));
+                if (r_item->id < 0) {
+                        char *real_jid = get_username (llabs (r_item->id));
+                        char jid_buf[256] = {0,};
+
+                        if (real_jid)
+                                snprintf (jid_buf, 1024,
+                                          "%s@chat.facebook.com",
+                                          real_jid);
+                        else
+                                snprintf (jid_buf, 1024,
+                                          "%"PRId64"chat.facebook.com",
+                                          (-r_item->id));
+
+                        r_item->jid = g_strdup (jid_buf);
+
+                } else {
+                        r_item->jid = g_strdup (lm_message_node_get_attribute
+                                                (item, "jid"));
+                }
+
                 r_item->subscription = subscription_state (item);
-                r_item->nickname = g_strdup (lm_message_node_get_attribute (item,
-                                                                            "name"));
+                r_item->nickname = g_strdup (lm_message_node_get_attribute
+                                             (item,
+                                              "name"));
                 /* Assume unavailable until presence is recieved */
                 r_item->is_online = FALSE;
                 r_item->status_msg = NULL;
@@ -174,11 +327,14 @@ roster_result_rcvd (LmMessage *msg)
         }
 }
 
+/*
+  TODO: support facebook id, facebook doesn't sent back "set" request
+*/
+
 static void
 roster_set_rcvd (LmMessage *msg)
 {
         FtRosterItem *old, *newi;
-        //  GSList *elem;
 
         LmMessageNode *query = lm_message_node_get_child (msg->node, "query");
         LmMessageNode *item = lm_message_node_get_child (query, "item");

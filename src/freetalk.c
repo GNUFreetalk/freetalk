@@ -245,6 +245,7 @@ main (int argc, char **argv)
         state.argc = argc;
         state.argv = argv;
         scm_boot_guile (argc, argv, inner_main, 0);
+
         return 0;
 }
 

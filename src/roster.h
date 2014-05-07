@@ -25,25 +25,28 @@
 #endif
 
 #include <glib.h>
+#include <stdint.h>
 
 /*
   Ref. Section 9., "Subscription states",
   RFC 3921
 */
 
-typedef enum {FT_SUBSCRIPTION_NONE,
-              FT_SUBSCRIPTION_NONE_PENDING_OUT,
-              FT_SUBSCRIPTION_NONE_PENDING_IN,
-              FT_SUBSCRIPTION_NONE_PENDING_OUT_IN,
-              FT_SUBSCRIPTION_FROM,
-              FT_SUBSCRIPTION_FROM_PENDING_OUT,
-              FT_SUBSCRIPTION_TO,
-              FT_SUBSCRIPTION_TO_PENDING_IN,
-              FT_SUBSCRIPTION_BOTH} FtSubscriptionState;
+typedef enum {
+        FT_SUBSCRIPTION_NONE,
+        FT_SUBSCRIPTION_NONE_PENDING_OUT,
+        FT_SUBSCRIPTION_NONE_PENDING_IN,
+        FT_SUBSCRIPTION_NONE_PENDING_OUT_IN,
+        FT_SUBSCRIPTION_FROM,
+        FT_SUBSCRIPTION_FROM_PENDING_OUT,
+        FT_SUBSCRIPTION_TO,
+        FT_SUBSCRIPTION_TO_PENDING_IN,
+        FT_SUBSCRIPTION_BOTH
+} FtSubscriptionState;
 
 typedef struct {
         char *jid;
-        char *uid;
+        int64_t id;
         FtSubscriptionState subscription;
         gboolean is_online;
         char *nickname;
