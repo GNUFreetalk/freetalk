@@ -76,14 +76,15 @@ ft_connection_open_cb (LmConnection *conn, gboolean success, gpointer u)
                 do_set_conn_status (FT_CONN);
                 PRINTF ("%s",_("Connected."));
         }
-        else
-        {
+        else {
                 do_set_conn_status (FT_DEAD);
                 PRINTF ("%s",_("Could not connect."));
                 return;
         }
 
-        PRINTF ("%s",_("Authenticating ...")); fflush(stdout);
+        PRINTF ("%s",_("Authenticating ..."));
+        fflush(stdout);
+
         lm_connection_authenticate (conn, state->jid.node, state->password,
                                     state->jid.resource, ft_authenticate_cb,
                                     NULL, g_free, NULL);
@@ -125,58 +126,65 @@ ft_msg_msg_handler (LmMessageHandler *handler, LmConnection *conn,
         char *ts = NULL;
 
         root = lm_message_get_node (msg);
+        if (!root)
+                goto out;
+
         body = lm_message_node_get_child (root, "body");
+        if (!body)
+                goto out;
 
         from = lm_message_node_get_attribute (msg->node, "from");
+        if (!from)
+                goto out;
 
-        if (body){
-                msg_str = lm_message_node_get_value (body);
+        msg_str = lm_message_node_get_value (body);
 
-                type = lm_message_node_get_attribute (msg->node, "type");
-                if (type && g_ascii_strcasecmp (type, "chat") != 0)
-                {
-                        do_printf (_("[message of type '%s']"), type);
-                        return LM_HANDLER_RESULT_REMOVE_MESSAGE;
-                }
-
-                // Offline messages
-                for (x = root->children; x != NULL; x = x->next)
-                {
-                        if (!g_ascii_strcasecmp (x->name, "x"))
-                        {
-                                const char *xmlns = lm_message_node_get_attribute (x, "xmlns");
-                                if (xmlns && !g_ascii_strcasecmp (xmlns, "jabber:x:delay"))
-                                {
-                                        ts = parse_timestamp ((char *)lm_message_node_get_attribute (x, "stamp"));
-                                }
-                        }
-                }
-
-                set_hook_return (0);
-                {
-                        FtRosterItem *item = ft_roster_lookup (from);
-                        char *nickname;
-
-                        if (!item)
-                                nickname = NULL;
-                        else
-                                nickname = item->nickname;
-
-                        scm_run_hook (ex_message_receive_hook,
-                                      scm_list_n (ts ? scm_from_locale_string (ts) : scm_from_locale_string (""),
-                                                  scm_from_locale_string (from),
-                                                  nickname ? scm_from_locale_string (nickname) : scm_from_locale_string (""),
-                                                  scm_from_locale_string (msg_str),
-                                                  SCM_UNDEFINED));
-                }
-                if (ts) g_free (ts);
-
-                if (get_hook_return () == 1)
-                        return LM_HANDLER_RESULT_REMOVE_MESSAGE;
-
-                PRINTF ("%s: %s", from, msg_str);
+        type = lm_message_node_get_attribute (msg->node, "type");
+        if (type && g_ascii_strcasecmp (type, "chat") != 0) {
+                PRINTF (_("[message of type '%s']"), type);
+                goto out;
         }
 
+        // Offline messages
+        for (x = root->children; x != NULL; x = x->next) {
+                if (!g_ascii_strcasecmp (x->name, "x")) {
+                        const char *xmlns = lm_message_node_get_attribute (x,
+                                                                           "xmlns");
+                        if (xmlns &&
+                            !g_ascii_strcasecmp (xmlns, "jabber:x:delay")) {
+                                ts = parse_timestamp ((char *)lm_message_node_get_attribute (x, "stamp"));
+                        }
+                }
+        }
+
+        set_hook_return (0);
+        {
+                FtRosterItem *item = ft_roster_lookup (from);
+                char *nickname;
+
+                if (!item)
+                        nickname = NULL;
+                else
+                        nickname = item->nickname;
+
+                scm_run_hook (ex_message_receive_hook,
+                              scm_list_n (ts ? scm_from_locale_string (ts) :
+                                          scm_from_locale_string (""),
+                                          scm_from_locale_string (from),
+                                          nickname ?
+                                          scm_from_locale_string (nickname) :
+                                          scm_from_locale_string (""),
+                                          scm_from_locale_string (msg_str),
+                                          SCM_UNDEFINED));
+        }
+
+        if (get_hook_return () == 1)
+                goto out;
+
+        PRINTF ("%s: %s", from, msg_str);
+out:
+        if (ts)
+                g_free (ts);
         return LM_HANDLER_RESULT_REMOVE_MESSAGE;
 }
 
@@ -188,7 +196,6 @@ static LmHandlerResult
 ft_msg_presence_handler (LmMessageHandler *handler, LmConnection *conn,
                          LmMessage *msg, gpointer user_data)
 {
-        //  PRINTF ("[presence recieved]");
         ft_presence_cb (msg);
         /* scm_run_hook (ex_presence_receive_hook, ... ) */
         return LM_HANDLER_RESULT_REMOVE_MESSAGE;

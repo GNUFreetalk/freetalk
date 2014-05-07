@@ -62,7 +62,8 @@ parse_jid_string (char *s, jid_t *jid)
         else
         {
                 jid->domain = g_strdup (domain);
-                jid->resource = g_strdup ("GNU Freetalk");   /* Loudmouth complains if this is NULL */
+                /* Loudmouth complains if this is NULL */
+                jid->resource = g_strdup ("GNU Freetalk");
         }
 
         g_free (str);

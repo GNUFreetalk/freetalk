@@ -122,7 +122,8 @@ subscription_type_to_str (FtSubscriptionState type)
 static int
 roster_item_compare (gconstpointer p, gconstpointer q)
 {
-        return g_ascii_strcasecmp (((FtRosterItem *)p)->jid, ((FtRosterItem *)q)->jid);
+        return g_ascii_strcasecmp (((FtRosterItem *)p)->jid,
+                                   ((FtRosterItem *)q)->jid);
 }
 
 /*
@@ -140,7 +141,8 @@ ft_roster_lookup (const char *jid)
 
         incoming.jid = pieces[0];
         /*  incoming.resource = pieces[1];*/
-        elem = g_slist_find_custom (state.roster, &incoming, roster_item_compare);
+        elem = g_slist_find_custom (state.roster, &incoming,
+                                    roster_item_compare);
 
         g_strfreev (pieces);
         return elem ? (FtRosterItem *)elem->data : NULL;
@@ -154,12 +156,13 @@ roster_result_rcvd (LmMessage *msg)
 
         ft_presence_send_initial ();
 
-        while (item)
-        {
+        while (item) {
                 FtRosterItem *r_item = g_new (FtRosterItem, 1);
-                r_item->jid = g_strdup (lm_message_node_get_attribute (item, "jid"));
+                r_item->jid = g_strdup (lm_message_node_get_attribute (item,
+                                                                       "jid"));
                 r_item->subscription = subscription_state (item);
-                r_item->nickname = g_strdup (lm_message_node_get_attribute (item, "name"));
+                r_item->nickname = g_strdup (lm_message_node_get_attribute (item,
+                                                                            "name"));
                 /* Assume unavailable until presence is recieved */
                 r_item->is_online = FALSE;
                 r_item->status_msg = NULL;
@@ -182,27 +185,25 @@ roster_set_rcvd (LmMessage *msg)
 
         old = ft_roster_lookup (lm_message_node_get_attribute (item, "jid"));
 
-        if (old)
-        {
+        if (old) {
                 char *nickname;
                 char *jid;
                 FtSubscriptionState subscription;
 
                 jid = g_strdup (lm_message_node_get_attribute (item, "jid"));
-                nickname = g_strdup (lm_message_node_get_attribute (item, "name"));
+                nickname = g_strdup (lm_message_node_get_attribute (item,
+                                                                    "name"));
                 subscription = subscription_state (item);
 
                 if (g_strcmp0 (old->nickname ? old->nickname : "",
-                               nickname ? nickname : ""))
-                {
+                               nickname ? nickname : "")) {
                         PRINTF (_("[%s nickname: %s -> %s]"), old->jid,
                                 old->nickname, nickname);
                         g_free (old->nickname);
                         old->nickname = nickname;
                 }
 
-                if (old->subscription != subscription)
-                {
+                if (old->subscription != subscription) {
                         PRINTF (_("[%s subscription: %s -> %s]"),
                                 old->jid,
                                 subscription_type_to_str (old->subscription),
@@ -212,14 +213,12 @@ roster_set_rcvd (LmMessage *msg)
 
                 if (!g_ascii_strcasecmp
                     (lm_message_node_get_attribute (item,
-                                                    "subscription"), "remove"))
-                {
+                                                    "subscription"), "remove")) {
                         PRINTF (_("[%s removed from buddy list]"), jid);
                         state.roster = g_slist_remove (state.roster, old);
                 }
         }
-        else
-        {
+        else {
                 newi = g_new (FtRosterItem, 1);
                 state.roster = g_slist_append (state.roster, newi);
                 newi->is_online = FALSE;

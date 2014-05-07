@@ -46,7 +46,8 @@ do_ssl ()
         ssl = lm_ssl_new (NULL, ft_ssl_response_cb, NULL, NULL);
         lm_ssl_use_starttls(ssl, ! state.need_ssl, state.need_tls);
         lm_connection_set_ssl (state.conn, ssl);
-        lm_connection_set_port (state.conn, do_get_port () ? do_get_port () : LM_CONNECTION_DEFAULT_PORT_SSL);
+        lm_connection_set_port (state.conn, do_get_port () ? do_get_port () :
+                                LM_CONNECTION_DEFAULT_PORT_SSL);
 }
 
 int
@@ -61,8 +62,6 @@ do_connect_common ()
         if (!state.jid_str)
                 return -2;
         parse_jid_string (state.jid_str, &state.jid);
-
-        //  PRINTF ("Server: %s \nJID: %s", state.server, state.jid_str); fflush(stdout);
 
         if (!state.password)
                 state.password =  getpass ("Password: ");
@@ -99,7 +98,9 @@ do_connect_common ()
                         return -3;
                 do_ssl ();
         } else {
-                lm_connection_set_port (state.conn, do_get_port () ? do_get_port () : LM_CONNECTION_DEFAULT_PORT);
+                lm_connection_set_port (state.conn,
+                                        do_get_port () ? do_get_port () :
+                                        LM_CONNECTION_DEFAULT_PORT);
         }
 
         lm_connection_set_jid (state.conn, state.jid_str);
@@ -121,8 +122,9 @@ do_connect (void)
 
         PRINTF (_("Connecting ..."));
 
-        if (!lm_connection_open (state.conn, ft_connection_open_cb, (gpointer)&state, NULL, &state.error)) {
-                perror (state.error->message);
+        if (!lm_connection_open (state.conn, ft_connection_open_cb,
+                                 (gpointer)&state, NULL, &state.error)) {
+                PRINTF (state.error->message);
                 return -4;
         }
 

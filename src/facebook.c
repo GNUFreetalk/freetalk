@@ -72,7 +72,7 @@ graph_request (const char *url)
         CURL *curl;
         CURLcode status;
         char *json_data = NULL;
-        struct json_result json;
+        struct json_result json = {NULL, 0};
 
         curl = curl_easy_init ();
         json_data = g_malloc_n (1, JSON_SIZE);
@@ -114,6 +114,9 @@ get_username (uint32_t id)
 
         snprintf (url, sizeof(url), "http://graph.facebook.com/%d", id);
         text = graph_request (url);
+
+        if (!text)
+                goto out;
 
         root = json_loads (text, 0, &error);
         if (!root) {

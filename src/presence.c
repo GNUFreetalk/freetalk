@@ -28,6 +28,7 @@
 #include "extensions.h"
 #include "roster.h"
 #include "primitives.h"
+#include "commands.h"
 
 /*
   Extract data from a presence message and populate a FtRosterItem
@@ -81,36 +82,38 @@ roster_item_extract (LmMessage *msg)
 static void
 presence_availability_rcvd (const char *from, LmMessage *msg)
 {
-        if (from)
-        {
-                FtRosterItem *newi = roster_item_extract (msg);
-                FtRosterItem *old;
+        FtRosterItem *newi;
+        FtRosterItem *old;
 
-                old = ft_roster_lookup (from);
-                scm_run_hook (ex_presence_receive_hook, roster_item_to_list (newi));
+        if (!from || !msg)
+                return;
 
-                if (old)
-                {
-                        old->is_online = newi->is_online;
+        newi = roster_item_extract (msg);
 
-                        if (newi->nickname) {
-                                if (old->nickname)
-                                        g_free (old->nickname);
-                                old->nickname = newi->nickname;
-                        }
+        old = ft_roster_lookup (from);
+        scm_run_hook (ex_presence_receive_hook,
+                      roster_item_to_list (newi));
 
-                        if (old->show_msg) g_free (old->show_msg);
-                        old->show_msg = newi->show_msg;
+        if (old) {
+                old->is_online = newi->is_online;
 
-                        if (old->status_msg) g_free (old->status_msg);
-                        old->status_msg = newi->status_msg;
-
-                        if (old->resource) g_free (old->resource);
-                        old->resource = newi->resource;
+                if (newi->nickname) {
+                        if (old->nickname)
+                                g_free (old->nickname);
+                        old->nickname = newi->nickname;
                 }
 
-                g_free (newi);
+                if (old->show_msg) g_free (old->show_msg);
+                old->show_msg = newi->show_msg;
+
+                if (old->status_msg) g_free (old->status_msg);
+                old->status_msg = newi->status_msg;
+
+                if (old->resource) g_free (old->resource);
+                old->resource = newi->resource;
         }
+
+        g_free (newi);
 }
 
 static void
@@ -129,21 +132,23 @@ ft_presence_cb (LmMessage *msg)
         const char *type = lm_message_node_get_attribute (msg->node, "type");
         const char *from = lm_message_node_get_attribute (msg->node, "from");
 
-        if (type)
-        {
-                if (!g_ascii_strcasecmp (type, "unavailable"))
-                        presence_availability_rcvd (from, msg);
+        if (!msg || !from)
+                return;
 
-                else if (!g_ascii_strcasecmp (type, "available"))
-                        presence_availability_rcvd (from, msg);
-
-                else if (!g_ascii_strcasecmp (type, "subscribe"))
-                        presence_subscribe_rcvd (from, msg);
-        }
-        else
-        {
+        if (!type) {
                 presence_availability_rcvd (from, msg);
+                return;
         }
+
+        if (!g_ascii_strcasecmp (type, "unavailable"))
+                presence_availability_rcvd (from, msg);
+
+        else if (!g_ascii_strcasecmp (type, "available"))
+                presence_availability_rcvd (from, msg);
+
+        else if (!g_ascii_strcasecmp (type, "subscribe"))
+                presence_subscribe_rcvd (from, msg);
+
 }
 
 /*

@@ -38,7 +38,7 @@
 
 SCM ex_load (SCM scm_file)
 {
-        char *file=scm_to_locale_string (scm_file);
+        char *file = scm_to_locale_string (scm_file);
 
         ft_load (file);
         g_free (file);
@@ -363,15 +363,18 @@ ex_get_status_msg (void)
         return scm_from_locale_string (do_get_status_msg ());
 }
 
-/* For internal use only */
+/* Freetalk internal use only */
 SCM
 roster_item_to_list (FtRosterItem *item)
 {
         return scm_list_n (scm_from_locale_string (item->jid),
                            scm_from_bool (item->is_online),
-                           scm_from_locale_string (item->nickname ? item->nickname : ""),
-                           scm_from_locale_string (item->show_msg ? item->show_msg : ""),
-                           scm_from_locale_string (item->status_msg ? item->status_msg : ""),
+                           scm_from_locale_string (item->nickname ?
+                                                   item->nickname : ""),
+                           scm_from_locale_string (item->show_msg ?
+                                                   item->show_msg : ""),
+                           scm_from_locale_string (item->status_msg ?
+                                                   item->status_msg : ""),
                            SCM_UNDEFINED);
 }
 
@@ -582,13 +585,13 @@ ex_bind_to_ctrl_key (SCM key, SCM command)
 SCM
 ex_run_command(SCM command)
 {
-        interpreter(scm_to_locale_string(command));
+        interpreter (scm_to_locale_string (command));
         return SCM_UNSPECIFIED;
 }
 
 SCM
 ex_rl_redisplay()
 {
-	rl_redisplay();
-	return SCM_UNSPECIFIED;
+        rl_redisplay();
+        return SCM_UNSPECIFIED;
 }
