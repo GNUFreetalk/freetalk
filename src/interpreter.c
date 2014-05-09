@@ -129,6 +129,7 @@ auto_complete (const char *text, int _state)
         static char need_dict_completion = 0;
         static char need_file_completion = 0;
         static char need_separator = 0;
+        static char need_command_slash = 0;
 
         static SCM ft_commands;
         static unsigned long cmd_len, cmd_idx;
@@ -138,10 +139,8 @@ auto_complete (const char *text, int _state)
         static GSList *word;
 
         const char *command_completion_regex [] = {
-                "^ *$",
                 "^ */[^ ]*$",
                 "^ */help +[^ ]*$",
-                "^ *help +[^ ]*$",
                 NULL
         };
 
@@ -177,6 +176,7 @@ auto_complete (const char *text, int _state)
                 need_dict_completion = 0;
                 need_file_completion = 0;
                 need_separator = 0;
+                need_command_slash = 0;
 
                 /* for making the autocompletion context sensitive*/
                 save = rl_line_buffer [rl_point];
@@ -189,6 +189,8 @@ auto_complete (const char *text, int _state)
                                 need_command_completion = 1;
                         regfree (&preg);
                         if (need_command_completion) {
+				if (i - 1 == 0)
+				        need_command_slash = 1;
                                 ft_commands = scm_variable_ref (scm_c_lookup ("dynamic-command-registry"));
                                 cmd_len = scm_to_size_t (scm_length (ft_commands));
                                 cmd_idx = 0;
@@ -266,10 +268,16 @@ auto_complete (const char *text, int _state)
                                                         (cmd_idx++)),
                                                        scm_from_ulong (0)));
 
-                        if (cmd && !strncasecmp (cmd, text, len))
-                                return cmd;
-                        else
-                                g_free (cmd);
+                        if (cmd) {
+                            char * slash_cmd = g_strdup_printf("%s%s",
+                                    need_command_slash ? "/" : "", cmd);
+                            g_free(cmd);
+
+                            if (slash_cmd && !strncasecmp (slash_cmd, text, len))
+                                return slash_cmd;
+                            else
+                                g_free (slash_cmd);
+                        }
                 }
         }
 

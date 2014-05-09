@@ -95,4 +95,4 @@
                     )))
       (seed)))
 
-(add-command! safe-repl "/repl" "/repl" "drop into a repl")
+(add-command! safe-repl "repl" "/repl" "drop into a repl")

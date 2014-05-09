@@ -25,4 +25,4 @@
         ; (fh-set-current-target-buddy! "dict" "send")
         (system (string-append "dict -P more \"" args "\"")))))
 
-(add-command! /dict "/dict" "/dict [OPTIONS] [WORD]" "lookup in dictionary")
+(add-command! /dict "dict" "/dict [OPTIONS] [WORD]" "lookup in dictionary")

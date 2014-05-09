@@ -39,6 +39,6 @@
         (send-message-pipe (string-trim-right buddy #\:) cmd)
         (ft-display (_ "usage: /pipe BUDDY COMMAND [OPTIONS]")))))
 
-(add-command! /pipe "/pipe"
+(add-command! /pipe "pipe"
               "/pipe BUDDY COMMAND [OPTIONS]"
               "send the output of COMMAND to BUDDY")

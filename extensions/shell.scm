@@ -19,7 +19,7 @@
 (define (/quit args)
   "exit freetalk"
   (ft-quit 0))
-(add-command! /quit "/quit" "quit" "quit this messenger")
+(add-command! /quit "quit" "quit" "quit this messenger")
 
 (define (/shell args)
   "dynamic command interface to shell facility"
@@ -30,14 +30,14 @@
         (system "sh"))
       (system args)))
 
-(add-command! /shell "/shell" "/shell [COMMAND] [ARGS]" "shell mode")
+(add-command! /shell "shell" "/shell [COMMAND] [ARGS]" "shell mode")
 
 (define (/restart args)
   "dynamic command interface to /restart facility"
   (ft-disconnect)
   (apply execlp "freetalk" "freetalk" '()))
 
-(add-command! /restart "/restart" "/restart" "restart freetalk")
+(add-command! /restart "restart" "/restart" "restart freetalk")
 
 (define (/date args)
   "dynamic command interface to /date facility"
@@ -45,7 +45,7 @@
       (system "date")
       (system (string-append "date " args))))
 
-(add-command! /date "/date" "/date [OPTIONS]" "print current date with all date OPTIONS")
+(add-command! /date "date" "/date [OPTIONS]" "print current date with all date OPTIONS")
 
 (add-hook! ft-quit-hook (lambda (dummy) (display
                                          (string-append "         ...   ...                            \n"
