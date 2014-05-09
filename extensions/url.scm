@@ -44,4 +44,4 @@
                              (string-trim-right (string-trim-right
                                                  args #\space) #\:)))))
 
-(add-command! /urlview "/urlview" "/urlview [BUDDY]" "handle URLs")
+(add-command! /urlview "urlview" "/urlview [BUDDY]" "handle URLs")

@@ -25,7 +25,7 @@
         (ft-subscription-allow (string-trim-right (sans-surrounding-whitespace
                                                    args) #\:)))))
 
-(add-command! /add "/add" "/add [USER@SERVER]" "add new buddy to list")
+(add-command! /add "add" "/add [USER@SERVER]" "add new buddy to list")
 
 (define (/remove args)
   (if (= (string-length args) 0)
@@ -36,7 +36,7 @@
         (ft-subscription-deny (string-trim-right (sans-surrounding-whitespace
                                                   args) #\:)))))
 
-(add-command! /remove "/remove" "/remove [USER@SERVER]"
+(add-command! /remove "remove" "/remove [USER@SERVER]"
               "remove buddy from list")
 
 (define (pretty-print-show-msg msg)
@@ -72,14 +72,14 @@
                                                                                         " ")))))))
             (ft-get-roster-list)))
 
-(add-command! /who "/who" "/who" "display buddy list")
+(add-command! /who "who" "/who" "display buddy list")
 
 (define (/whoami args)
   (ft-display (string-append (_ "Jabber ID: ") (ft-get-jid) "\n"
                              (_ "Jabber Server: ") (ft-get-server) "\n"
                              (_ "Status: ") (ft-get-status-msg))))
 
-(add-command! /whoami "/whoami" "/whoami" "display who is this")
+(add-command! /whoami "whoami" "/whoami" "display who is this")
 
 (define (/allow args)
   (if (= (string-length args) 0)
@@ -87,21 +87,21 @@
       (ft-subscription-allow (string-trim-right (sans-surrounding-whitespace
                                                  args) #\:))))
 
-(add-command! /allow "/allow" "/allow [USER@SERVER]" "Allow buddy to see your status")
+(add-command! /allow "allow" "/allow [USER@SERVER]" "Allow buddy to see your status")
 
 (define (/deny args)
   (if (= (string-length args) 0)
       (ft-display (_ "Incomplete syntax"))
       (ft-subscription-deny (string-trim-right (sans-surrounding-whitespace
                                                 args) #\:))))
-(add-command! /deny "/deny" "/deny [USER@SERVER]" "Deny buddy permission to see your status")
+(add-command! /deny "deny" "/deny [USER@SERVER]" "Deny buddy permission to see your status")
 
 (define (/alias args)
   (if (= (string-length args) 0)
       (ft-display (_ "Incomplete syntax"))
       (apply ft-roster-set-nickname (map sans-surrounding-whitespace
                                          (string-separate args #\space)))))
-(add-command! /alias "/alias" "/alias buddy nickname" "Set the nickname of a buddy")
+(add-command! /alias "alias" "/alias buddy nickname" "Set the nickname of a buddy")
 
 (define (subscribe-recv jid)
   (ft-display (string-append (_ "[Buddy request recieved from ") jid (_ " use /allow or /deny]")))

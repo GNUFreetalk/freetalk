@@ -42,7 +42,7 @@
      (if cmd-entry
         (begin
           ((car cmd-entry) args)
-          (ft-hook-return)))) (assoc-ref dynamic-command-registry command)))
+          (ft-hook-return)))) (assoc-ref dynamic-command-registry (substring/read-only command 1))))
 (add-hook! ft-command-hook dynamic-command-proc)
 
 (define (help args)
@@ -72,5 +72,4 @@
                         (lambda (a b)
                           (string<? (car a) (car b))))))))
 
-(add-command! help "help" "help [COMMAND]" "show help")
-(add-command! help "/help" "/help [COMMAND]" "show help")
+(add-command! help "help" "/help [COMMAND]" "show help")

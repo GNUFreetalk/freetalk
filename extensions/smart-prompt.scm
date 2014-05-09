@@ -110,7 +110,7 @@
                                     'pre "" 'post))))))
     (update-prompt)))
 
-(add-command! /next "/next" "/next" "display next message")
+(add-command! /next "next" "/next" "display next message")
 
 (define (/quiet-mode args)
   " quiet chat mode "
@@ -118,7 +118,7 @@
   (ft-display (_ " Quiet chat mode selected "))
   (update-prompt))
 
-(add-command! /quiet-mode "/quiet-mode" "quiet-mode" "Select quiet chat mode")
+(add-command! /quiet-mode "quiet-mode" "/quiet-mode" "Select quiet chat mode")
 
 (define (/normal-mode args)
   " normal chat mode "
@@ -126,7 +126,7 @@
   (ft-display (_ " Normal chat mode selected "))
   (update-prompt))
 
-(add-command! /normal-mode "/normal-mode" "normal-mode" "Select normal chat mode")
+(add-command! /normal-mode "normal-mode" "/normal-mode" "Select normal chat mode")
 
 
 (add-hook! ft-message-send-hook

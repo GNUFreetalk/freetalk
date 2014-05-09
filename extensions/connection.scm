@@ -126,7 +126,7 @@
 
 (define (/connect args)
   (connect-handle (ft-connect)))
-(add-command! /connect "/connect" "/connect"
+(add-command! /connect "connect" "/connect"
               "connect to jabber server - non blocking")
 
 (define (/login args)
@@ -150,19 +150,19 @@
           (read-proxypasswd)
           ""))
     (connect-handle (ft-connect))))
-(add-command! /login "/login" "/login"
+(add-command! /login "login" "/login"
               "Interactive login to jabber server - blocking")
 
 (define (/disconnect args)
   (ft-disconnect))
-(add-command! /disconnect "/disconnect" "/disconnect"
+(add-command! /disconnect "disconnect" "/disconnect"
               "disconnect from jabber server")
-(add-command! /disconnect "/logout" "/logout"
+(add-command! /disconnect "logout" "/logout"
               "logout from jabber server (same as disconnect)")
 
 (define (/change-password args)
   (ft-change-password (sans-surrounding-whitespace args)))
-(add-command! /change-password "/change-password" "/change-password"
+(add-command! /change-password "change-password" "/change-password"
               "change password for current JID")
 
 (define (login-cb success?)

@@ -23,26 +23,26 @@
 
 (define (/prompt args)
   (usual-crap ft-get-prompt ft-set-prompt! "Current prompt: " args))
-(add-command! /prompt "/prompt" "/prompt [NEWPROMPT]" "set command line prompt")
+(add-command! /prompt "prompt" "/prompt [NEWPROMPT]" "set command line prompt")
 
 (define (/status args)
   (usual-crap ft-get-status-msg ft-set-status-msg! "Current status: " args))
-(add-command! /status "/status"
+(add-command! /status "status"
               "/status [online|away|chat|xa|dnd|invisible] [MESSAGE]"
               "set status message")
 
 (define (/server args)
   (usual-crap ft-get-server ft-set-server! "Current server: " args))
-(add-command! /server "/server" "/server [HOST|IP]"
+(add-command! /server "server" "/server [HOST|IP]"
               "set server for next /connect")
 
 (define (/jid args)
   (usual-crap ft-get-jid ft-set-jid! "Current JID: " args))
-(add-command! /jid "/jid" "/jid [USER@SERVER]" "set jabber id for next /connect")
+(add-command! /jid "jid" "/jid [USER@SERVER]" "set jabber id for next /connect")
 
 (define (/password args)
   (ft-set-password! (getpass "Password: ")))
-(add-command! /password "/password" "/password" "set password for next /connect")
+(add-command! /password "password" "/password" "set password for next /connect")
 
 (define (/port args)
   (usual-crap
@@ -50,13 +50,13 @@
    (lambda (str_port) (ft-set-port! (string->number str_port)))
    "Current Port (0 = default): "
    args))
-(add-command! /port "/port" "/port [PORT]" "set server port for next /connect")
+(add-command! /port "port" "/port [PORT]" "set server port for next /connect")
 
 (define (/proxyserver args)
   (usual-crap ft-get-proxyserver ft-set-proxyserver!
               "Current ProxyServer: "
               args))
-(add-command! /proxyserver "/proxyserver"
+(add-command! /proxyserver "proxyserver"
               "/proxyserver [HOST|IP]" "set proxy server for next /connect")
 
 (define (/proxyport args)
@@ -65,24 +65,24 @@
    (lambda (str_proxyport) (ft-set-proxyport! (string->number str_proxyport)))
    "Current Port (8080 = default): "
    args))
-(add-command! /proxyport "/proxyport" "/proxyport [PORT]"
+(add-command! /proxyport "proxyport" "/proxyport [PORT]"
               "set proxyserver port for next /connect")
 
 (define (/proxyuname args)
   (usual-crap ft-get-proxyuname ft-set-proxyuname! "Current ProxyUname: " args))
-(add-command! /proxyuname "/proxyuname" "/proxyuname [PROXYUSERNAME]"
+(add-command! /proxyuname "proxyuname" "/proxyuname [PROXYUSERNAME]"
               "set proxy username for next /connect")
 
 (define (/proxypasswd args)
   (ft-set-proxypasswd! (getpass "ProxyPassword: ")))
-(add-command! /proxypasswd "/proxypasswd" "/proxypasswd"
+(add-command! /proxypasswd "proxypasswd" "/proxypasswd"
               "set proxy password for next /connect")
 
 (add-command! (lambda (str)
                 (if (> (string-length str) 0)
                     (ft-load (sans-surrounding-whitespace str))
                     (ft-display (_ "usage: /load [FILE]"))))
-              "/load" "/load [FILE]" "load an extension file")
+              "load" "/load [FILE]" "load an extension file")
 
-(add-command! (lambda (args) (ft-reset-fs-state!)) "/setup"
+(add-command! (lambda (args) (ft-reset-fs-state!)) "setup"
               "/setup" "Write fresh ~/.freetalk")

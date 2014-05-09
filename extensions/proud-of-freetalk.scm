@@ -68,4 +68,4 @@
       (freetalk? (sans-surrounding-whitespace args))
       (display (_ "proud-of-freetalk.scm: wrong number of arguments to /freetalk\n"))))
 
-(add-command! /freetalk "/freetalk" "/freetalk BUDDY" "check whether a BUDDY is using freetalk")
+(add-command! /freetalk "freetalk" "/freetalk BUDDY" "check whether a BUDDY is using freetalk")

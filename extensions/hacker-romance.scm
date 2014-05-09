@@ -44,7 +44,7 @@
               (burst-of-romance (string-trim-right buddy #\:) count message)))
         (ft-display (_ "usage: /burst-of-romance BUDDY COUNT MESSAGE")))))
 
-(add-command! /burst-of-romance "/burst-of-romance"
+(add-command! /burst-of-romance "burst-of-romance"
               "/burst-of-romance BUDDY COUNT MESSAGE"
               "send COUNT number of MESSAGEs to BUDDY as though you typed by hand")
 
@@ -78,7 +78,7 @@
                                                               max-chars))
         (ft-display (_ "usage: /burst BUDDY MESSAGE")))))
 
-(add-command! /burst "/burst"
+(add-command! /burst "burst"
               "/burst BUDDY MESSAGE"
               "Send IRC greeting style MESSAGE")
 
@@ -92,6 +92,6 @@
                               min-chars max-chars))
       (ft-display (_ "usage: /greet BUDDY"))))
 
-(add-command! /greet "/greet"
+(add-command! /greet "greet"
               "/greet BUDDY"
               "greet like in IRC")

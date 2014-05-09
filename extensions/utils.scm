@@ -27,12 +27,12 @@
                           (_ "This is free software; see the source for copying conditions.\n")
                           (_ "There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"))))
 
-(add-command! /version "/version" "/version" "display freetalk version information")
+(add-command! /version "version" "/version" "display freetalk version information")
 
 (define (/run-cmd args)
   "run commands"
   (ft-run-command args))
-(add-command! /run-cmd "/run-cmd" "/run-cmd" "run command provided in args")
+(add-command! /run-cmd "run-cmd" "/run-cmd" "run command provided in args")
 
 ;; range with proper tail recursion --ab
 (define (range start end)

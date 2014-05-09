@@ -126,7 +126,7 @@
                              (string-trim-right (string-trim-right
                                                  args #\space) #\:)))))
 
-(add-command! /history "/history" "/history [BUDDY]"
+(add-command! /history "history" "/history [BUDDY]"
               "Display history page by page")
 
 (define (/history-enable args)
@@ -134,7 +134,7 @@
   (set! enable-history-flag "yes")
   (ft-display (_ " BUDDY history enabled ")))
 
-(add-command! /history-enable "/history-enable" "history-enable"
+(add-command! /history-enable "history-enable" "/history-enable"
               "Enables buddy logging")
 
 (define (/history-disable args)
@@ -142,5 +142,5 @@
   (set! enable-history-flag "no")
   (ft-display (_ " BUDDY history disabled ")))
 
-(add-command! /history-disable "/history-disable" "history-disable"
+(add-command! /history-disable "history-disable" "/history-disable"
               "Disables buddy logging")

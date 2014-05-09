@@ -133,7 +133,7 @@
   (set! enable-colors-flag "yes")
   (ft-display (_ " BUDDY coloring enabled ")))
 
-(add-command! /color-enable "/color-enable" "color-enable"
+(add-command! /color-enable "color-enable" "/color-enable"
               "Enables buddy coloring")
 
 (define (/color-disable args)
@@ -141,5 +141,5 @@
   (set! enable-colors-flag "no")
   (ft-display (_ " BUDDY coloring disabled ")))
 
-(add-command! /color-disable "/color-disable" "color-disable"
+(add-command! /color-disable "color-disable" "/color-disable"
               "Disables buddy coloring")
