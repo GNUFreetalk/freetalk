@@ -273,12 +273,6 @@ ft_roster_lookup (const char *jid)
 }
 
 static int
-is_facebook (void)
-{
-        return !strcmp (state.server, "chat.facebook.com");
-}
-
-static int
 get_username_id_from_jid (const gchar *jid, char **username, int64_t *id)
 {
         char    *ptr           = NULL;
