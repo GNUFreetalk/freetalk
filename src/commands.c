@@ -354,7 +354,8 @@ do_send_message_no_hook (char *jid, char *msg_str)
                 return -1;
 
         if (is_facebook ()) {
-                snprintf (jid_buf, 256, "%"PRId64"@chat.facebook.com",
+                snprintf (jid_buf, sizeof(jid_buf),
+                          "%"PRId64"@chat.facebook.com",
                           -(state.current_buddy->id));
                 real_jid = g_strdup (jid_buf);
                 if (!real_jid)

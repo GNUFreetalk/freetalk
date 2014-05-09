@@ -89,16 +89,16 @@ graph_request (const char *url)
         curl_global_init (CURL_GLOBAL_ALL);
 
         curl = curl_easy_init ();
+        curlm = curl_multi_init ();
+        if (!curlm || !curl)
+                goto out;
+
         json_data = g_malloc_n (1, JSON_SIZE);
-        if(!curl || !json_data)
+        if(!json_data)
                 goto out;
 
         json.data = json_data;
         json.pos = 0;
-
-        curlm = curl_multi_init ();
-        if (!curlm)
-                goto out;
 
         curl_multi_setopt (curlm, CURLMOPT_PIPELINING, 1);
         curl_easy_setopt (curl, CURLOPT_URL, url);
@@ -297,9 +297,11 @@ get_username_id_from_jid (const gchar *jid, char **username, int64_t *id)
         char *real_jid = get_username (llabs (*id));
 
         if (real_jid)
-                snprintf (jid_buf, 1024, "%s@chat.facebook.com", real_jid);
+                snprintf (jid_buf, sizeof(jid_buf), "%s@chat.facebook.com",
+                          real_jid);
         else
-                snprintf (jid_buf, 1024, "%"PRId64"@chat.facebook.com", *id);
+                snprintf (jid_buf, sizeof(jid_buf),
+                          "%"PRId64"@chat.facebook.com", *id);
 
         *username = g_strdup (jid_buf);
 

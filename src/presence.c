@@ -129,10 +129,13 @@ presence_subscribe_rcvd (const char *from, LmMessage *msg)
 void
 ft_presence_cb (LmMessage *msg)
 {
+        if (!msg)
+                return;
+
         const char *type = lm_message_node_get_attribute (msg->node, "type");
         const char *from = lm_message_node_get_attribute (msg->node, "from");
 
-        if (!msg || !from)
+        if (!from)
                 return;
 
         if (!type) {
