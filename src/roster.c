@@ -330,9 +330,14 @@ roster_result_rcvd (LmMessage *msg)
                         return;
                 }
                 if (is_facebook ()) {
-                        get_username_id_from_jid (lm_message_node_get_attribute
-                                                  (item, "jid"), &username,
-                                                  &id);
+                        if (get_username_id_from_jid
+                            (lm_message_node_get_attribute
+                             (item, "jid"), &username,
+                             &id)) {
+                                PRINTF (_("error\n"));
+                                return;
+                        }
+
                         if (id)
                                 r_item->id = id;
                         if (username)
