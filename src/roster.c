@@ -80,7 +80,8 @@ static char *
 graph_request (const char *url)
 {
         CURL *curl;
-        CURLcode status;
+        CURLM *curlm;
+        CURLMcode status;
         char *json_data = NULL;
         struct json_result json = {NULL, 0};
 
@@ -95,13 +96,23 @@ graph_request (const char *url)
         json.data = json_data;
         json.pos = 0;
 
+        curlm = curl_multi_init ();
+        if (!curlm)
+                goto out;
+
+        curl_multi_setopt (curlm, CURLMOPT_PIPELINING, 1);
         curl_easy_setopt (curl, CURLOPT_URL, url);
         curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, json_response);
         curl_easy_setopt (curl, CURLOPT_WRITEDATA, &json);
+        curl_multi_add_handle (curlm, curl);
 
-        status = curl_easy_perform (curl);
+        int still_running = 0;
+        do {
+                status = curl_multi_perform (curlm, &still_running);
+        } while (still_running);
+
         if (status != 0) {
-                PRINTF ("%s", curl_easy_strerror (status));
+                PRINTF ("%s", curl_multi_strerror (status));
                 goto out;
         }
 
@@ -109,7 +120,9 @@ graph_request (const char *url)
         json.data [json.pos] = '\0';
 
 out:
+        curl_multi_remove_handle (curlm, curl);
         curl_easy_cleanup (curl);
+        curl_multi_cleanup (curlm);
         curl_global_cleanup ();
         return json.data;
 
@@ -167,7 +180,8 @@ ft_roster_retrieve (LmConnection *conn)
         msg = lm_message_new_with_sub_type (NULL, LM_MESSAGE_TYPE_IQ,
                                             LM_MESSAGE_SUB_TYPE_GET);
         query = lm_message_node_add_child (msg->node, "query", NULL);
-        lm_message_node_set_attributes (query, "xmlns", "jabber:iq:roster", NULL);
+        lm_message_node_set_attributes (query, "xmlns", "jabber:iq:roster",
+                                        NULL);
         lm_connection_send (conn, msg, NULL);
 
         lm_message_node_unref (query);
@@ -258,19 +272,45 @@ ft_roster_lookup (const char *jid)
         return elem ? (FtRosterItem *)elem->data : NULL;
 }
 
-static int64_t
-jid_to_integer (const gchar *jid)
+static int
+is_facebook (void)
 {
-        char *ptr = NULL;
-        char *token = NULL;
+        return !strcmp (state.server, "chat.facebook.com");
+}
+
+static int
+get_username_id_from_jid (const gchar *jid, char **username, int64_t *id)
+{
+        char    *ptr           = NULL;
+        char    *token         = NULL;
+        int     ret            = -1;
+        char    jid_buf[256]   = {0,};
         const char delimiter[] = "@";
 
         ptr = g_strdup (jid);
         if (!ptr)
-                return 0;
+                return ret;
 
         token = strsep (&ptr, delimiter);
-        return strtoll (token, (char **) NULL, 10);
+        if (token == NULL)
+                return ret;
+
+        *id = strtoll (token, (char **) NULL, 10);
+
+        if (*id == 0)
+                return ret;
+
+        char *real_jid = get_username (llabs (*id));
+
+        if (real_jid)
+                snprintf (jid_buf, 1024, "%s@chat.facebook.com", real_jid);
+        else
+                snprintf (jid_buf, 1024, "%"PRId64"@chat.facebook.com", *id);
+
+        *username = g_strdup (jid_buf);
+
+        ret = 0;
+        return ret;
 }
 
 static void
@@ -278,8 +318,12 @@ roster_result_rcvd (LmMessage *msg)
 {
         LmMessageNode *query = lm_message_node_get_child (msg->node, "query");
         LmMessageNode *item = lm_message_node_get_child (query, "item");
+        char *username = NULL;
+        int64_t id     = 0;
 
         ft_presence_send_initial ();
+
+        PRINTF ("Translating facebook id's to usernames..");
 
         while (item) {
                 FtRosterItem *r_item = NULL;
@@ -289,33 +333,21 @@ roster_result_rcvd (LmMessage *msg)
                         PRINTF (_("error\n"));
                         return;
                 }
-
-                r_item->id = jid_to_integer (lm_message_node_get_attribute
-                                             (item, "jid"));
-                if (r_item->id < 0) {
-                        char *real_jid = get_username (llabs (r_item->id));
-                        char jid_buf[256] = {0,};
-
-                        if (real_jid)
-                                snprintf (jid_buf, 1024,
-                                          "%s@chat.facebook.com",
-                                          real_jid);
-                        else
-                                snprintf (jid_buf, 1024,
-                                          "%"PRId64"chat.facebook.com",
-                                          (-r_item->id));
-
-                        r_item->jid = g_strdup (jid_buf);
-
-                } else {
+                if (is_facebook ()) {
+                        get_username_id_from_jid (lm_message_node_get_attribute
+                                                  (item, "jid"), &username,
+                                                  &id);
+                        if (id)
+                                r_item->id = id;
+                        if (username)
+                                r_item->jid = username;
+                } else
                         r_item->jid = g_strdup (lm_message_node_get_attribute
                                                 (item, "jid"));
-                }
 
                 r_item->subscription = subscription_state (item);
                 r_item->nickname = g_strdup (lm_message_node_get_attribute
-                                             (item,
-                                              "name"));
+                                             (item, "name"));
                 /* Assume unavailable until presence is recieved */
                 r_item->is_online = FALSE;
                 r_item->status_msg = NULL;
@@ -328,7 +360,7 @@ roster_result_rcvd (LmMessage *msg)
 }
 
 /*
-  TODO: support facebook id, facebook doesn't sent back "set" request
+  TODO: support facebook id->username, facebook doesn't send back "set" request
 */
 
 static void
