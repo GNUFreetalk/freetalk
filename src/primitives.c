@@ -206,6 +206,12 @@ ex_connect (void)
 }
 
 SCM
+ex_connect_blocking (void)
+{
+        return scm_from_int (do_connect_blocking ());
+}
+
+SCM
 ex_disconnect (void)
 {
         do_disconnect ();
@@ -363,6 +369,7 @@ ex_get_status_msg (void)
         return scm_from_locale_string (do_get_status_msg ());
 }
 
+
 /* Freetalk internal use only */
 SCM
 roster_item_to_list (FtRosterItem *item)
@@ -383,15 +390,15 @@ roster_iterator (gpointer r_item, gpointer retval)
 {
         FtRosterItem *item = (FtRosterItem *)r_item;
         SCM *ret = (SCM *)retval;
-
         *ret = scm_cons (roster_item_to_list (item), *ret);
 }
+/* ___END___*/
 
 SCM
 ex_get_roster_list (void)
 {
         SCM ret = SCM_EOL;
-        ft_roster_foreach (roster_iterator, (gpointer) &ret);
+        ft_roster_foreach (roster_iterator, (gpointer )&ret);
         return ret;
 }
 
@@ -487,11 +494,6 @@ ex_version (void)
         return scm_from_locale_string (PACKAGE_VERSION);
 }
 
-SCM
-ex_login_blocking (void)
-{
-        return scm_from_int (do_connect_blocking ());
-}
 
 SCM
 ex_cli_on (void)

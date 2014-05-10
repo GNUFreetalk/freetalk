@@ -71,4 +71,7 @@ FtRosterItem *ft_roster_lookup (const char *jid);
 void ft_roster_retrieve (LmConnection *conn);
 void ft_roster_set_nickname (char *jid, char *nickname);
 
+int get_username_id_from_jid (const gchar *jid, char **username,
+                              int64_t *id);
+
 #endif /* __ROSTER_H__ */

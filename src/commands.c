@@ -62,13 +62,14 @@ do_connect_common ()
 
         if (!state.jid_str)
                 return -2;
-        parse_jid_string (state.jid_str, &state.jid);
 
+        parse_jid_string (state.jid_str, &state.jid);
         if (!state.password)
                 state.password =  getpass ("Password: ");
 
         state.conn = lm_connection_new (state.server);
         lm_connection_ref (state.conn);
+
         do_set_conn_status (FT_DEAD);
 
         /* Proxy Support */
@@ -137,14 +138,13 @@ do_session_init (gboolean success)
 {
         LmMessage *msg;
 
-        scm_run_hook (ex_login_hook, scm_list_n (scm_from_bool (success),
-                                                 SCM_UNDEFINED));
-        if (success) {
-                do_set_conn_status (FT_AUTH);
-        } else {
-                do_set_conn_status (FT_CONN);
+        if (!success) {
+                /* Disconnecting if not authenticated */
+                do_set_conn_status (FT_DEAD);
                 return;
         }
+
+        do_set_conn_status (FT_AUTH);
 
         ft_roster_retrieve (state.conn);
 
@@ -152,6 +152,10 @@ do_session_init (gboolean success)
                                             LM_MESSAGE_SUB_TYPE_AVAILABLE);
         lm_connection_send (state.conn, msg, NULL);
         lm_message_unref (msg);
+
+        scm_run_hook (ex_login_hook, scm_list_n (scm_from_bool (success),
+                                                 SCM_UNDEFINED));
+
 }
 
 int
@@ -171,9 +175,8 @@ do_connect_blocking (void)
                 return -4;
         }
 
-        PRINTF (_("Connected."));
-
         do_set_conn_status (FT_CONN);
+        PRINTF (_("Connected."));
 
         PRINTF (_("Authenticating ..."));
         ret = lm_connection_authenticate_and_block (state.conn,
@@ -181,8 +184,6 @@ do_connect_blocking (void)
                                                     state.password,
                                                     state.jid.resource,
                                                     &state.error);
-
-
         do_session_init ((ret!=0));
         return (ret==0);
 }
@@ -413,22 +414,16 @@ do_get_current_buddy (void)
         return state.current_buddy ? state.current_buddy->jid : "";
 }
 
+/*
 static void
 roster_iterator (gpointer r, gpointer data)
 {
         FtRosterItem *r_item = (FtRosterItem *)r;
         GSList **l = (GSList **)data;
         *l = g_slist_append (*l, (gpointer) r_item->jid);
-        //  printf ("* %s\n", r_item->nickname ? r_item->nickname : r_item->jid);
 }
+*/
 
-GSList *
-do_get_buddy_list (void)
-{
-        GSList *list = NULL;
-        ft_roster_foreach (roster_iterator, (gpointer )&list);
-        return list;
-}
 
 int
 do_set_daemon (void)

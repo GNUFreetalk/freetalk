@@ -84,15 +84,24 @@ presence_availability_rcvd (const char *from, LmMessage *msg)
 {
         FtRosterItem *newi;
         FtRosterItem *old;
+        char *username = NULL;
+        int64_t id = 0;
 
         if (!from || !msg)
                 return;
 
         newi = roster_item_extract (msg);
 
-        old = ft_roster_lookup (from);
+        if (is_facebook ()) {
+                get_username_id_from_jid (newi->jid, &username, &id);
+                newi->jid = username;
+                newi->id = id;
+        }
+
         scm_run_hook (ex_presence_receive_hook,
                       roster_item_to_list (newi));
+
+        old = ft_roster_lookup (newi->jid);
 
         if (old) {
                 old->is_online = newi->is_online;
@@ -103,13 +112,16 @@ presence_availability_rcvd (const char *from, LmMessage *msg)
                         old->nickname = newi->nickname;
                 }
 
-                if (old->show_msg) g_free (old->show_msg);
+                if (old->show_msg)
+                        g_free (old->show_msg);
                 old->show_msg = newi->show_msg;
 
-                if (old->status_msg) g_free (old->status_msg);
+                if (old->status_msg)
+                        g_free (old->status_msg);
                 old->status_msg = newi->status_msg;
 
-                if (old->resource) g_free (old->resource);
+                if (old->resource)
+                        g_free (old->resource);
                 old->resource = newi->resource;
         }
 
@@ -188,7 +200,8 @@ ft_presence_send_initial (void)
 
 void ft_presence_subscription_allow (char *jid)
 {
-        LmMessage *msg = lm_message_new_with_sub_type (jid, LM_MESSAGE_TYPE_PRESENCE,
+        LmMessage *msg = lm_message_new_with_sub_type (jid,
+                                                       LM_MESSAGE_TYPE_PRESENCE,
                                                        LM_MESSAGE_SUB_TYPE_SUBSCRIBED);
         lm_connection_send (state.conn, msg, NULL);
         lm_message_unref (msg);
@@ -200,7 +213,8 @@ void ft_presence_subscription_allow (char *jid)
 
 void ft_presence_subscription_deny (char *jid)
 {
-        LmMessage *msg = lm_message_new_with_sub_type (jid, LM_MESSAGE_TYPE_PRESENCE,
+        LmMessage *msg = lm_message_new_with_sub_type (jid,
+                                                       LM_MESSAGE_TYPE_PRESENCE,
                                                        LM_MESSAGE_SUB_TYPE_UNSUBSCRIBED);
         lm_connection_send (state.conn, msg, NULL);
         lm_message_unref (msg);

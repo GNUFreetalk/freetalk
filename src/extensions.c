@@ -159,6 +159,8 @@ register_primitives ()
         scm_c_define_gsubr ("ft-set-tlsconn!", 1, 0, 0, ex_set_tlsconn);
 
         scm_c_define_gsubr ("ft-connect", 0, 0, 0, ex_connect);
+        scm_c_define_gsubr ("ft-connect-blocking", 0, 0, 0,
+                            ex_connect_blocking);
         scm_c_define_gsubr ("ft-disconnect", 0, 0, 0, ex_disconnect);
 
         scm_c_define_gsubr ("ft-send-message", 2, 0, 0, ex_send_message);
@@ -222,8 +224,6 @@ register_primitives ()
         scm_c_define_gsubr ("ft-dict-remove!", 1, 0, 0, ex_dict_remove);
 
         scm_c_define_gsubr ("ft-version", 0, 0, 0, ex_version);
-
-        scm_c_define_gsubr ("ft-login-blocking", 0, 0, 0, ex_login_blocking);
 
         scm_c_define_gsubr ("ft-cli-on", 0, 0, 0, ex_cli_on);
 

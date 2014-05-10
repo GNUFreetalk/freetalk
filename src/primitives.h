@@ -58,6 +58,7 @@ SCM ex_set_tlsconn (SCM scm_ssl);
 
 
 SCM ex_connect (void);
+SCM ex_connect_blocking (void);
 SCM ex_disconnect (void);
 
 SCM ex_send_message (SCM scm_to, SCM scm_msg);
@@ -104,8 +105,6 @@ SCM ex_dict_insert (SCM scm_word);
 SCM ex_dict_remove (SCM scm_word);
 
 SCM ex_version (void);
-
-SCM ex_login_blocking (void);
 
 SCM ex_cli_on (void);
 

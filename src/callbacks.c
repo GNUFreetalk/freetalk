@@ -217,16 +217,15 @@ ft_msg_iq_handler (LmMessageHandler *handler, LmConnection *conn,
         if (query) {
                 const char *ns = lm_message_node_get_attribute (query, "xmlns");
 
-                if (ns && !g_ascii_strcasecmp (ns, "jabber:iq:roster")) {
+                if (ns && !g_ascii_strcasecmp (ns, "jabber:iq:roster"))
                         ft_roster_cb (msg);
-                } else if (ns && !g_ascii_strcasecmp (ns, "jabber:iq:version")) {
-                        if( type == LM_MESSAGE_SUB_TYPE_GET ) {
+                else if (ns && !g_ascii_strcasecmp (ns,
+                                                    "jabber:iq:version")) {
+                        if (type == LM_MESSAGE_SUB_TYPE_GET)
                                 ft_msg_iq_version_cb (msg);
-                        }
                 } else if (ns && !g_ascii_strcasecmp (ns, "jabber:iq:last")) {
-                        if( type == LM_MESSAGE_SUB_TYPE_GET ) {
+                        if (type == LM_MESSAGE_SUB_TYPE_GET)
                                 ft_msg_iq_last_cb (msg);
-                        }
                 } else
                         PRINTF (_("[iq received: %s (unhandled yet)]"), ns);
 
@@ -248,13 +247,16 @@ ft_disconnect_function (LmConnection *conn,
         ft_roster_flush ();
         // TODO: ft_file_flush ();
 
-        scm_run_hook (ex_disconnect_hook, scm_list_n (scm_from_int (reason), SCM_UNDEFINED));
+        scm_run_hook (ex_disconnect_hook, scm_list_n (scm_from_int (reason),
+                                                      SCM_UNDEFINED));
         /* set conn_status after hook so that discon hook procedures can get
            the previous state from ft-get-conn-status. helps in deciding
            if an automatic reconnection logic (dont auto reconnect if previous
            state was not FT_AUTH, etc)
         */
+
         do_set_conn_status (FT_DEAD);
+
         return;
 }
 

@@ -272,7 +272,7 @@ ft_roster_lookup (const char *jid)
         return elem ? (FtRosterItem *)elem->data : NULL;
 }
 
-static int
+int
 get_username_id_from_jid (const gchar *jid, char **username, int64_t *id)
 {
         char    *ptr           = NULL;
@@ -319,8 +319,6 @@ roster_result_rcvd (LmMessage *msg)
 
         ft_presence_send_initial ();
 
-        PRINTF ("Translating facebook id's to usernames..");
-
         while (item) {
                 FtRosterItem *r_item = NULL;
 
@@ -332,8 +330,7 @@ roster_result_rcvd (LmMessage *msg)
                 if (is_facebook ()) {
                         if (get_username_id_from_jid
                             (lm_message_node_get_attribute
-                             (item, "jid"), &username,
-                             &id)) {
+                             (item, "jid"), &username, &id)) {
                                 PRINTF (_("error\n"));
                                 return;
                         }

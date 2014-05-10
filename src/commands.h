@@ -60,8 +60,7 @@ int do_send_message (char *jid, char *msg);
 int do_send_message_no_hook (char *jid, char *msg);
 int do_set_daemon (void); /* switch to daemon mode */
 int do_get_daemon (void); /* in daemon mode ? */
-GSList *do_get_buddy_list (void);
-/* const char *do_get_buddy_nick (char *jid); */
+
 int do_printf (const char *fmt, ...);
 int do_get_conn_status (void);
 enum ft_conn_state do_set_conn_status (enum ft_conn_state status);
