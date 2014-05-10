@@ -87,12 +87,12 @@ fi
 
 PKG_CHECK_MODULES([CURL], [libcurl], [HAVE_CURL="yes"], [HAVE_CURL="no"])
 if test "x$HAVE_CURL" == "xno"; then
-   AC_MSG_WARN([WARNING! jansson not found...])
+   AC_MSG_ERROR([ERROR! libcurl not found...])
 fi
 
 PKG_CHECK_MODULES([JANSSON], [jansson], [HAVE_JANSSON="yes"], [HAVE_JANSSON="no"])
 if test "x$HAVE_JANSSON" == "xno"; then
-   AC_MSG_WARN([WARNING! jansson not found...])
+   AC_MSG_ERROR([ERROR! jansson not found...])
 fi
 
 if test "x$HAVE_CURL" == "xyes" -a "x$HAVE_JANSSON" == "xyes"; then
