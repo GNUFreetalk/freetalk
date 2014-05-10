@@ -124,6 +124,8 @@ ft_msg_msg_handler (LmMessageHandler *handler, LmConnection *conn,
         LmMessageNode *root, *body, *x;
         const char *from, *msg_str, *type;
         char *ts = NULL;
+        int64_t id = 0;
+        char *new_from = NULL;
 
         root = lm_message_get_node (msg);
         if (!root)
@@ -159,7 +161,15 @@ ft_msg_msg_handler (LmMessageHandler *handler, LmConnection *conn,
 
         set_hook_return (0);
         {
-                FtRosterItem *item = ft_roster_lookup (from);
+                FtRosterItem *item = NULL;
+
+                if (is_facebook ())
+                        get_username_id_from_jid (from, &new_from, &id);
+                else
+                        new_from = g_strdup (from);
+
+                item = ft_roster_lookup (new_from);
+
                 char *nickname;
 
                 if (!item)
@@ -170,7 +180,7 @@ ft_msg_msg_handler (LmMessageHandler *handler, LmConnection *conn,
                 scm_run_hook (ex_message_receive_hook,
                               scm_list_n (ts ? scm_from_locale_string (ts) :
                                           scm_from_locale_string (""),
-                                          scm_from_locale_string (from),
+                                          scm_from_locale_string (new_from),
                                           nickname ?
                                           scm_from_locale_string (nickname) :
                                           scm_from_locale_string (""),
@@ -181,10 +191,14 @@ ft_msg_msg_handler (LmMessageHandler *handler, LmConnection *conn,
         if (get_hook_return () == 1)
                 goto out;
 
-        PRINTF ("%s: %s", from, msg_str);
+        PRINTF ("%s: %s", new_from, msg_str);
 out:
         if (ts)
                 g_free (ts);
+
+        if (new_from)
+                g_free (new_from);
+
         return LM_HANDLER_RESULT_REMOVE_MESSAGE;
 }
 
