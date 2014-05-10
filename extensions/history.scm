@@ -129,18 +129,17 @@
 (add-command! /history "history" "/history [BUDDY]"
               "Display history page by page")
 
-(define (/history-enable args)
-  " enable's history "
-  (set! enable-history-flag "yes")
-  (ft-display (_ " BUDDY history enabled ")))
+(define (/enable-logging args)
+  " enable/disable conversations logging"
+  (cond ((equal? args "no")
+            (begin
+              (set! enable-history-flag "no")
+              (ft-display (_ " BUDDY history disabled "))))
+        ((equal? args "yes")
+            (begin
+              (set! enable-history-flag "yes")
+              (ft-display (_ " BUDDY history enabled "))))
+	(else (ft-display (_ "Invalid syntax")))))
 
-(add-command! /history-enable "history-enable" "/history-enable"
-              "Enables buddy logging")
-
-(define (/history-disable args)
-  " disable's history "
-  (set! enable-history-flag "no")
-  (ft-display (_ " BUDDY history disabled ")))
-
-(add-command! /history-disable "history-disable" "/history-disable"
-              "Disables buddy logging")
+(add-command! /enable-logging "enable-logging" "/enable-logging"
+              "enables (`yes') or disables (`no') conversation logging")
