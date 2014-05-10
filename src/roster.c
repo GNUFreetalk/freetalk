@@ -140,7 +140,7 @@ get_username (uint64_t id)
 
         snprintf (url, sizeof(url), "http://graph.facebook.com/%"SCNu64, id);
         text = graph_request (url);
-
+        usleep (50000);
         if (!text)
                 goto out;
 
