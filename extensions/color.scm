@@ -129,18 +129,18 @@
                         )))
                   (ft-hook-return))))))
 
-(define (/color-enable args)
-  " enable's color "
-  (set! enable-colors-flag "yes")
-  (ft-display (_ " BUDDY coloring enabled ")))
+(define (/color args)
+  " enable or disable coloring received messages "
+  (cond ((equal? args "off")
+            (begin
+              (set! enable-colors-flag "no")
+              (ft-display (_ " BUDDY coloring disabled "))))
+        ((equal? args "on")
+            (begin
+              (set! enable-colors-flag "yes")
+              (ft-display (_ " BUDDY coloring enabled "))))
+	(else (ft-display (_ "Invalid syntax")))))
 
-(add-command! /color-enable "color-enable" "/color-enable"
-              "Enables buddy coloring")
+(add-command! /color "color" "/color" "enables (`on') or disables (`off') buddy coloring")
 
-(define (/color-disable args)
-  " disable's color "
-  (set! enable-colors-flag "no")
-  (ft-display (_ " BUDDY coloring disabled ")))
 
-(add-command! /color-disable "color-disable" "/color-disable"
-              "Disables buddy coloring")
