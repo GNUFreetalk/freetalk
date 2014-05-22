@@ -96,16 +96,17 @@
 
 (define (color-message msg color)
   "adds color to message"
-  (define col-no (cdr (assoc default-color color-list)))
-  (and (assoc color color-list)
-       (set! col-no (cdr (assoc color color-list  ))))
-  (string-append "\x1b[1;" col-no ";40m" msg "\x1b[0m"))
+  (if (equal? enable-colors-flag "yes")
+   (let ((col-no (cdr (assoc default-color color-list))))
+    (and (assoc color color-list)
+     (set! col-no (cdr (assoc color color-list  ))))
+    (string-append "\x1b[1;" col-no ";40m" msg "\x1b[0m"))
+   (string-append msg)))
 
 (define (print-chat-msg timestamp from nickname msg)
   "append color"
   (if (ignored-message? msg)
       (ft-hook-return)
-      (if (equal? enable-colors-flag "yes")
           (begin
             (if (get-buddy-color from)
                 (begin
@@ -126,7 +127,7 @@
                         (color-message (string-append " -> " msg)
                                        (get-buddy-color from))
                         )))
-                  (ft-hook-return)))))))
+                  (ft-hook-return))))))
 
 (define (/color-enable args)
   " enable's color "
