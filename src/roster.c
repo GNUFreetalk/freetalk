@@ -159,6 +159,14 @@ out:
         return username;
 }
 
+#else
+
+static inline char *
+get_username (uint64_t id)
+{
+        return NULL;
+}
+
 #endif /* FACEBOOK */
 
 GSList *
