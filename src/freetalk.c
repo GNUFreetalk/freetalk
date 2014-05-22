@@ -101,14 +101,8 @@ process_line (char *line)
         if (!line)
                 return;
 
-        if (*line) {
-                const char *curr_buddy = do_get_current_buddy ();
-                if (curr_buddy)
-                        if (strlen (line) > (strlen (curr_buddy) + 1))
-                                add_history (line);
-        } else {
-                do_set_current_buddy (NULL);
-        }
+        if (*line)
+		add_history (line);
 
         eval_str = g_strdup (line);
 
