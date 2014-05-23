@@ -112,22 +112,22 @@
 
 (add-command! /next "next" "/next" "display next message")
 
-(define (/quiet-mode args)
-  " quiet chat mode "
-  (set! mute-flag "yes")
-  (ft-display (_ " Quiet chat mode selected "))
-  (update-prompt))
+(define (/mode arg)
+  "set chat mode"
+  (cond 
+    ((equal? arg "quiet")
+      (begin
+        (set! mute-flag "yes")
+        (ft-display (_ " Quiet chat mode selected "))
+        (update-prompt)))
+    ((equal? arg "normal")
+      (begin
+        (set! mute-flag "no")
+        (ft-display (_ " Normal chat mode selected "))
+        (update-prompt)))
+    (else (ft-display (_ "Invalid syntax")))))
 
-(add-command! /quiet-mode "quiet-mode" "/quiet-mode" "Select quiet chat mode")
-
-(define (/normal-mode args)
-  " normal chat mode "
-  (set! mute-flag "no")
-  (ft-display (_ " Normal chat mode selected "))
-  (update-prompt))
-
-(add-command! /normal-mode "normal-mode" "/normal-mode" "Select normal chat mode")
-
+(add-command! /mode "mode" "/mode" "Select `quiet' or `normal' chat mode")
 
 (add-hook! ft-message-send-hook
            (lambda (to message)
