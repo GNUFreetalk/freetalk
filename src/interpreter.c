@@ -145,7 +145,7 @@ auto_complete (const char *text, int _state)
         };
 
         const char *roster_completion_regex [] = {
-                "^ *[^ ]*$",
+                "^ *[^:]*$",
                 "^ */pipe +[^ ]*$",
                 "^ */history +[^ ]*$",
                 "^ */allow +[^ ]*$",

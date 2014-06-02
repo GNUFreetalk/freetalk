@@ -130,6 +130,7 @@ interface_init (void)
 
         interpreter_init ();
 
+	rl_completer_word_break_characters = "\t\n\"\\'`@$><=;|&{(";
         rl_callback_handler_install (state.prompt, process_line);
         rl_attempted_completion_function = ft_auto_complete;
         rl_completion_entry_function = complete_none;
