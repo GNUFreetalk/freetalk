@@ -122,6 +122,7 @@ interpreter_init (void)
 static char *
 auto_complete (const char *text, int _state)
 {
+        static char need_nickname_completion = 0;
         static char need_roster_completion = 0;
         static char need_roster_domain_completion_hack = 0;
         static char *possible_jid;
@@ -136,6 +137,7 @@ auto_complete (const char *text, int _state)
         int len = strlen (text);
 
         static unsigned int roster_idx;
+        static unsigned int nickname_idx;
         static GSList *word;
 
         const char *command_completion_regex [] = {
@@ -144,8 +146,11 @@ auto_complete (const char *text, int _state)
                 NULL
         };
 
+        const char *nickname_completion_regex [] = {
+                "^[^/] *[^:]*$", NULL };
+
         const char *roster_completion_regex [] = {
-                "^ *[^:]*$",
+                "^ *[^ ]*$",
                 "^ */pipe +[^ ]*$",
                 "^ */history +[^ ]*$",
                 "^ */allow +[^ ]*$",
@@ -171,6 +176,7 @@ auto_complete (const char *text, int _state)
                 int i;
 
                 need_roster_completion = 0;
+                need_nickname_completion = 0;
                 need_roster_domain_completion_hack = 0;
                 need_command_completion = 0;
                 need_dict_completion = 0;
@@ -194,6 +200,20 @@ auto_complete (const char *text, int _state)
                                 ft_commands = scm_variable_ref (scm_c_lookup ("dynamic-command-registry"));
                                 cmd_len = scm_to_size_t (scm_length (ft_commands));
                                 cmd_idx = 0;
+                                break;
+                        }
+                }
+
+		i = 0;
+                while ((regex_str = (char *)nickname_completion_regex[i++]) != NULL) {
+                        regcomp(&preg, regex_str, REG_EXTENDED|REG_ICASE);
+                        if (!regexec (&preg, rl_line_buffer, 0, NULL, 0))
+                                need_nickname_completion = 1;
+                        regfree (&preg);
+                        if (need_nickname_completion) {
+				if (i - 1 == 0)
+					need_separator = 1;
+				nickname_idx = 0;
                                 break;
                         }
                 }
@@ -244,6 +264,7 @@ auto_complete (const char *text, int _state)
                 }
 
                 if (! need_command_completion &&
+                    ! need_nickname_completion &&
                     ! need_roster_completion &&
                     ! need_roster_domain_completion_hack &&
                     ! need_file_completion) {
@@ -290,6 +311,18 @@ auto_complete (const char *text, int _state)
                         need_file_completion = 0;
         }
 
+	if (need_nickname_completion) {
+                while (nickname_idx < g_slist_length (ft_roster_get ())) {
+                        FtRosterItem *roster =
+                                (FtRosterItem *) g_slist_nth_data (ft_roster_get (),
+                                                                   nickname_idx++);
+                        if (roster && roster->nickname && !strncasecmp(roster->nickname, text, len))
+                                return g_strdup_printf ("%s%s", roster->nickname,
+                                    need_separator ? ":" : "");
+                }
+        }
+
+
         if (need_roster_completion) {
                 while (roster_idx < g_slist_length (ft_roster_get ())) {
                         FtRosterItem *roster =
@@ -297,9 +330,6 @@ auto_complete (const char *text, int _state)
                                                                    roster_idx++);
                         if (roster && !strncasecmp (roster->jid, text, len))
                                 return g_strdup_printf ("%s%s", roster->jid,
-                                    need_separator ? ":" : "");
-                        if (roster && roster->nickname && !strncasecmp(roster->nickname, text, len))
-                                return g_strdup_printf ("%s%s", roster->nickname,
                                     need_separator ? ":" : "");
                 }
         }
