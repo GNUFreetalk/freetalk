@@ -123,6 +123,22 @@ stdin_input_cb (GIOChannel *chan, GIOCondition *cond, gpointer conn)
         return TRUE;
 }
 
+char * get_word_break_characters() {
+
+	int i;
+
+	if  (rl_line_buffer[0] != '/') {
+		for (i = rl_point; i >= 0; i--) {
+			if (rl_line_buffer[i] == ':')
+				return rl_basic_word_break_characters;
+		}
+		return "\t\n\"\\'`@$><=;|&{(";
+	}
+	
+	return rl_basic_word_break_characters;
+		
+}
+
 void
 interface_init (void)
 {
@@ -130,7 +146,7 @@ interface_init (void)
 
         interpreter_init ();
 
-	rl_completer_word_break_characters = "\t\n\"\\'`@$><=;|&{(";
+	rl_completion_word_break_hook = get_word_break_characters;
         rl_callback_handler_install (state.prompt, process_line);
         rl_attempted_completion_function = ft_auto_complete;
         rl_completion_entry_function = complete_none;
