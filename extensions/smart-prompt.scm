@@ -100,7 +100,7 @@
             (while (not (q-empty? msgs))
                    (let ((msg '()))
                      (set! msg (deq! msgs ))
-                     (print-chat-msg (cadr msg)
+                     (print-chat-msg (strftime "%I:%M%p" (localtime (car msg)))
                                      (caddr msg)
                                      (cadddr msg)
                                      (car (cddddr msg)))))
