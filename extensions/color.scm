@@ -103,6 +103,24 @@
     (string-append "\x1b[1;" col-no ";40m" msg "\x1b[0m"))
    (string-append msg)))
 
+(define (format-msg timestamp from nickname msg)
+    (string-append
+      (if (> (string-length timestamp) 0)
+        (color-message (string-append "[" timestamp "] ")
+                       (get-buddy-color from))
+        (color-message (strftime "%I:%M%p " (localtime
+                                              (current-time)))
+                       (get-buddy-color from)))
+      (color-message (if (> (string-length nickname) 0)
+                       nickname
+                       from)
+                     (get-buddy-color from))
+      (if (string-prefix? "/me " msg)
+        (color-message (substring msg 3) (get-buddy-color from))
+        (color-message (string-append " -> " msg)
+                       (get-buddy-color from))
+        )))
+
 (define (print-chat-msg timestamp from nickname msg)
   "append color"
   (if (ignored-message? msg)
@@ -110,23 +128,7 @@
           (begin
             (if (get-buddy-color from)
                 (begin
-                  (ft-display
-                   (string-append
-                    (if (> (string-length timestamp) 0)
-                        (color-message (string-append "[" timestamp "] ")
-                                       (get-buddy-color from))
-                        (color-message (strftime "%I:%M%p " (localtime
-                                                             (current-time)))
-                                       (get-buddy-color from)))
-                    (color-message (if (> (string-length nickname) 0)
-                                       nickname
-                                       from)
-                                   (get-buddy-color from))
-                    (if (string-prefix? "/me " msg)
-                        (color-message (substring msg 3) (get-buddy-color from))
-                        (color-message (string-append " -> " msg)
-                                       (get-buddy-color from))
-                        )))
+                  (ft-display (format-msg timestamp from nickname msg))
                   (ft-hook-return))))))
 
 (define (/color args)

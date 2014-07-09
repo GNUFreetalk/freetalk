@@ -244,6 +244,7 @@ register_primitives ()
 
         scm_c_define_gsubr ("ft-run-command", 1, 0, 0, ex_run_command);
         scm_c_define_gsubr ("ft-rl-redisplay", 0, 0, 0, ex_rl_redisplay);
+        scm_c_define_gsubr ("ft-pager-display", 1, 0, 0, ex_pager_display);
 }
 
 void

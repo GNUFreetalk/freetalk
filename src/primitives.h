@@ -133,4 +133,6 @@ SCM ex_run_command(SCM command);
 
 SCM ex_rl_redisplay();
 
+SCM ex_pager_display();
+
 #endif /* __PRIMITIVES_H__ */

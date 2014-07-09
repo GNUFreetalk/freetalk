@@ -3,12 +3,12 @@ AM_CPPFLAGS = -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\"
 bin_PROGRAMS = freetalk
 
 freetalk_SOURCES = freetalk.c util.c commands.c callbacks.c roster.c \
-	interpreter.c extensions.c primitives.c presence.c \
+	interpreter.c extensions.c primitives.c presence.c more.c \
 	# register.c
 
 noinst_HEADERS = freetalk.h util.h commands.h callbacks.h \
 	roster.h interpreter.h extensions.h primitives.h presence.h \
-	common.h # register.h
+	common.h more.h # register.h
 
 freetalk_LDADD = $(ARGP_STANDALONE_LDADD)
 

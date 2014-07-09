@@ -85,7 +85,7 @@
 
 (define (/next args)
   "print the next unread msgs belonging to a one sender at a time"
-  (let ((next-buddy "") (msgs '()))
+  (let ((next-buddy "") (msgs '()) (msgs-buffer ""))
     (hash-fold (lambda (from msgs-q prior)
                  (let ((current-msg-time (car (q-front msgs-q))))
                    (if (> prior current-msg-time)
@@ -100,10 +100,13 @@
             (while (not (q-empty? msgs))
                    (let ((msg '()))
                      (set! msg (deq! msgs ))
-                     (print-chat-msg (strftime "%I:%M%p" (localtime (car msg)))
+                     (set! msgs-buffer
+                       (string-append msgs-buffer
+                         (format-msg (strftime "%I:%M%p" (localtime (car msg)))
                                      (caddr msg)
                                      (cadddr msg)
-                                     (car (cddddr msg)))))
+                                     (car (cddddr msg))) "\n"))))
+            (ft-pager-display msgs-buffer)
             (hash-remove! msgs-htable next-buddy)
             (ft-set-current-buddy! (regexp-substitute/global
                                     #f "/.*$" next-buddy

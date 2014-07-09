@@ -34,6 +34,7 @@
 #include "extensions.h"
 #include "roster.h"
 #include "presence.h"
+#include "more.h"
 #include "common.h"
 
 SCM ex_load (SCM scm_file)
@@ -596,5 +597,17 @@ SCM
 ex_rl_redisplay()
 {
         rl_redisplay();
+        return SCM_UNSPECIFIED;
+}
+
+SCM
+ex_pager_display(SCM msgs)
+{
+        char *buffer = scm_to_locale_string(msgs);
+        printf("\r\n");
+        more(buffer);
+        g_free(buffer);
+        rl_forced_update_display ();
+
         return SCM_UNSPECIFIED;
 }
