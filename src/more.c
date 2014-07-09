@@ -31,11 +31,7 @@
 
 #include "more.h"
 
-static struct termios initial_settings;
-static FILE *cin;
-
-
-static void
+void 
 gotsig(int sig)
 { 
         tcsetattr(fileno(cin), TCSANOW, &initial_settings);
