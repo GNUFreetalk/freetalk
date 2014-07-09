@@ -4,7 +4,7 @@
 @multitable @columnfractions 0.03 0.25 0.35
 @item 1. @tab Anand Babu @tab @email{aperiasamy@@gmail.com}
 @item 2. @tab Harshavardhana @tab @email{harsha@@harshavardhana.net}
-@item 3. @tab Anis Elleuch @tab @email{anis.elleuch@@gmail.com}
+@item 3. @tab Anis Elleuch @tab @email{vadmeste@@gmail.com}
 @end multitable
 
 @subsection InActive
