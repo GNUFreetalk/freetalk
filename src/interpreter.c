@@ -94,6 +94,9 @@ interpreter (char *line)
             goto out;
         }
 
+        if (head[0] == '/')
+            goto out;
+
         if (is_buddy (head, &jid)) {
                 do_send_message (jid, tail);
                 ret = 0;
