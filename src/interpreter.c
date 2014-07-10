@@ -88,13 +88,11 @@ interpreter (char *line)
                     scm_from_locale_string (tail ? tail : ""),
                     SCM_UNDEFINED));
 
-        if (get_hook_return () == 1)
-
-                if (get_hook_return () == 1) {
-                        state.async_printf = 1;
-                        ret = 0;
-                        goto out;
-                }
+        if (get_hook_return () == 1) {
+            state.async_printf = 1;
+            ret = 0;
+            goto out;
+        }
 
         if (is_buddy (head, &jid)) {
                 do_send_message (jid, tail);
