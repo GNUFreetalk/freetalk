@@ -42,7 +42,7 @@ more(char* buffer)
 {
         int c, lines = 0, input = 0;
         int next_page = 0;
-        int rows = 24, cols;
+        int rows = 24, cols = 79;
         long int buf_len;
         struct winsize win;
         char *current_pos = NULL;
