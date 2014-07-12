@@ -66,7 +66,7 @@ more(char* buffer)
 
         ioctl(0, TIOCGWINSZ, &win);
 
-        if (win.ws_row > 4)	
+        if (win.ws_row > 2)	
                 rows = win.ws_row - 2;
         if (win.ws_col > 0)	
                 cols = win.ws_col - 1;
