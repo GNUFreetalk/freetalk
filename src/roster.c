@@ -128,7 +128,7 @@ out:
 
 }
 
-static inline char *
+static char *
 get_username (uint64_t id)
 {
         char url [256];
@@ -161,7 +161,7 @@ out:
 
 #else
 
-static inline char *
+static char *
 get_username (uint64_t id)
 {
         return NULL;

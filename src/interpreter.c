@@ -196,8 +196,8 @@ auto_complete (const char *text, int _state)
                                 need_command_completion = 1;
                         regfree (&preg);
                         if (need_command_completion) {
-				if (i - 1 == 0)
-				        need_command_slash = 1;
+                                if (i - 1 == 0)
+                                        need_command_slash = 1;
                                 ft_commands = scm_variable_ref (scm_c_lookup ("dynamic-command-registry"));
                                 cmd_len = scm_to_size_t (scm_length (ft_commands));
                                 cmd_idx = 0;
@@ -205,16 +205,16 @@ auto_complete (const char *text, int _state)
                         }
                 }
 
-		i = 0;
+                i = 0;
                 while ((regex_str = (char *)nickname_completion_regex[i++]) != NULL) {
                         regcomp(&preg, regex_str, REG_EXTENDED|REG_ICASE);
                         if (!regexec (&preg, rl_line_buffer, 0, NULL, 0))
                                 need_nickname_completion = 1;
                         regfree (&preg);
                         if (need_nickname_completion) {
-				if (i - 1 == 0)
-					need_separator = 1;
-				nickname_idx = 0;
+                                if (i - 1 == 0)
+                                        need_separator = 1;
+                                nickname_idx = 0;
                                 break;
                         }
                 }
@@ -312,7 +312,7 @@ auto_complete (const char *text, int _state)
                         need_file_completion = 0;
         }
 
-	if (need_nickname_completion) {
+        if (need_nickname_completion) {
                 while (nickname_idx < g_slist_length (ft_roster_get ())) {
                         FtRosterItem *roster =
                                 (FtRosterItem *) g_slist_nth_data (ft_roster_get (),

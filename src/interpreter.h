@@ -30,7 +30,7 @@
 void interpreter_init (void);
 int interpreter (char *line);
 
-static inline char * complete_none (const char *txt, int state)
+static char *complete_none (const char *txt, int state)
 {
         return NULL;
 }

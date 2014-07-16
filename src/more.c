@@ -31,13 +31,13 @@
 
 #include "more.h"
 
-void 
+void
 gotsig(int sig)
-{ 
+{
         tcsetattr(fileno(cin), TCSANOW, &initial_settings);
 }
 
-void 
+void
 more(char* buffer)
 {
         int c, lines = 0, input = 0;
@@ -66,9 +66,9 @@ more(char* buffer)
 
         ioctl(0, TIOCGWINSZ, &win);
 
-        if (win.ws_row > 2)	
+        if (win.ws_row > 2)
                 rows = win.ws_row - 2;
-        if (win.ws_col > 0)	
+        if (win.ws_col > 0)
                 cols = win.ws_col - 1;
 
         while (c  != '\0') {
@@ -76,8 +76,8 @@ more(char* buffer)
                         int len = 0;
                         next_page = 0;
                         lines = 0;
-                        len = fprintf(stdout, 
-                            "--More-- (%d%% of %ld bytes)%s", 
+                        len = fprintf(stdout,
+                            "--More-- (%d%% of %ld bytes)%s",
                             (int) (100 * ((double) (current_pos - buffer) / (double) buf_len)),
                             buf_len,
                             "");
@@ -109,4 +109,3 @@ end:
         gotsig(0);
         return;
 }
-
