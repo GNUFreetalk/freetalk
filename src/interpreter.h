@@ -29,12 +29,6 @@
 
 void interpreter_init (void);
 int interpreter (char *line);
-
-static char *complete_none (const char *txt, int state)
-{
-        return NULL;
-}
-
 char ** ft_auto_complete (const char *txt, int start, int end);
 
 #endif /* __INTERPRETER_H__ */
