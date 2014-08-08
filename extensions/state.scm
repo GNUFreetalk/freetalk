@@ -28,8 +28,8 @@
 (define (/status args)
   (usual-crap ft-get-status-msg ft-set-status-msg! "Current status: " args))
 (add-command! /status "status"
-              "/status [online|away|chat|xa|dnd|invisible] [MESSAGE]"
-              "set status message")
+              "/status [online|away|chat|xa|dnd|invisible][/PRIORITY] [MESSAGE]"
+              "set status message (and optionally resource priority)")
 
 (define (/server args)
   (usual-crap ft-get-server ft-set-server! "Current server: " args))

@@ -487,7 +487,8 @@ do_add (char *jid)
 int
 do_set_status_msg (char *status)
 {
-        const char *valid[] = { "online", "away", "chat", "xa", "dnd", "invisible", NULL }, *text = NULL;
+        const char *valid[] = { "online", "away", "chat", "xa", "dnd", "invisible", NULL };
+        char *text, *priority;
         int show, offset;
 
         if((text = strchr(status, ' '))) {
@@ -496,6 +497,14 @@ do_set_status_msg (char *status)
         } else {
                 offset = strlen(status);
         }
+
+        if( (priority = strchr(status, '/')) && ( !text || priority < text ) ) {
+                offset = priority - status;
+                ++priority;
+        } else {
+                priority = NULL;
+        }
+
         for(show = 0; valid[show] != NULL; show++) {
                 if( !strncmp(valid[show], status, offset) ) {
                         break;
@@ -510,6 +519,10 @@ do_set_status_msg (char *status)
                 g_free (state.status_msg);
         state.status_msg = g_strdup (status);
 
+        if (text) {
+                *(text - 1) = '\0';
+        }
+
         LmMessage *msg = lm_message_new (NULL, LM_MESSAGE_TYPE_PRESENCE);
         if( show != 0 ) { // online status is implicit
                 if (!g_strcmp0 (valid[show], "invisible")) {
@@ -522,6 +535,9 @@ do_set_status_msg (char *status)
         }
         if( text != NULL ) {
                 lm_message_node_add_child (msg->node, "status", text);
+        }
+        if ( priority ) {
+                lm_message_node_add_child( msg->node, "priority", priority );
         }
         lm_connection_send (state.conn, msg, NULL);
         lm_message_unref (msg);

@@ -433,8 +433,8 @@ Example:
 
 @node status, whoami, who, Commands
 @section Freetalk command - status
-@deffn command /status [online|away|chat|xa|dnd] [MESSAGE]
-Sets or displays your current status.
+@deffn command /status [online|away|chat|xa|dnd][/PRIORITY] [MESSAGE]
+Sets or displays your current status. Optionally also sets the resource priority.
 
 Example:
 
@@ -442,6 +442,7 @@ Example:
 ~\/~ /status online Using Freetalk
 ~\/~ /status
 Current status: online Using Freetalk
+~\/~ /status away/5
 ~\/~
 @end example
 @end deffn
