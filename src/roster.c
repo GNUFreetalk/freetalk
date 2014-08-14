@@ -266,6 +266,9 @@ roster_item_compare (gconstpointer p, gconstpointer q)
 FtRosterItem *
 ft_roster_lookup (const char *jid)
 {
+        if ( !jid || !jid[0] )
+                return NULL;
+
         FtRosterItem incoming;
         GSList *elem;
         gchar **pieces;

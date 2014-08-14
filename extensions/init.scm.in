@@ -21,6 +21,8 @@
 (use-modules (system vm trace))
 (debug-enable 'backtrace)
 
+;; initialize locale according to standard environment variables
+(setlocale LC_ALL "")
 
 (textdomain "@PACKAGE@")
 (bindtextdomain "@PACKAGE@" "@prefix@/share/locale")
