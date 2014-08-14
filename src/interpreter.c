@@ -74,39 +74,33 @@ interpreter (char *line)
 
         tail = strtok (NULL, "\0");
 
-        /* Avati - dyn-commands.scm should not interpret
-           its args as messages. hence created new
-           hook 'ex_commands_hook' for dyn-commands
-           and moved this below check to do_send_message ()
-        */
+        if ( head[0] == '/' ) {
+                /* Avati - dyn-commands.scm should not interpret
+                   its args as messages. hence created new
+                   hook 'ex_commands_hook' for dyn-commands
+                   and moved this below check to do_send_message ()
+                */
 
-        set_hook_return (0);
-        state.async_printf = 0;
+                set_hook_return (0);
+                state.async_printf = 0;
 
-        scm_run_hook (ex_command_hook,
-                scm_list_n (scm_from_locale_string (head),
-                    scm_from_locale_string (tail ? tail : ""),
-                    SCM_UNDEFINED));
+                scm_run_hook (ex_command_hook,
+                        scm_list_n (scm_from_locale_string (head),
+                            scm_from_locale_string (tail ? tail : ""),
+                            SCM_UNDEFINED));
 
-        if (get_hook_return () == 1) {
-            state.async_printf = 1;
-            ret = 0;
-            goto out;
-        }
-
-        if (head[0] == '/')
-            goto out;
-
-        if (is_buddy (head, &jid)) {
-                do_send_message (jid, tail);
-                ret = 0;
-                goto out;
-        } else {
-            if (state.current_buddy) {
-                do_send_message(state.current_buddy->jid, line);
-                ret = 0;
-                goto out;
-            }
+                if (get_hook_return () == 1) {
+                    state.async_printf = 1;
+                    ret = 0;
+                }
+        } else { // head[0] != '/'
+                if (is_buddy (head, &jid)) {
+                        do_send_message (jid, tail);
+                        ret = 0;
+                } else if (state.current_buddy) {
+                        do_send_message(state.current_buddy->jid, line);
+                        ret = 0;
+                }
         }
 
 out:
