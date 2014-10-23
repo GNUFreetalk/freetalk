@@ -127,6 +127,7 @@ do_connect (void)
         if (!lm_connection_open (state.conn, ft_connection_open_cb,
                                  (gpointer)&state, NULL, &state.error)) {
                 PRINTF (state.error->message);
+                g_clear_error(&state.error); // free error and set it to NULL
                 return -4;
         }
 
@@ -172,6 +173,7 @@ do_connect_blocking (void)
 
         if (!lm_connection_open_and_block (state.conn, &state.error)) {
                 PRINTF (_("Could not connect."));
+                g_clear_error(&state.error); // free error and set it to NULL
                 return -4;
         }
 
