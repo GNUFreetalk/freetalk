@@ -95,6 +95,8 @@ interpreter (char *line)
                 }
         } else { // head[0] != '/'
                 if (is_buddy (head, &jid)) {
+                        if ( tail && tail[0] == ' ' )
+                                ++tail;
                         do_send_message (jid, tail);
                         ret = 0;
                 } else if (state.current_buddy) {
