@@ -6,6 +6,7 @@ Active
 * Anand Babu
 * Harshavardhana
 * Anis Elleuch
+* Nikola Beneš
 
 Documentation
 -------------
