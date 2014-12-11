@@ -100,7 +100,7 @@
   (if (= (string-length args) 0)
       (ft-display (_ "Incomplete syntax"))
       (apply ft-roster-set-nickname (map sans-surrounding-whitespace
-                                         (string-separate args #\space)))))
+                                         (string-split args #\space)))))
 (add-command! /alias "alias" "/alias buddy nickname" "Set the nickname of a buddy")
 
 (define (subscribe-recv jid)

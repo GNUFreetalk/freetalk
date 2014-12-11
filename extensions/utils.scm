@@ -206,27 +206,11 @@
         word
         (string-append word " " (list->sentence (cdr li))))))
 
-(define (string-separate str ch)
-  (let ((index (string-index str ch)))
-    (if index
-        (cons (substring str 0 index)
-              (string-separate (substring str
-                                          (+ index 1)
-                                          (string-length str))
-                               ch))
-        (list str))))
-
 
 (define (blank-line? line)
   "return true if line is blank"
   (or (= 0 (string-length line))
       (null? (sentence->tokens line))))
-
-
-(define (dollor->number dollor)
-  "convert dollor symbol to number"
-  (string->number
-   (cadr (string-separate (symbol->string dollor) #\$))))
 
 
 (define (read-next-line fport)
