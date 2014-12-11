@@ -20,7 +20,11 @@
 
 (define msgs-htable (make-hash-table))
 (define waiting-users-count '0)
-(define mute-flag "no")
+(define verbosity 2)
+;;; verbosity levels:
+;;; 0 -- quiet: no messages or status changes appear
+;;; 1 -- terse: no status changes appear
+;;; 2 -- normal
 
 ;;; guile < 2.0.9 doesn't implement `hash-count`
 (define (hash-count-wrap table)
@@ -52,7 +56,7 @@
       (set! prompt-jid (cond ((not (string-null? nickname)) nickname)
                              ((not (string-null? current-buddy)) current-buddy)
                              (else (ft-get-jid))))
-      (if (equal? mute-flag "yes")
+      (if (= verbosity 0)
           (begin
             (set! waiting-users-count (hash-count-wrap msgs-htable))
             (ft-set-prompt!
@@ -76,7 +80,7 @@
 
 (define (process-msg timestamp from nickname msg)
   "save in the hastable or print directly on the screen"
-  (if (equal? mute-flag "no")
+  (if (>= verbosity 1)
     (print-chat-msg timestamp from nickname msg)
     (begin
       (store-msg from (list (current-time) timestamp from nickname msg))
@@ -117,20 +121,29 @@
 
 (define (/mode arg)
   "set chat mode"
-  (cond 
+  (cond
     ((equal? arg "quiet")
       (begin
-        (set! mute-flag "yes")
+        (set! verbosity 0)
         (ft-display (_ " Quiet chat mode selected "))
+        (update-prompt)))
+    ((equal? arg "terse")
+      (begin
+        (set! verbosity 1)
+        (ft-display (_ " Terse chat mode selected "))
         (update-prompt)))
     ((equal? arg "normal")
       (begin
-        (set! mute-flag "no")
+        (set! verbosity 2)
         (ft-display (_ " Normal chat mode selected "))
         (update-prompt)))
+    ((equal? arg "")
+        (ft-display (_ (string-append "Current mode: "
+             (list-ref '("quiet" "terse" "normal") verbosity)))))
     (else (ft-display (_ "Invalid syntax")))))
 
-(add-command! /mode "mode" "/mode" "Select `quiet' or `normal' chat mode")
+(add-command! /mode "mode" "/mode"
+    "Select `quiet', `terse' or `normal' chat mode")
 
 (add-hook! ft-message-send-hook
            (lambda (to message)
@@ -140,7 +153,7 @@
 (add-hook! ft-message-receive-hook process-msg)
 
 (define (presence-recv jid online nickname show-msg status-msg)
-  (if (equal? mute-flag "no")
+  (if (= verbosity 2)
     (let ((item (ft-roster-lookup jid)))
       (if (not (null? item))
         (let ((old-jid (list-ref item 0))
