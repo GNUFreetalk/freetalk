@@ -20,10 +20,11 @@
 ;(use-modules (ice-9 readline))
 ;(activate-readline)
 
-(and (string=? (ft-get-jid) "")
+(if (string=? (ft-get-jid) "")
      (ft-set-jid! (sans-surrounding-whitespace
                    (and (display "Jabber ID: ")
-                        (read-line)))))
+                        (read-line))))
+     (display (string-append "[" (ft-get-jid) "] ")))
 
 ;; check if both user and domain are present
 (if (not (string-rindex (ft-get-jid) #\@))
