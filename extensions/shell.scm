@@ -83,4 +83,7 @@
                                              "Disconnected from "
                                              (ft-get-server)
                                              ": "
-                                             (message-from-reason reason)))))
+                                             (message-from-reason reason)))
+                                (if (= reason 1)
+                                    (ft-connect))))
+
