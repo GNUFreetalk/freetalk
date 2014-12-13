@@ -1,9 +1,9 @@
 dnl Copyright 2005-2014 Freetalk Core Team
-dnl GNU General Publicense v3 or later
+dnl GNU General Public license v3 or later
 
 dnl Process this file with autoconf to produce a configure script
 
-AC_INIT([freetalk], [4.0], [https://github.com/GNUFreetalk/freetalk/issues])
+AC_INIT([freetalk], [4.0.1], [https://github.com/GNUFreetalk/freetalk/issues])
 AM_INIT_AUTOMAKE
 
 AC_PREREQ([2.57])
@@ -85,8 +85,8 @@ if test "x$HAVE_LOUDMOUTH" == "xno"; then
 fi
 
 AC_ARG_ENABLE([facebook],
-	      [AS_HELP_STRING([--disable-facebook], [disable facebook support])], 
-              [], 
+	      [AS_HELP_STRING([--disable-facebook], [disable facebook support])],
+              [],
               [enable_facebook=yes])
 
 AS_IF([test "x$enable_facebook" = "xyes"], [
