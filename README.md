@@ -1,6 +1,8 @@
 Freetalk
 --------
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/GNUFreetalk/freetalk?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Freetalk is a console based Jabber client. It features a readline
 interface with completion of buddy names, commands, and even ordinary
 English words! Freetalk is extensible, configurable, and scriptable
