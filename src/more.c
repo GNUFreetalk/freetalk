@@ -17,6 +17,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  *
+ * Dec 2014 by Anis Elleuch
+ *      Properly behave with ANSI colored texts and small term windows
  */
 
 
@@ -41,8 +43,8 @@ void
 more(char* buffer)
 {
         int c, lines = 0, input = 0;
-        int next_page = 0;
-        int rows = 24, cols = 79;
+        int next_page = 0, escape_seq = 0;
+        int rows = 24, cols = 79, col_pos = 0;
         long int buf_len;
         struct winsize win;
         char *current_pos = NULL;
@@ -69,7 +71,7 @@ more(char* buffer)
         if (win.ws_row > 2)
                 rows = win.ws_row - 2;
         if (win.ws_col > 0)
-                cols = win.ws_col - 1;
+                cols = win.ws_col;
 
         while (c  != '\0') {
                 if (next_page) {
@@ -99,7 +101,23 @@ more(char* buffer)
             if (c == '\n' && ++lines == (rows + 1))
                     next_page = 1;
 
+            if (c == '\x1b')
+                escape_seq = 1;
+
+            if (!escape_seq)
+                col_pos++;
+
+            if (escape_seq && c == 'm')
+                    escape_seq = 0;
+
             putc(c, stdout);
+
+            if ( c != '\n' && col_pos == cols ) {
+                col_pos = 0;
+                if (++lines == (rows + 1))
+                    next_page = 1;
+            }
+
             current_pos++;
             c = *current_pos;
         }
