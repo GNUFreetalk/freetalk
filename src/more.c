@@ -98,8 +98,11 @@ more(char* buffer)
                     goto end;
             if (input == ' ' && c == '\n')
                     next_page = 1;
-            if (c == '\n' && ++lines == (rows + 1))
+            if (c == '\n') {
+                col_pos = 0;
+                if (++lines == (rows + 1))
                     next_page = 1;
+            }
 
             if (c == '\x1b')
                 escape_seq = 1;
