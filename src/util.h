@@ -41,6 +41,5 @@ char *first_word (char *full_line);
 void async_printf (const char *fmt, va_list ap);
 void sync_printf (const char *fmt, va_list ap);
 void check_first_run (void);
-int is_facebook (void);
 
 #endif /* __UTIL_H__ */

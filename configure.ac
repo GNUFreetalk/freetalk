@@ -3,7 +3,7 @@ dnl GNU General Public license v3 or later
 
 dnl Process this file with autoconf to produce a configure script
 
-AC_INIT([freetalk], [4.0.1], [https://github.com/GNUFreetalk/freetalk/issues])
+AC_INIT([freetalk], [4.1], [https://github.com/GNUFreetalk/freetalk/issues])
 AM_INIT_AUTOMAKE
 
 AC_PREREQ([2.57])
@@ -83,30 +83,6 @@ PKG_CHECK_MODULES([LOUDMOUTH], [loudmouth-1.0], [HAVE_LOUDMOUTH="yes"], [HAVE_LO
 if test "x$HAVE_LOUDMOUTH" == "xno"; then
    AC_MSG_ERROR([ERROR! loudmouth-1.0 not found...])
 fi
-
-AC_ARG_ENABLE([facebook],
-	      [AS_HELP_STRING([--disable-facebook], [disable facebook support])],
-              [],
-              [enable_facebook=yes])
-
-AS_IF([test "x$enable_facebook" = "xyes"], [
-
-   PKG_CHECK_MODULES([CURL], [libcurl], [HAVE_CURL="yes"], [HAVE_CURL="no"])
-   if test "x$HAVE_CURL" == "xno"; then
-     AC_MSG_ERROR([ERROR! libcurl not found...])
-   fi
-
-   PKG_CHECK_MODULES([JANSSON], [jansson], [HAVE_JANSSON="yes"], [HAVE_JANSSON="no"])
-   if test "x$HAVE_JANSSON" == "xno"; then
-     AC_MSG_ERROR([ERROR! jansson not found...])
-   fi
-
-   if test "x$HAVE_CURL" == "xyes" -a "x$HAVE_JANSSON" == "xyes"; then
-     AC_DEFINE(FACEBOOK, 1, [enable facebook jid translation support])
-     FACEBOOK_LIBS="${CURL_LIBS} ${JANSSON_LIBS}"
-     AC_SUBST(FACEBOOK_LIBS)
-   fi
-])
 
 AC_CHECK_HEADERS([libintl.h])
 

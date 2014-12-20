@@ -84,19 +84,11 @@ presence_availability_rcvd (const char *from, LmMessage *msg)
 {
         FtRosterItem *newi;
         FtRosterItem *old;
-        char *username = NULL;
-        int64_t id = 0;
 
         if (!from || !msg)
                 return;
 
         newi = roster_item_extract (msg);
-
-        if (is_facebook ()) {
-                get_username_id_from_jid (newi->jid, &username, &id);
-                newi->jid = username;
-                newi->id = id;
-        }
 
         scm_run_hook (ex_presence_receive_hook,
                       roster_item_to_list (newi));

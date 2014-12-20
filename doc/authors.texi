@@ -5,6 +5,7 @@
 @item 1. @tab Anand Babu @tab @email{aperiasamy@@gmail.com}
 @item 2. @tab Harshavardhana @tab @email{harsha@@harshavardhana.net}
 @item 3. @tab Anis Elleuch @tab @email{vadmeste@@gmail.com}
+@item 4. @tab Nikola Beneš @tab @email{nikola.benes@@gmail.com}
 @end multitable
 
 @subsection InActive

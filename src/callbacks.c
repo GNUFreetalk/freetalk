@@ -124,7 +124,6 @@ ft_msg_msg_handler (LmMessageHandler *handler, LmConnection *conn,
         LmMessageNode *root, *body, *x;
         const char *from, *msg_str, *type;
         char *ts = NULL;
-        int64_t id = 0;
         char *new_from = NULL;
 
         root = lm_message_get_node (msg);
@@ -162,15 +161,10 @@ ft_msg_msg_handler (LmMessageHandler *handler, LmConnection *conn,
         set_hook_return (0);
         {
                 FtRosterItem *item = NULL;
-
-                if (is_facebook ())
-                        get_username_id_from_jid (from, &new_from, &id);
-                else
-                        new_from = g_strdup (from);
-
-                item = ft_roster_lookup (new_from);
-
                 char *nickname;
+
+                new_from = g_strdup (from);
+                item = ft_roster_lookup (new_from);
 
                 if (!item)
                         nickname = NULL;

@@ -10,11 +10,11 @@
 
 ;; Example proxy configuration
 ; (and (string=? (ft-get-jid) "")
-;      (ft-set-jid! "yourid@chat.facebook.com")
+;      (ft-set-jid! "yourid@gmail.com")
 ;      (ft-set-password! "p4ssw0rd")
 ;      (ft-set-tlsconn! #t)
 ;      (ft-set-prompt! "freetalk: ")
-;      (ft-set-server! "chat.facebook.com")
+;      (ft-set-server! "talk.google.com")
 ;      (ft-set-proxyserver! "your.proxyserver.net")
 ;      (ft-set-proxyport!  "8080"))
 

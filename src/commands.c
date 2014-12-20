@@ -346,9 +346,6 @@ do_send_message_no_hook (char *jid, char *msg_str)
 {
         LmMessage *msg;
         state.last = time(NULL);
-        /* For facebook username->id translation */
-        char jid_buf[256] = {0,};
-        char *real_jid = NULL;
 
         if (!jid || !msg_str)
                 return -2;
@@ -356,17 +353,7 @@ do_send_message_no_hook (char *jid, char *msg_str)
         if (do_get_conn_status () != FT_AUTH)
                 return -1;
 
-        if (is_facebook ()) {
-                snprintf (jid_buf, sizeof(jid_buf),
-                          "%"PRId64"@chat.facebook.com",
-                          -(state.current_buddy->id));
-                real_jid = g_strdup (jid_buf);
-                if (!real_jid)
-                        return -2;
-                msg = lm_message_new (real_jid, LM_MESSAGE_TYPE_MESSAGE);
-        } else {
-                msg = lm_message_new (jid, LM_MESSAGE_TYPE_MESSAGE);
-        }
+        msg = lm_message_new (jid, LM_MESSAGE_TYPE_MESSAGE);
 
         lm_message_node_set_attribute (msg->node, "type", "chat");
         lm_message_node_add_child (msg->node, "body", msg_str);

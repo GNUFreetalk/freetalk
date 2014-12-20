@@ -69,12 +69,6 @@ parse_jid_string (char *s, jid_t *jid)
         g_free (str);
 }
 
-int
-is_facebook (void)
-{
-        return !strcmp (state.server, "chat.facebook.com");
-}
-
 char *
 first_word (char *full_line)
 {

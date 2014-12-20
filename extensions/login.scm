@@ -35,24 +35,16 @@
       (exit 1)))
 
 (define (domain->server domain)
-  (cond ((string=? domain "facebook.com") "chat.facebook.com")
-        ((string=? domain "chat.facebook.com") "chat.facebook.com")
-        ((string=? domain "gmail.com") "talk.google.com")
+  (cond ((string=? domain "gmail.com") "talk.google.com")
         (else domain)))
 
 (define (domain->port domain)
-  (cond ((string=? domain "facebook.com") 5222)
-        ((string=? domain "chat.facebook.com") 5222)
-        ((string=? domain "gmail.com") 5223)
+  (cond ((string=? domain "gmail.com") 5223)
         ((string=? domain "jabber.org") 5222)
         (else 5222)))
 
 (define (domain->ssl domain)
-  (cond ((string=? domain "facebook.com")
-         (ft-set-tlsconn! #t))
-        ((string=? domain "chat.facebook.com")
-         (ft-set-tlsconn! #t))
-        ((string=? domain "gmail.com")
+  (cond ((string=? domain "gmail.com")
          (ft-set-sslconn! #t))
         (else "")))
 
