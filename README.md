@@ -29,3 +29,7 @@ Queries
 If you face any problems compiling or using Freetalk, or if you have
 any feedback/developer questions, feel free to post a message to
 `harsha (at) harshavardhana.net` or open a github issue.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/GNUFreetalk/freetalk/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
