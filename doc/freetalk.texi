@@ -556,7 +556,7 @@ Example:
 '/root/.freetalk' -> '/root/.freetalk-backup-0'
 Creating fresh state /root/.freetalk
 
-NOTE: Archieved previous state to /root/.freetalk-backup-0 !!!
+NOTE: Archived previous state to /root/.freetalk-backup-0 !!!
 
 ~\/~>
 @end example
