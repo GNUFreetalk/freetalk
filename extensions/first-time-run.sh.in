@@ -75,7 +75,7 @@ reset ()
     echo "Creating fresh state ${HOME}/.freetalk";
     normal >/dev/null;
 
-    printf "\nNOTE: Archieved previous state to ${HOME}/.freetalk-backup-${BACKUP} !!!\n";
+    printf "\nNOTE: Archived previous state to ${HOME}/.freetalk-backup-${BACKUP} !!!\n";
 }
 
 main ()
