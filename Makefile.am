@@ -3,7 +3,7 @@ SUBDIRS = $(ARGP_STANDALONE_DIR) src extensions doc examples
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 
-EXTRA_DIST = autogen.sh contrib/argp-standalone
+EXTRA_DIST = bootstrap contrib/argp-standalone
 
 CLEANFILES = *~
 
