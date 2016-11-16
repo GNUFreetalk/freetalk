@@ -5,6 +5,7 @@ dnl Process this file with autoconf to produce a configure script
 
 AC_INIT([freetalk], [4.1], [https://github.com/GNUFreetalk/freetalk/issues])
 AC_CONFIG_AUX_DIR([build-aux])
+AC_CONFIG_HEADERS([src/config.h])
 AM_INIT_AUTOMAKE
 
 AC_PREREQ([2.57])
@@ -22,8 +23,6 @@ fi
 if libtool --help 2>&1 | grep -q quiet; then
    AM_LIBTOOLFLAGS="--quiet";
 fi
-
-AC_CONFIG_HEADERS([config.h])
 
 AC_CONFIG_FILES([Makefile
                 src/Makefile
