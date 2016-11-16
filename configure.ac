@@ -4,6 +4,7 @@ dnl GNU General Public license v3 or later
 dnl Process this file with autoconf to produce a configure script
 
 AC_INIT([freetalk], [4.1], [https://github.com/GNUFreetalk/freetalk/issues])
+AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE
 
 AC_PREREQ([2.57])

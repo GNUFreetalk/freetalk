@@ -50,3 +50,4 @@ po/en@boldquot.insert-header
 po/en@quot.insert-header
 po/remove-potcdate.sed
 contrib/argp-standalone/libargp.a
+/build-aux/texinfo.tex
