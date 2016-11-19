@@ -14,7 +14,7 @@
 struct termios initial_settings;
 FILE *cin;
 
-void gotsig(int sig);
-void more(char* buffer);
+void gotsig (int sig);
+void more (char *buffer);
 
 #endif

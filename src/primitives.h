@@ -1,21 +1,20 @@
-/*
-  Copyright (c) 2005-2014 Freetalk Core Team
-  This file is part of Freetalk.
+/* primitives.h
+   Copyright (C) 2005-2014 Freetalk Core Team
 
-  Freetalk is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published
-  by the Free Software Foundation; either version 3 of the License,
-  or (at your option) any later version.
+   This file is part of GNU Freetalk.
 
-  Freetalk is distributed in the hope that it will be useful, but
-  WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  General Public License for more details.
+   GNU Freetalk is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see
-  <http://www.gnu.org/licenses/>.
-*/
+   GNU Freetalk is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with GNU Freetalk.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #ifndef __PRIMITIVES_H__
 #define __PRIMITIVES_H__
@@ -56,7 +55,6 @@ SCM ex_set_sslconn (SCM scm_ssl);
 SCM ex_get_tlsconn (void);
 SCM ex_set_tlsconn (SCM scm_ssl);
 
-
 SCM ex_connect (void);
 SCM ex_connect_blocking (void);
 SCM ex_disconnect (void);
@@ -86,7 +84,8 @@ SCM ex_remove_buddy (SCM scm_jid);
 SCM ex_get_roster_list (void);
 SCM ex_get_roster_status_msg (SCM scm_jid);
 SCM ex_get_roster_is_online (SCM scm_jid);
-SCM roster_item_to_list (FtRosterItem *item); /* For internal use only */
+/* For internal use only.  */
+SCM roster_item_to_list (FtRosterItem *item);
 SCM ex_roster_lookup (SCM scm_jid);
 
 SCM ex_hook_return (void);
@@ -129,10 +128,10 @@ SCM ex_roster_set_nickname (SCM jid, SCM nickname);
 
 SCM ex_bind_to_ctrl_key (SCM key, SCM command);
 
-SCM ex_run_command(SCM command);
+SCM ex_run_command (SCM command);
 
-SCM ex_rl_redisplay();
+SCM ex_rl_redisplay ();
 
-SCM ex_pager_display();
+SCM ex_pager_display ();
 
 #endif /* __PRIMITIVES_H__ */
