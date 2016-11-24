@@ -630,7 +630,7 @@ Example:
 @example
 ~\/~ /urlview friend@@jabber.org
 
-friend: https://github.com/GNUFreetalk/freetalk/
+friend: https://www.gnu.org/software/freetalk/
 
 ~\/~
 @end example
@@ -1164,16 +1164,16 @@ We believe in Software Freedom and Ethics, the GNU's way.
 @node URLs, Guidelines for submitting a patch, Authors, Top
 @chapter URLs
 @deffn URL Homepage
-@url{http://github.com/GNUFreetalk/freetalk/}
+@url{https://www.gnu.org/software/freetalk/}
 @end deffn
 
 @deffn URL Download
-@url{http://github.com/GNUFreetalk/freetalk/releases}
+@url{https://ftp.gnu.org/gnu/freetalk/}
 @end deffn
 
 @deffn URL Bugs
 You are welcome to send bug reports about freetalk to
-@url{http://github.com/GNUFreetalk/freetalk/issues}.
+@email{freetalk-dev@@gnu.org}.
 The bugs that you think are of the interest to the public
 (i.e.  more people should be informed about them) can be
 Cc-ed to the above mailing lists.
@@ -1198,7 +1198,7 @@ Find where the bug is, fix it and send the patches. :)
 @end enumerate
 @end deffn
 
-Send your specific queries to @url{https://github.com/GNUFreetalk/freetalk/issues}
+Send your specific queries to @email{freetalk-dev@@gnu.org}
 @cindex freetalk URLs
 
 

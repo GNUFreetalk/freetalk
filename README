@@ -1,6 +1,3 @@
-Freetalk
---------
-
 Freetalk is a console based Jabber client. It features a readline
 interface with completion of buddy names, commands, and even ordinary
 English words! Freetalk is extensible, configurable, and scriptable
@@ -11,6 +8,7 @@ version 3 or later --- see the file COPYING for details.
 
 Usage
 --------
+
 To start with you can use Freetalk by just running 'freetalk' and
 then doing `/login` to specify your Jabber account and password. To
 avoid having to do this every time, you can put your account details
@@ -24,6 +22,7 @@ which you should be able to read by saying,
 
 Queries
 --------
+
 If you face any problems compiling or using Freetalk, or if you have
 any feedback/developer questions, feel free to post a message to
-`harsha (at) harshavardhana.net` or open a github issue.
+<freetalk-dev@gnu.org>.
