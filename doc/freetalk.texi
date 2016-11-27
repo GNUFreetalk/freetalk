@@ -59,7 +59,6 @@ translation approved by the Free Software Foundation.
 @page
 @contents
 
-@ifinfo
 @node Top, Overview, (dir), (dir)
 @top Freetalk@! @value{VERSION}
 
@@ -95,9 +94,8 @@ Miscellaneous
 * Command Index::
 * Procedure Index::
 @end menu
-@end ifinfo
 
-
+@c *********************************************************************
 @node Overview, Invoking, Top, Top
 @chapter Overview
 Freetalk is a freely available console based Jabber client-cum-bot.
