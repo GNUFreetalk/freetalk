@@ -1,9 +1,10 @@
-SUBDIRS = src
-
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 
-EXTRA_DIST = bootstrap
+EXTRA_DIST = \
+  bootstrap \
+  src/register.c \
+  src/register.h
 
 CLEANFILES = *~
 
@@ -14,6 +15,36 @@ gitclean: distclean
 	rm -f missing aclocal.m4 config.h.in config.guess
 	rm -f config.sub ltmain.sh install-sh configure depcomp
 	rm -f config.rpath INSTALL
+
+bin_PROGRAMS = freetalk
+
+freetalk_CPPFLAGS = -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\"
+freetalk_CFLAGS = $(GLIB_CFLAGS) $(GUILE_CFLAGS) $(LOUDMOUTH_CFLAGS)
+freetalk_LDADD = $(GLIB_LIBS) $(GUILE_LIBS) $(LOUDMOUTH_LIBS) $(RLLIBS)
+freetalk_SOURCES = \
+  src/callbacks.c \
+  src/callbacks.h \
+  src/commands.c \
+  src/commands.h \
+  src/common.h \
+  src/extensions.c \
+  src/extensions.h \
+  src/freetalk.c \
+  src/freetalk.h \
+  src/interpreter.c \
+  src/interpreter.h \
+  src/more.c \
+  src/more.h \
+  src/presence.c \
+  src/presence.h \
+  src/primitives.c \
+  src/primitives.h \
+  src/roster.c \
+  src/roster.h \
+  src/util.c \
+  src/util.h
+# src/register.c
+# src/register.h
 
 # Guile Extensions.
 nobase_dist_pkgdata_DATA = \

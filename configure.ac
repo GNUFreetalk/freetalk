@@ -6,7 +6,7 @@ dnl Process this file with autoconf to produce a configure script
 AC_INIT([freetalk], [4.1], [freetalk-dev@gnu.org])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_HEADERS([src/config.h])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([subdir-objects])
 
 AC_PREREQ([2.57])
 
@@ -23,10 +23,6 @@ fi
 if libtool --help 2>&1 | grep -q quiet; then
    AM_LIBTOOLFLAGS="--quiet";
 fi
-
-AC_CONFIG_FILES([Makefile
-                src/Makefile
-                extensions/init.scm])
 
 AC_PROG_MAKE_SET
 AC_PROG_CXX
@@ -61,5 +57,8 @@ if test "x$HAVE_LOUDMOUTH" == "xno"; then
 fi
 
 AC_CHECK_HEADERS([libintl.h])
+
+AC_CONFIG_FILES([Makefile
+                 extensions/init.scm])
 
 AC_OUTPUT

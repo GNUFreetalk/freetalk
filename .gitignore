@@ -3,6 +3,7 @@
 .deps
 .dirstamp
 /build-aux/texinfo.tex
+/freetalk
 ABOUT-NLS
 INSTALL
 Makefile
@@ -49,5 +50,4 @@ po/quot.sed
 po/remove-potcdate.sed
 po/remove-potcdate.sin
 po/stamp-po
-src/freetalk
 stamp-h1
