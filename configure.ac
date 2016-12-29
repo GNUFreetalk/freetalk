@@ -26,7 +26,6 @@ fi
 
 AC_CONFIG_FILES([Makefile
                 src/Makefile
-                extensions/Makefile
                 extensions/init.scm])
 
 AC_PROG_MAKE_SET

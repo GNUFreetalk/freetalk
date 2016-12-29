@@ -1,4 +1,4 @@
-SUBDIRS = src extensions
+SUBDIRS = src
 
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
@@ -15,6 +15,31 @@ gitclean: distclean
 	rm -f config.sub ltmain.sh install-sh configure depcomp
 	rm -f config.rpath INSTALL
 
+# Guile Extensions.
+nobase_dist_pkgdata_DATA = \
+  extensions/loudscream.scm \
+  extensions/login.scm \
+  extensions/dyn-commands.scm \
+  extensions/beep.scm \
+  extensions/color.scm \
+  extensions/dict-buddy.scm \
+  extensions/shell.scm \
+  extensions/pipe.scm \
+  extensions/state.scm \
+  extensions/connection.scm \
+  extensions/roster.scm \
+  extensions/mr-oxford.scm \
+  extensions/utils.scm \
+  extensions/history.scm \
+  extensions/url.scm \
+  extensions/proud-of-freetalk.scm \
+  extensions/broadcast.scm \
+  extensions/hacker-romance.scm \
+  extensions/smart-prompt.scm \
+  extensions/first-time-run.sh
+
+nobase_nodist_pkgdata_DATA = extensions/init.scm
+CLEANFILES += $(nobase_nodist_pkgdata_DATA)
 
 ## --------------- ##
 ## Documentation.  ##
