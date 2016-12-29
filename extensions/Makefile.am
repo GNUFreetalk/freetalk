@@ -27,4 +27,4 @@ Extensionsdir = $(datadir)/freetalk/extensions
 
 Extensions_DATA  = $(EXTENSIONS)
 
-CLEANFILES = init.scm first-time-run.sh *~
+CLEANFILES = init.scm *~

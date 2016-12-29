@@ -25,7 +25,6 @@ doc/freetalk.info
 doc/stamp-vti
 doc/texinfo.tex
 doc/version.texi
-extensions/first-time-run.sh
 extensions/init.scm
 install-sh
 m4/
