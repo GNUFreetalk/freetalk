@@ -35,26 +35,6 @@ AC_CONFIG_FILES([Makefile
 AC_PROG_MAKE_SET
 AC_PROG_CXX
 
-CONTRIBDIR='$(top_srcdir)/contrib'
-
-dnl Check for argp
-AC_CHECK_HEADER([argp.h], AC_DEFINE(HAVE_ARGP, 1, [have argp]))
-AC_CONFIG_SUBDIRS(contrib/argp-standalone)
-
-BUILD_ARGP_STANDALONE=no
-if test "x${ac_cv_header_argp_h}" = "xno"; then
-   BUILD_ARGP_STANDALONE=yes
-   ARGP_STANDALONE_CFLAGS='-I${top_srcdir}/contrib/argp-standalone'
-   ARGP_STANDALONE_LDADD='${top_builddir}/contrib/argp-standalone/libargp.a'
-   ARGP_STANDALONE_DIR='${top_builddir}/contrib/argp-standalone'
-fi
-
-AC_SUBST(ARGP_STANDALONE_CFLAGS)
-AC_SUBST(ARGP_STANDALONE_LDADD)
-AC_SUBST(ARGP_STANDALONE_DIR)
-
-AC_SUBST(CONTRIBDIR)
-
 AC_CHECK_LIB([readline -lcurses],[readline],[RLLIBS="-lreadline -lcurses"])
 AC_CHECK_LIB([readline -ltermcap],[readline],[RLLIBS="-lreadline -ltermcap"])
 AC_CHECK_LIB([readline -lncurses],[readline],[RLLIBS="-lreadline -lncurses"])
