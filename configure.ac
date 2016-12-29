@@ -28,8 +28,7 @@ AC_CONFIG_FILES([Makefile
                 src/Makefile
                 extensions/Makefile
                 extensions/init.scm
-                extensions/first-time-run.sh
-                examples/Makefile])
+                extensions/first-time-run.sh])
 
 AC_PROG_MAKE_SET
 AC_PROG_CXX

@@ -1,4 +1,4 @@
-SUBDIRS = src extensions examples
+SUBDIRS = src extensions
 
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
@@ -28,3 +28,10 @@ doc_freetalk_TEXINFOS = \
   doc/permissions.texi
 
 dist_man_MANS = doc/freetalk.1
+
+# Examples.
+nobase_dist_doc_DATA = \
+  examples/freetalk.scm \
+  examples/daemon.ft \
+  examples/hello-world.ft \
+  examples/mimic.ft
