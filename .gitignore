@@ -1,6 +1,7 @@
 *.o
 *~
 .deps
+.dirstamp
 /build-aux/texinfo.tex
 ABOUT-NLS
 INSTALL

@@ -1,4 +1,4 @@
-SUBDIRS = src extensions doc examples
+SUBDIRS = src extensions examples
 
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
@@ -14,3 +14,17 @@ gitclean: distclean
 	rm -f missing aclocal.m4 config.h.in config.guess
 	rm -f config.sub ltmain.sh install-sh configure depcomp
 	rm -f config.rpath INSTALL
+
+
+## --------------- ##
+## Documentation.  ##
+## --------------- ##
+
+info_TEXINFOS = doc/freetalk.texi
+doc_freetalk_TEXINFOS = \
+  doc/authors.texi \
+  doc/gpl.texi \
+  doc/fdl.texi \
+  doc/permissions.texi
+
+dist_man_MANS = doc/freetalk.1
