@@ -211,16 +211,21 @@ args_init (void)
   {
     char *f[2];
   } f;
-  static char doc[] =
-    "Freetalk is a console based jabber client/bot with a readline interface and guile extensions";
-  static char argp_doc[] = " ";
+
   static struct argp_option options[] = {
     {"jid", 'j', "JABBERID", 0, "user@domain Jabber ID"},
     {"script", 's', "SCRIPTFILE", 0, "Freetalk script"},
     /* {"register", 'r', 0, 0, "Register an account with a server"}, */
     {0,}
   };
-  static struct argp argp = { options, parse_opts, argp_doc, doc };
+
+  static struct argp argp = {
+    .options = options,
+    .parser = parse_opts,
+    .args_doc = " ",
+    .doc = "Freetalk is a console based jabber client/bot "
+    "with a readline interface and guile extensions"
+  };
 
   argp_parse (&argp, state.argc, state.argv, 0, 0, &f);
 }
