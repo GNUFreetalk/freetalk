@@ -556,9 +556,8 @@ do_get_status_msg (void)
 int
 do_reset_fs_state (void)
 {
-  return (system
-          ("sh " DATADIR "/" PACKAGE
-           "/extensions/first-time-run.sh reset") >> 8);
+  int res = system ("sh " FT_GLOBAL_EXT_DIR "/first-time-run.sh reset");
+  return (res >> 8);
 }
 
 extern GSList *dict_words;
