@@ -55,15 +55,28 @@ nobase_nodist_pkgdata_DATA = extensions/init.scm
 
 CLEANFILES = $(nobase_nodist_pkgdata_DATA)
 
-# '.tarball-version' is used by 'git-version-gen' when not building from a git
-# checkout.
-dist-hook:
-	$(AM_V_GEN)echo $(VERSION) > $(distdir)/.tarball-version
-
 EXTRA_DIST = \
   bootstrap \
   src/register.c \
   src/register.h
+# '.tarball-version' is used by 'git-version-gen' when not building from a git
+# checkout.
+dist-hook: gen-ChangeLog
+	$(AM_V_GEN)echo $(VERSION) > $(distdir)/.tarball-version
+
+gen_start_date = 2016-11-15
+.PHONY: gen-ChangeLog
+gen-ChangeLog:
+	$(AM_V_GEN)if test -d $(srcdir)/.git; then			\
+	  log_fix="$(srcdir)/build-aux/git-log-fix";			\
+	  test -e "$$log_fix"						\
+	    && amend_git_log="--amend=$$log_fix"			\
+	    || amend_git_log=;						\
+	  $(srcdir)/build-aux/gitlog-to-changelog			\
+	    $$amend_git_log --since=$(gen_start_date) > $(distdir)/cl-t && \
+	    { rm -f $(distdir)/ChangeLog &&				\
+	      mv $(distdir)/cl-t $(distdir)/ChangeLog; }		\
+	fi
 
 ## --------------- ##
 ## Documentation.  ##
