@@ -161,7 +161,7 @@ interface_init (void)
   g_io_add_watch (chan, G_IO_IN, (GIOFunc) stdin_input_cb, NULL);
 }
 
-const char *argp_program_version = PACKAGE_NAME " " PACKAGE_VERSION;
+const char *argp_program_version = PACKAGE_STRING;
 const char *argp_program_bug_address = PACKAGE_BUGREPORT;
 
 static error_t
