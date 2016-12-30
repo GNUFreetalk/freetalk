@@ -161,9 +161,6 @@ interface_init (void)
   g_io_add_watch (chan, G_IO_IN, (GIOFunc) stdin_input_cb, NULL);
 }
 
-const char *argp_program_version = PACKAGE_STRING;
-const char *argp_program_bug_address = PACKAGE_BUGREPORT;
-
 static error_t
 parse_opts (int key, char *arg, struct argp_state *_state)
 {
@@ -204,6 +201,22 @@ mode_init (void)
     }
 }
 
+/* Display version of the program which name is defined in STATE.  The output
+   is printed to STREAM.  */
+static void
+print_version (FILE *stream, struct argp_state *state)
+{
+  static const char *fmt =
+    "%s (" PACKAGE_NAME ") " PACKAGE_VERSION "\n"
+    "Copyright (C) 2016 the Freetalk authors\n"
+    "License GPLv3+: GNU GPL version 3 or later "
+    "<http://gnu.org/licenses/gpl.html>\n"
+    "This is free software: you are free to change and redistribute it.\n"
+    "There is NO WARRANTY, to the extent permitted by law.\n";
+
+  fprintf (stream, fmt, state->name);
+}
+
 static void
 args_init (void)
 {
@@ -227,6 +240,8 @@ args_init (void)
     "with a readline interface and guile extensions"
   };
 
+  argp_program_bug_address = PACKAGE_BUGREPORT;
+  argp_program_version_hook = &print_version;
   argp_parse (&argp, state.argc, state.argv, 0, 0, &f);
 }
 
