@@ -55,6 +55,11 @@ nobase_nodist_pkgdata_DATA = extensions/init.scm
 
 CLEANFILES = $(nobase_nodist_pkgdata_DATA)
 
+# '.tarball-version' is used by 'git-version-gen' when not building from a git
+# checkout.
+dist-hook:
+	$(AM_V_GEN)echo $(VERSION) > $(distdir)/.tarball-version
+
 EXTRA_DIST = \
   bootstrap \
   src/register.c \

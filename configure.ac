@@ -3,8 +3,11 @@ dnl GNU General Public license v3 or later
 
 dnl Process this file with autoconf to produce a configure script
 
-AC_INIT([freetalk], [4.1], [freetalk-dev@gnu.org])
+AC_INIT([freetalk],
+        m4_esyscmd([build-aux/git-version-gen .tarball-version]),
+        [freetalk-dev@gnu.org])
 AC_CONFIG_AUX_DIR([build-aux])
+AC_REQUIRE_AUX_FILE([git-version-gen])
 AC_CONFIG_HEADERS([src/config.h])
 AM_INIT_AUTOMAKE([subdir-objects])
 
