@@ -44,8 +44,6 @@ enum ft_conn_state
 
 typedef struct
 {
-  int argc;
-  char **argv;
   char *server;
   char *jid_str;
   jid_t jid;

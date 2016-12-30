@@ -186,16 +186,16 @@ parse_opts (int key, char *arg, struct argp_state *_state)
 }
 
 static void
-mode_init (void)
+mode_init (int argc, char **argv)
 {
   int i = 1;
 
-  while (i < state.argc)
+  while (i < argc)
     {
-      if (!g_strcmp0 (state.argv[i], "-s"))
+      if (!g_strcmp0 (argv[i], "-s"))
         {
-          if (state.argv[i + 1])
-            state.script = state.argv[i + 1];
+          if (argv[i + 1])
+            state.script = argv[i + 1];
         }
       i++;
     }
@@ -218,7 +218,7 @@ print_version (FILE *stream, struct argp_state *state)
 }
 
 static void
-args_init (void)
+args_init (int argc, char **argv)
 {
   struct
   {
@@ -242,7 +242,7 @@ args_init (void)
 
   argp_program_bug_address = PACKAGE_BUGREPORT;
   argp_program_version_hook = &print_version;
-  argp_parse (&argp, state.argc, state.argv, 0, 0, &f);
+  argp_parse (&argp, argc, argv, 0, 0, &f);
 }
 
 static void
@@ -251,13 +251,13 @@ inner_main (void *closure, int argc, char **argv)
   check_first_run ();
 
   state_init ();
-  mode_init ();
+  mode_init (argc, argv);
 
   extensions_init ();
 
   if (!state.script)
     {
-      args_init ();
+      args_init (argc, argv);
       ft_load ("init.scm");
       load_default_config ();   /* ~/.freetalk/freetalk.scm */
       ft_load ("login.scm");
@@ -285,8 +285,6 @@ main (int argc, char **argv)
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
 
-  state.argc = argc;
-  state.argv = argv;
   scm_boot_guile (argc, argv, inner_main, 0);
 
   return 0;
