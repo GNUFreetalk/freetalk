@@ -1,21 +1,3 @@
-PACKAGE = @PACKAGE@
-VERSION = @VERSION@
-
-EXTRA_DIST = \
-  bootstrap \
-  src/register.c \
-  src/register.h
-
-CLEANFILES = *~
-
-gitclean: distclean
-	find . -name Makefile.in -exec rm -f {} \;
-	find . -name Makefile -exec rm -f {} \;
-	rm -fr autom4te.cache m4
-	rm -f missing aclocal.m4 config.h.in config.guess
-	rm -f config.sub ltmain.sh install-sh configure depcomp
-	rm -f config.rpath INSTALL
-
 bin_PROGRAMS = freetalk
 
 freetalk_CPPFLAGS = -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\"
@@ -70,7 +52,13 @@ nobase_dist_pkgdata_DATA = \
   extensions/first-time-run.sh
 
 nobase_nodist_pkgdata_DATA = extensions/init.scm
-CLEANFILES += $(nobase_nodist_pkgdata_DATA)
+
+CLEANFILES = $(nobase_nodist_pkgdata_DATA)
+
+EXTRA_DIST = \
+  bootstrap \
+  src/register.c \
+  src/register.h
 
 ## --------------- ##
 ## Documentation.  ##
