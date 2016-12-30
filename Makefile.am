@@ -85,8 +85,8 @@ gen-ChangeLog:
 info_TEXINFOS = doc/freetalk.texi
 doc_freetalk_TEXINFOS = \
   doc/authors.texi \
-  doc/gpl.texi \
-  doc/fdl.texi \
+  doc/gpl-3.0.texi \
+  doc/fdl-1.3.texi \
   doc/permissions.texi
 
 dist_man_MANS = doc/freetalk.1

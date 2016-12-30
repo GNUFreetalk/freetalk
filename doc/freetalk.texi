@@ -1247,13 +1247,13 @@ not listed here, please let us know so that we can update it.
 @node Freetalk License, Freetalk Documentation License, Portability, Portability
 @section Freetalk License
 Freetalk licensed under GNU General Public License v3 or later.
-@include gpl.texi
+@include gpl-3.0.texi
 
 @node Freetalk Documentation License,  , Freetalk License, Portability
 @section Freetalk Documentation License
 Freetalk documentation licensed under GNU Free Documentation License
-1.2 or later.
-@include fdl.texi
+1.3 or later.
+@include fdl-1.3.texi
 
 @page
 @node Concept Index, Command Index, Portability, Top
