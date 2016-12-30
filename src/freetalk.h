@@ -1,5 +1,6 @@
 /* freetalk.h
    Copyright (C) 2005-2014 Freetalk Core Team
+   Copyright (C) 2016 Mathieu Lirzin <mthl@gnu.org>
 
    This file is part of GNU Freetalk.
 
@@ -29,10 +30,10 @@
 #include "util.h"
 #include "roster.h"
 
-#define FT_GLOBAL_EXT_DIR DATADIR "/" PACKAGE_NAME "/extensions"
+#define FT_GLOBAL_EXT_DIR DATADIR "/" PACKAGE "/extensions"
 /* Relative to $HOME.  */
-#define FT_LOCAL_EXT_DIR "." PACKAGE_NAME "/extensions"
-#define FT_CONFIG_SCM "." PACKAGE_NAME "/" PACKAGE_NAME ".scm"
+#define FT_LOCAL_EXT_DIR "." PACKAGE "/extensions"
+#define FT_CONFIG_SCM "." PACKAGE "/" PACKAGE ".scm"
 
 enum ft_conn_state
 {

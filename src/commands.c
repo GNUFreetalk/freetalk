@@ -1,5 +1,6 @@
 /* commands.c
    Copyright (C) 2005-2014 Freetalk Core Team
+   Copyright (C) 2016 Mathieu Lirzin <mthl@gnu.org>
 
    This file is part of GNU Freetalk.
 
@@ -556,7 +557,7 @@ int
 do_reset_fs_state (void)
 {
   return (system
-          ("sh " DATADIR "/" PACKAGE_NAME
+          ("sh " DATADIR "/" PACKAGE
            "/extensions/first-time-run.sh reset") >> 8);
 }
 

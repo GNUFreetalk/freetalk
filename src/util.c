@@ -1,5 +1,6 @@
 /* util.c
    Copyright (C) 2005-2014 Freetalk Core Team
+   Copyright (C) 2016 Mathieu Lirzin <mthl@gnu.org>
 
    This file is part of GNU Freetalk.
 
@@ -140,7 +141,7 @@ sync_printf (const char *fmt, va_list ap)
 void
 check_first_run (void)
 {
-  if (system ("sh " DATADIR "/" PACKAGE_NAME "/extensions/first-time-run.sh")
+  if (system ("sh " DATADIR "/" PACKAGE "/extensions/first-time-run.sh")
       >> 8)
     exit (1);
 }

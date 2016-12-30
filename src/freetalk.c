@@ -1,5 +1,6 @@
 /* freetalk -- console based Jabber client.
    Copyright (C) 2005-2014 Freetalk Core Team
+   Copyright (C) 2016 Mathieu Lirzin <mthl@gnu.org>
 
    This file is part of GNU Freetalk.
 
@@ -288,7 +289,7 @@ ft_msg_iq_version_cb (LmMessage *msg)
   query = lm_message_node_add_child (send_msg->node, "query", NULL);
   lm_message_node_set_attribute (query, "xmlns", "jabber:iq:version");
 
-  name = lm_message_node_add_child (query, "name", PACKAGE_NAME);
+  name = lm_message_node_add_child (query, "name", PACKAGE);
   version = lm_message_node_add_child (query, "version", PACKAGE_VERSION);
 
   int result = lm_connection_send (state.conn, send_msg, NULL);
