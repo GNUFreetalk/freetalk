@@ -185,22 +185,6 @@ parse_opts (int key, char *arg, struct argp_state *_state)
   return 0;
 }
 
-static void
-mode_init (int argc, char **argv)
-{
-  int i = 1;
-
-  while (i < argc)
-    {
-      if (!g_strcmp0 (argv[i], "-s"))
-        {
-          if (argv[i + 1])
-            state.script = argv[i + 1];
-        }
-      i++;
-    }
-}
-
 /* Display version of the program which name is defined in STATE.  The output
    is printed to STREAM.  */
 static void
@@ -251,13 +235,13 @@ inner_main (void *closure, int argc, char **argv)
   check_first_run ();
 
   state_init ();
-  mode_init (argc, argv);
-
+  args_init (argc, argv);
   extensions_init ();
 
-  if (!state.script)
+  if (state.script)
+    ft_load (state.script);
+  else
     {
-      args_init (argc, argv);
       ft_load ("init.scm");
       load_default_config ();   /* ~/.freetalk/freetalk.scm */
       ft_load ("login.scm");
@@ -265,10 +249,6 @@ inner_main (void *closure, int argc, char **argv)
       interface_init ();
 
       do_main_loop ();
-    }
-  else
-    {
-      ft_load (state.script);
     }
 }
 
