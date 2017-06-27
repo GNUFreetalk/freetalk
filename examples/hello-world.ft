@@ -12,7 +12,7 @@
 (ft-set-password! "YOUR-PASSWORD")
 (ft-set-sslconn! #t)
 
-(if (ft-login-blocking)
+(if (ft-connect-blocking)
    (begin
      (ft-send-message "YOUR-FRIEND@gmail.com" "Hi")
      (ft-send-message "YOUR-FRIEND@gmail.com" "Are you there?")
