@@ -61,17 +61,17 @@ if test "x$PKGCONFIG" = "xno"; then
    AC_MSG_ERROR([pkg-config not found])
 fi
 
-PKG_CHECK_MODULES([GUILE], [guile-2.0], [HAVE_GUILE_2="yes"], [HAVE_GUILE_2="no"])
+PKG_CHECK_MODULES([GUILE], [guile-2.2], [HAVE_GUILE_2="yes"], [HAVE_GUILE_2="no"])
 if test "x$HAVE_GUILE_2" == "xno"; then
-   AC_MSG_ERROR([ERROR! guile-2.0 not found...])
+   AC_MSG_ERROR([ERROR! guile-2.2 not found please install guile-2.2-dev...])
 fi
 PKG_CHECK_MODULES([GLIB], [glib-2.0], [HAVE_GLIB_2="yes"], [HAVE_GLIB_2="no"])
 if test "x$HAVE_GLIB_2" == "xno"; then
-   AC_MSG_ERROR([ERROR! glib-2.0 not found...])
+   AC_MSG_ERROR([ERROR! glib-2.0 not found please install libglib2.0-dev...])
 fi
 PKG_CHECK_MODULES([LOUDMOUTH], [loudmouth-1.0], [HAVE_LOUDMOUTH="yes"], [HAVE_LOUDMOUTH="no"])
 if test "x$HAVE_LOUDMOUTH" == "xno"; then
-   AC_MSG_ERROR([ERROR! loudmouth-1.0 not found...])
+   AC_MSG_ERROR([ERROR! loudmouth-1.0 not found please install libloudmouth1-dev...])
 fi
 
 AC_CHECK_HEADERS([libintl.h])
