@@ -11,8 +11,8 @@
 #include <sys/stat.h>
 #include <string.h>
 
-struct termios initial_settings;
-FILE *cin;
+extern struct termios initial_settings;
+extern FILE *cin;
 
 void gotsig (int sig);
 void more (char *buffer);

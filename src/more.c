@@ -34,6 +34,9 @@ gotsig (int sig)
   tcsetattr (fileno (cin), TCSANOW, &initial_settings);
 }
 
+struct termios initial_settings;
+FILE *cin;
+
 void
 more (char *buffer)
 {
